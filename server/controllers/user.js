@@ -28,6 +28,7 @@ const register = asyncHandler(async (req, res) => {
     });
   }
 });
+
 // Refresh token => Cấp mới access token
 // Access token => Xác thực người dùng, quân quyên người dùng
 const login = asyncHandler(async (req, res) => {
@@ -57,6 +58,7 @@ const login = asyncHandler(async (req, res) => {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
     return res.status(200).json({
       sucess: true,
       accessToken,
@@ -66,6 +68,7 @@ const login = asyncHandler(async (req, res) => {
     throw new Error("Invalid credentials!");
   }
 });
+
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id).select("-refreshToken -password -role");
@@ -74,6 +77,7 @@ const getCurrent = asyncHandler(async (req, res) => {
     rs: user ? user : "User not found",
   });
 });
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
   // Lấy token từ cookies
   const cookie = req.cookies;
@@ -82,10 +86,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new Error("No refresh token in cookies");
   // Check token có hợp lệ hay không
   const rs = await jwt.verify(cookie.refreshToken, process.env.JWT_SECRET);
+
   const response = await User.findOne({
     _id: rs._id,
     refreshToken: cookie.refreshToken,
   });
+
   return res.status(200).json({
     success: response ? true : false,
     newAccessToken: response
@@ -135,23 +141,28 @@ const forgotPassword = asyncHandler(async (req, res) => {
     email,
     html,
   };
+
   const rs = await sendMail(data);
   return res.status(200).json({
     success: true,
     rs,
   });
 });
+
 const resetPassword = asyncHandler(async (req, res) => {
   const { password, token } = req.body;
   if (!password || !token) throw new Error("Missing imputs");
+
   const passwordResetToken = crypto
     .createHash("sha256")
     .update(token)
     .digest("hex");
+
   const user = await User.findOne({
     passwordResetToken,
     passwordResetExpires: { $gt: Date.now() },
   });
+
   if (!user) throw new Error("Invalid reset token");
   user.password = password;
   user.passwordResetToken = undefined;
@@ -163,6 +174,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     mes: user ? "Updated password" : "Something went wrong",
   });
 });
+
 const getUsers = asyncHandler(async (req, res) => {
   const response = await User.find().select("-refreshToken -password -role");
   return res.status(200).json({
@@ -170,6 +182,7 @@ const getUsers = asyncHandler(async (req, res) => {
     users: response,
   });
 });
+
 const deleteUser = asyncHandler(async (req, res) => {
   const { _id } = req.query;
   if (!_id) throw new Error("Missing inputs");
@@ -181,6 +194,7 @@ const deleteUser = asyncHandler(async (req, res) => {
       : "No user delete",
   });
 });
+
 const updateUser = asyncHandler(async (req, res) => {
   //
   const { _id } = req.user;
@@ -194,6 +208,7 @@ const updateUser = asyncHandler(async (req, res) => {
     updatedUser: response ? response : "Some thing went wrong",
   });
 });
+
 const updateUserByAdmin = asyncHandler(async (req, res) => {
   //
   const { uid } = req.params;
