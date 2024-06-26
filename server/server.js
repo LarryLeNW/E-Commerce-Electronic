@@ -3,6 +3,10 @@ require("dotenv").config();
 const dbConnect = require("./config/dbconnect");
 const initRoutes = require("./routes");
 const cookieParser = require("cookie-parser");
+const {
+  insertDataProductTest,
+  insertDataBrandCategoryTest,
+} = require("./ultils/insertData");
 
 const app = express();
 app.use(cookieParser());
@@ -11,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dbConnect();
 initRoutes(app);
-
+insertDataBrandCategoryTest();
 app.listen(port, () => {
   console.log("Server running on the port: " + port);
 });
