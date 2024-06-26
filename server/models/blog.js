@@ -1,55 +1,53 @@
-const mongoose = require("mongoose"); // Erase if already required
+const mongoose = require("mongoose");
 
-// Declare the Schema of the Mongo model
 var blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Title is required"],
+      trim: true,
+      maxlength: [200, "Title cannot exceed 200 characters"],
     },
     description: {
       type: String,
-      required: true,
+      required: [true, "Description is required"],
+      trim: true,
     },
     category: {
       type: String,
-      required: true,
+      required: [true, "Category is required"],
+      trim: true,
     },
     numberViews: {
       type: Number,
       default: 0,
     },
-    isLiked: {
-      type: Boolean,
-      default: false,
-    },
-    isDisliked: {
-      type: Boolean,
-      default: false,
-    },
-    likes: [
+    interactions: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
+        user: {
+          type: mongoose.Types.ObjectId,
+          ref: "User",
+        },
+        type: {
+          type: String,
+          enum: ["like", "dislike"],
+        },
       },
     ],
-    dislikes: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    totalReaction: {
+      type: Number,
+      default: 0,
+    },
     image: {
       type: String,
       default: "https://wallpapercave.com/dwp1x/wp7348236.jpg",
     },
     author: {
-      type: String,
-      default: "Admin",
+      type: mongoose.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-//Export the model
 module.exports = mongoose.model("Blog", blogSchema);
