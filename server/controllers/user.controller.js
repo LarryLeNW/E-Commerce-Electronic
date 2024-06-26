@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/user.model");
 const asyncHandler = require("express-async-handler");
 const {
   generateAccessToken,
@@ -29,8 +29,6 @@ const register = asyncHandler(async (req, res) => {
   }
 });
 
-// Refresh token => Cấp mới access token
-// Access token => Xác thực người dùng, quân quyên người dùng
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
@@ -221,6 +219,76 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
     updatedUser: response ? response : "Some thing went wrong",
   });
 });
+
+const updateUserAddress = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  if (!req.body.address) throw new Error("Missing inputs");
+
+  const user = await User.findById(_id).select("-password -role -refreshToken");
+  if (!user) throw new Error("User not found");
+
+  if (user.address.includes(req.body.address)) {
+    return res.status(400).json({
+      success: false,
+      message: "Address already exists",
+    });
+  }
+
+  user.address.push(req.body.address);
+  const response = await user.save();
+
+  return res.status(200).json({
+    success: response ? true : false,
+    updatedUser: response ? response : "Some thing went wrong",
+  });
+});
+
+const updateCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { pid, quantity, color } = req.body;
+  if (!pid || !quantity || !color) throw new Error("Missing inputs");
+  const user = await User.findById(_id).select("cart");
+  const exitProduct = user?.cart?.find((el) => el.product.toString() === pid);
+
+  let response = null;
+  if (exitProduct) {
+    if (exitProduct.color === color) {
+      response = await User.updateOne(
+        {
+          cart: { $elemMatch: exitProduct },
+        },
+        {
+          $set: { "cart.$.quantity": quantity },
+        },
+        {
+          new: true,
+        }
+      );
+    } else {
+      response = await User.findByIdAndUpdate(
+        _id,
+        {
+          $push: { cart: { product: pid, quantity, color } },
+        },
+        { new: true }
+      );
+    }
+  } else {
+    response = await User.findByIdAndUpdate(
+      _id,
+      {
+        $push: { cart: { product: pid, quantity, color } },
+      },
+      { new: true }
+    );
+  }
+
+  return res.status(200).json({
+    success: response ? true : false,
+    updatedUser: response ? response : "Some thing went wrong",
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -233,4 +301,6 @@ module.exports = {
   deleteUser,
   updateUser,
   updateUserByAdmin,
+  updateUserAddress,
+  updateCart,
 };

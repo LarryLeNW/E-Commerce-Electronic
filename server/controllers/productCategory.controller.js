@@ -1,43 +1,43 @@
 const asyncHandler = require("express-async-handler");
-const BlogCategory = require("../models/blogCategory");
+const ProductCategory = require("../models/productCategory.model");
 
 const createCategory = asyncHandler(async (req, res) => {
-  const response = await BlogCategory.create(req.body);
+  const response = await ProductCategory.create(req.body);
   return res.json({
     success: response ? true : false,
-    createdCategory: response || "Can't create new blogCategories",
+    createdCategory: response || "Can't create new prodCategories",
   });
 });
 
 const getCategories = asyncHandler(async (req, res) => {
-  const response = await BlogCategory.find().select("title _id");
+  const response = await ProductCategory.find().select("title _id");
   return res.json({
     success: response ? true : false,
-    blogCategories: response || "Can't get blogCategories",
+    prodCategories: response || "Can't get prodCategories",
   });
 });
 
 const updateCategory = asyncHandler(async (req, res) => {
-  const { bcid } = req.params;
+  const { pcid } = req.params;
 
-  const response = await BlogCategory.findByIdAndUpdate(bcid, req.body, {
+  const response = await ProductCategory.findByIdAndUpdate(pcid, req.body, {
     new: true,
   });
 
   return res.json({
     success: response ? true : false,
-    updatedCategory: response || "Can't update this blogCategory",
+    updatedCategory: response || "Can't update this prodCategory",
   });
 });
 
 const deleteCategory = asyncHandler(async (req, res) => {
-  const { bcid } = req.params;
+  const { pcid } = req.params;
 
-  const response = await BlogCategory.findByIdAndDelete(bcid);
+  const response = await ProductCategory.findByIdAndDelete(pcid);
 
   return res.json({
     success: response ? true : false,
-    deletedCategory: response || "Can't delete this blogCategory",
+    deletedCategory: response || "Can't delete this prodCategory",
   });
 });
 

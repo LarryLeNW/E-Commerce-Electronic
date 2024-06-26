@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Brand = require("../models/brand");
+const Brand = require("../models/brand.model");
 
 const createBrand = asyncHandler(async (req, res) => {
   const response = await Brand.create(req.body);
