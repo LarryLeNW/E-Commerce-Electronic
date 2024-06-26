@@ -1,53 +1,83 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../models/order.model");
 const User = require("../models/user.model");
+const Counpon = require("../models/coupon.model");
 
 const createOrder = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const userCart = await User.findById(_id).select("cart");
+  const { coupon } = req.body;
 
-  // const response = await Order.create(req.body);
+  const userCart = await User.findById(_id)
+    .select("cart")
+    .populate("cart.product", "title price");
+
+  const products = userCart?.cart?.map((el) => ({
+    product: el.product._id,
+    count: el.quantity,
+    color: el.color,
+  }));
+
+  let total = userCart?.cart?.reduce(
+    (sum, el) => (sum += el.product.price * el.quantity),
+    0
+  );
+
+  const createdData = { products, total, orderBy: _id };
+
+  if (coupon) {
+    const selectedCoupon = await Counpon.findById(coupon);
+    total =
+      Math.round((total * (1 - +selectedCoupon?.discount / 100)) / 1000) * 1000;
+    createdData.total = total;
+    createdData.coupon = coupon;
+  }
+
+  const response = await Order.create(createdData);
   return res.json({
-    success: userCart ? true : false,
-    createdOrder: userCart || "Can't create new order",
+    success: response ? true : false,
+    createdOrder: response || "Can't create new order",
   });
 });
 
-const getCategories = asyncHandler(async (req, res) => {
-  const response = await ProductCategory.find().select("title _id");
+const updateStatusOrder = asyncHandler(async (req, res) => {
+  const { oid } = req.params;
+  const { status } = req.body;
+  if (!status) throw new Error("Missing status");
+
+  const response = await Order.findByIdAndUpdate(
+    oid,
+    { status },
+    { new: true }
+  );
+
   return res.json({
     success: response ? true : false,
-    prodCategories: response || "Can't get prodCategories",
+    updatedOrder: response || "Can't change status order",
   });
 });
 
-const updateCategory = asyncHandler(async (req, res) => {
-  const { pcid } = req.params;
-
-  const response = await ProductCategory.findByIdAndUpdate(pcid, req.body, {
-    new: true,
-  });
+const getOrderUser = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const response = await Order.find({ orderBy: _id });
 
   return res.json({
     success: response ? true : false,
-    updatedCategory: response || "Can't update this prodCategory",
+    order: response || "Can't get order",
   });
 });
 
-const deleteCategory = asyncHandler(async (req, res) => {
-  const { pcid } = req.params;
-
-  const response = await ProductCategory.findByIdAndDelete(pcid);
+const getOrders = asyncHandler(async (req, res) => {
+  const response = await Order.find();
 
   return res.json({
     success: response ? true : false,
-    deletedCategory: response || "Can't delete this prodCategory",
+    orders: response || "Can't get orders",
   });
 });
 
 module.exports = {
   createOrder,
-  getCategories,
-  updateCategory,
-  deleteCategory,
+  updateStatusOrder,
+  getOrderUser,
+  getOrders,
 };

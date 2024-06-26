@@ -38,13 +38,7 @@ var userSchema = new mongoose.Schema(
       },
     ],
     address: {
-      type: [
-        {
-          type: String,
-          unique: true,
-        },
-      ],
-      default: [],
+      type: String,
     },
     wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     isBlocked: {
