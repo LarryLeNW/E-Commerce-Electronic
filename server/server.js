@@ -3,19 +3,28 @@ require("dotenv").config();
 const dbConnect = require("./config/dbconnect");
 const initRoutes = require("./routes");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const {
   insertDataProductTest,
   insertDataBrandCategoryTest,
 } = require("./ultils/insertData");
 
 const app = express();
+app.use(
+  cors({
+    origin: process.env.URL_CLIENT,
+    methods: ["POST", "PUT", "GET", "DELETE"],
+  })
+);
+
 app.use(cookieParser());
 const port = process.env.PORT || 8888;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 dbConnect();
 initRoutes(app);
-insertDataBrandCategoryTest();
+
 app.listen(port, () => {
   console.log("Server running on the port: " + port);
 });

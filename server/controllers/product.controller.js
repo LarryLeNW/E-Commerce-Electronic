@@ -61,7 +61,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     success: products.length > 0,
-    productDatas: products.length > 0 ? products : "Cannot get products",
+    data: products || [],
     counts,
   });
 });

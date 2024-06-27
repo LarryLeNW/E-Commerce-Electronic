@@ -13,7 +13,7 @@ const getCategories = asyncHandler(async (req, res) => {
   const response = await ProductCategory.find().select("title _id");
   return res.json({
     success: response ? true : false,
-    prodCategories: response || "Can't get prodCategories",
+    data: response || [],
   });
 });
 
