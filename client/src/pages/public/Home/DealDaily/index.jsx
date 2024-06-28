@@ -1,8 +1,8 @@
 import { memo, useEffect, useState } from "react";
-import { getProducts } from "../apis/product";
-import ICONS from "../utils/icons";
-import { formatMoney, renderStars, secondsToHms } from "../utils/helper";
-import { CountDown } from "./";
+import { getProducts } from "apis/product";
+import ICONS from "utils/icons";
+import { formatMoney, renderStars, secondsToHms } from "utils/helper";
+import CountDown from "./Countdown";
 import moment from "moment";
 
 let interval;
@@ -19,8 +19,8 @@ function DealDaily() {
       page: Math.round(Math.random() * 10),
       totalRatings: 5,
     });
-    if (response.success) {
-      setDealPoducts(response.data);
+    if (response?.success) {
+      setDealPoducts(response.data[0]);
       const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
       const seconds =
         new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000;
@@ -80,19 +80,17 @@ function DealDaily() {
       <div className="w-full flex flex-col items-center">
         <img
           src={
-            dealProducts[0]?.thumb ||
+            dealProducts?.thumb ||
             "https://mmi-global.com/wp-content/uploads/2020/05/default-product-image.jpg"
           }
-          alt={dealProducts[0]?.title}
+          alt={dealProducts?.title}
           className="w-full  object-cover"
         />
-        <span className="line-clamp-1 text-center">
-          {dealProducts[0]?.title}
-        </span>
+        <span className="line-clamp-1 text-center">{dealProducts?.title}</span>
         <span className="flex ">
-          {renderStars(dealProducts[0]?.totalRatings, 20)}
+          {renderStars(dealProducts?.totalRatings, 20)}
         </span>
-        <span>{formatMoney(dealProducts[0]?.price)} VNĐ</span>
+        <span>{formatMoney(dealProducts?.price)} VNĐ</span>
       </div>
       <div className="px-4 pt-4">
         <div className="flex justify-center gap-2 items-center mb-4">

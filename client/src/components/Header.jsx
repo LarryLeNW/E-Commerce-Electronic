@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
-import ICON from "../utils/icons";
-import path from "../utils/path";
+import logo from "assets/logo.png";
+import ICON from "utils/icons";
+import path from "utils/path";
 function Header() {
   return (
     <div className="w-main border flex justify-between items-center h-[110px] py-[35px]">
-      <Link to={`/${path.HOME}`}>
+      <Link to={`${path.HOME}`}>
         <img src={logo} alt="" className="w-[140px] object-contain " />
       </Link>
       <div className="flex text-[13px] gap-4">

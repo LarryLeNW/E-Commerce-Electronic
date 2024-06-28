@@ -1,0 +1,115 @@
+/* Set font family and color for footer */
+footer {
+    font-family: Arial, Helvetica, sans-serif; /* Font family */
+    color: #ffffff; /* Text color */
+}
+
+/* Style the footer container */
+.footer-container {
+    display: flex; /* Use flexbox layout */
+    flex-wrap: wrap; /* Wrap items within container */
+    margin: 30px 0px 0px 0px; /* Margin */
+    padding: 10px; /* Padding */
+}
+
+/* Style each section within the footer */
+.footer-section {
+    width: 220px; /* Width */
+    height: 230px; /* Height */
+    display: flex; /* Use flexbox layout */
+    flex-direction: column; /* Arrange items vertically */
+    margin-left: 20px; /* Left margin */
+}
+
+/* Style headings within footer sections */
+.footer-section h2 {
+    border-bottom: 2px solid white; /* Bottom border */
+    padding-bottom: 10px; /* Padding below heading */
+}
+
+/* Style paragraphs within footer sections */
+.footer-section p {
+    margin: 0px 0px 7px 0px; /* Margin */
+}
+
+/* Style list items */
+li {
+    list-style: none; /* Remove default list styling */
+    margin-bottom: 8px; /* Bottom margin */
+}
+
+/* Hover effect for list items */
+li:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Remove default underline for anchor elements */
+a {
+    text-decoration: none; /* Remove underline */
+}
+
+/* Style input fields */
+input {
+    width: 15vw; /* Width */
+    height: 4vh; /* Height */
+    border-radius: 6px; /* Border radius */
+    padding-left: 10px; /* Left padding */
+}
+
+/* Style buttons */
+button {
+    width: 7vw; /* Width */
+    height: 5vh; /* Height */
+    font-size: 1em; /* Font size */
+    font-weight: 560; /* Font weight */
+    background: rgb(102, 92, 92); /* Background color */
+    color: white; /* Text color */
+    margin-top: 3px; /* Top margin */
+    cursor: pointer; /* Cursor style */
+    border-radius: 6px; /* Border radius */
+}
+
+/* Style additional footer section */
+.footer-section2 {
+    margin: 20px 20px 0px 20px; /* Margin */
+}
+
+/* Style heading within additional footer section */
+.footer-section2 h2 {
+    border-bottom: 2px solid white; /* Bottom border */
+    padding-bottom: 10px; /* Padding below heading */
+    width: 330px; /* Width */
+}
+
+/* Style paragraphs within additional footer section */
+.footer-section2 p {
+    margin: 0px 0px 7px 0px; /* Margin */
+}
+
+/* Positioning for icons within additional footer section */
+.footer-section2 span {
+    position: absolute; /* Absolute positioning */
+    margin: 16px 0px 0px 0px; /* Margin */
+}
+
+/* Adjust margin for Visa icon */
+.visa {
+    margin-left: 100px; /* Left margin */
+}
+
+/* Adjust margin for Rupay icon */
+.rupay {
+    margin-left: 13px; /* Left margin */
+}
+
+/* Style the bottom section of the footer */
+.footer-section3 {
+    width: 100%; /* Full width */
+    justify-content: center; /* Center items horizontally */
+    display: flex; /* Use flexbox layout */
+}
+
+/* Style copyright text */
+.copyright {
+    margin: 12px 0px 0px 0px; /* Margin */
+}

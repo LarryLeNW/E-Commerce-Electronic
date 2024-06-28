@@ -1,4 +1,4 @@
-import { formatMoney, renderStars } from "../utils/helper";
+import { formatMoney, renderStars } from "utils/helper";
 
 function ProductCard({ data }) {
   return (

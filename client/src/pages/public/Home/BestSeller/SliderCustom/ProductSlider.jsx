@@ -1,16 +1,18 @@
-import { formatMoney, renderStars } from "../utils/helper";
-import lable from "../assets/label.png";
+import lable from "assets/label.png";
 import SelectOption from "./SelectOption";
-import ICONS from "../utils/icons";
+import ICONS from "utils/icons";
 import { useState } from "react";
+import { formatMoney, renderStars } from "utils/helper";
+import { Link, generatePath } from "react-router-dom";
+import path from "utils/path";
 
 function Product({ data, isNew }) {
   const [isShowOption, setShowOption] = useState(false);
 
   return (
     <div className="w-full text-base pr-5 px-10">
-      <div
-        className="w-full border p-[15px] flex flex-col items-center"
+      <Link
+        className="w-full border p-[15px] flex flex-col items-center cursor-pointer"
         onMouseEnter={(e) => {
           e.stopPropagation();
           setShowOption(true);
@@ -19,6 +21,10 @@ function Product({ data, isNew }) {
           e.stopPropagation();
           setShowOption(false);
         }}
+        to={generatePath(path.DETAIL_PRODUCT, {
+          id: data?._id,
+          title: data?.title,
+        })}
       >
         <div className="w-full relative">
           {isShowOption && (
@@ -55,7 +61,7 @@ function Product({ data, isNew }) {
           <span className="flex ">{renderStars(data?.totalRatings)}</span>
           <span>{formatMoney(data?.price)} VNĐ</span>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

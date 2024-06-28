@@ -1,8 +1,6 @@
 import axios from "axios";
 import env from "react-dotenv";
 
-console.log(env.URI_API_MAIN);
-
 const instance = axios.create({
   baseURL: env.URI_API_MAIN,
 });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../apis/product";
-import { ProductCard } from "./";
+import { getProducts } from "apis/product";
+import ProductCard from "./ProductCard";
 
 function FeatureProducts() {
   const [featureProducts, setFeatureProducts] = useState([]);
@@ -11,7 +11,7 @@ function FeatureProducts() {
       limit: 9,
       totalRatings: 5,
     });
-    if (response.success) setFeatureProducts(response.data);
+    if (response?.success) setFeatureProducts(response.data);
   };
 
   useEffect(() => {
@@ -23,8 +23,8 @@ function FeatureProducts() {
         FEATURE PRODUCTS
       </h3>
       <div className="flex flex-wrap mx-[-10px] mt-2">
-        {featureProducts.map((el) => (
-          <ProductCard key={el._id} data={el} />
+        {featureProducts.map((el, index) => (
+          <ProductCard key={index} data={el} />
         ))}
       </div>
       <div className="flex justify-between gap-2">

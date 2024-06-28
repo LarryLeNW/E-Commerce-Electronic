@@ -10,6 +10,7 @@ import {
   AiFillEye,
   AiOutlineMenu,
 } from "react-icons/ai";
+import { IoMdArrowRoundForward } from "react-icons/io";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 
 const ICONS = {
@@ -24,6 +25,7 @@ const ICONS = {
   AiFillEye,
   AiOutlineMenu,
   BsFillSuitHeartFill,
+  IoMdArrowRoundForward,
 };
 
 export default ICONS;
