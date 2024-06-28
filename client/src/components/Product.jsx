@@ -1,11 +1,34 @@
-import { formatMoney } from "../utils/helper";
+import { formatMoney, renderStars } from "../utils/helper";
 import lable from "../assets/label.png";
+import SelectOption from "./SelectOption";
+import ICONS from "../utils/icons";
+import { useState } from "react";
 
 function Product({ data, isNew }) {
+  const [isShowOption, setShowOption] = useState(false);
+
   return (
     <div className="w-full text-base pr-5 px-10">
-      <div className="w-full border p-[15px] flex flex-col items-center">
-        <div className="w-full relative ">
+      <div
+        className="w-full border p-[15px] flex flex-col items-center"
+        onMouseEnter={(e) => {
+          e.stopPropagation();
+          setShowOption(true);
+        }}
+        onMouseLeave={(e) => {
+          e.stopPropagation();
+          setShowOption(false);
+        }}
+      >
+        <div className="w-full relative">
+          {isShowOption && (
+            <div className="absolute bottom-[-10px] left-0 right-0 flex gap-2 justify-center animate-slide-top">
+              <SelectOption icon={<ICONS.AiFillEye />} />
+              <SelectOption icon={<ICONS.AiOutlineMenu />} />
+              <SelectOption icon={<ICONS.BsFillSuitHeartFill />} />
+            </div>
+          )}
+
           <img
             src={
               data?.thumb ||
@@ -29,6 +52,7 @@ function Product({ data, isNew }) {
         {/* info */}
         <div className="flex flex-col gap-2 mt[15px] items-start w-full">
           <span className="line-clamp-1">{data?.title}</span>
+          <span className="flex ">{renderStars(data?.totalRatings)}</span>
           <span>{formatMoney(data?.price)} VNĐ</span>
         </div>
       </div>

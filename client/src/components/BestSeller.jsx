@@ -20,7 +20,7 @@ function BestSeller() {
     dots: true,
     infinite: true,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
@@ -73,6 +73,18 @@ function BestSeller() {
             <Product isNew={activedTab === 2} key={p._id} data={p} />
           ))}
         </Slider>
+      </div>
+      <div className="w-full flex gap-4 mt-8">
+        <img
+          src="https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657"
+          alt="banner"
+          className="flex-1 object-contain"
+        />
+        <img
+          src="https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657"
+          alt="banner"
+          className="flex-1 object-contain"
+        />
       </div>
     </div>
   );
