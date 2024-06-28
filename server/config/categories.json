@@ -1,0 +1,49 @@
+[
+  {
+    "cate": "Smartphone",
+    "brand": ["Apple", "Samsung", "LG", "Asus", "Nokia", "BlackBerry"],
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/mobile-devices_300x.jpg?v=1613166682"
+  },
+  {
+    "cate": "Tablet",
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/pc-1_300x.jpg?v=1613166682",
+    "brand": ["Ipad", "Samsung", "Acer", "Asus", "Lenovo", "Haier"]
+  },
+  {
+    "cate": "Laptop",
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/laptop_300x.jpg?v=1613166811",
+    "brand": ["Dell", "Acer", "HP", "Asus", "Lenovo", "Macbook"]
+  },
+  {
+    "cate": "Accessories",
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/headphone_8467ba67-70c7-4977-b57e-8847d56549c6_300x.jpg?v=1613166811",
+    "brand": [
+      "Smartswatches",
+      "Headphone",
+      "Bluetooth",
+      "Keyboard",
+      "Mouse",
+      "Cases"
+    ]
+  },
+  {
+    "cate": "Television",
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/television_300x.jpg?v=1613166810",
+    "brand": ["Apple", "Samsung", "LG", "Asus", "Nokia", "BlackBerry"]
+  },
+  {
+    "cate": "Speaker",
+    "thumb": "https://th.bing.com/th/id/OIP.inRwaJne9NdUQO2KRWSzWwHaHa?w=183&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "brand": []
+  },
+  {
+    "cate": "Camera",
+    "thumb": "https://th.bing.com/th/id/OIP.2C5xk2FL57MlCZGgKb3skgHaFa?w=262&h=191&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "brand": []
+  },
+  {
+    "cate": "Printer",
+    "thumb": "https://digital-world-2.myshopify.com/cdn/shop/files/printer_300x.jpg?v=1613166810",
+    "brand": ["Samsung", "Acer", "Asus", "Lenovo", "Haier"]
+  }
+]

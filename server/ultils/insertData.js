@@ -1,9 +1,8 @@
 const { default: slugify } = require("slugify");
-const productData = require("../config/ecommerce.json");
-const productCate_Brand = require("../config/cate_brand.json");
+const productData = require("../config/products.json");
+const productCate_Brand = require("../config/categories.json");
 const Product = require("../models/product.model");
 const Category = require("../models/productCategory.model");
-const Brand = require("../models/brand.model");
 
 const fn = async (product) => {
   await Product.create({
@@ -37,6 +36,7 @@ const fn2 = async (item) => {
   await Category.create({
     title: item?.cate,
     brand: item?.brand,
+    thumb: item?.thumb,
   });
 };
 

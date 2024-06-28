@@ -4,10 +4,10 @@ const dbConnect = require("./config/dbconnect");
 const initRoutes = require("./routes");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const {
-  insertDataProductTest,
-  insertDataBrandCategoryTest,
-} = require("./ultils/insertData");
+// const {
+//   insertDataProductTest,
+//   insertDataBrandCategoryTest,
+// } = require("./ultils/insertData");
 
 const app = express();
 app.use(
@@ -24,7 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 
 dbConnect();
 initRoutes(app);
-
 app.listen(port, () => {
   console.log("Server running on the port: " + port);
 });
