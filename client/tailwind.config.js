@@ -6,6 +6,9 @@ module.exports = {
       main: ["Poppins", "sans-serif"],
     },
     extend: {
+      backgroundImage: {
+        login: "url('assets/bg-login.jpg')",
+      },
       width: {
         main: "1220px",
       },
@@ -31,13 +34,24 @@ module.exports = {
             "-webkit-transform": "translateY(-50px)",
             transform: "translateY(-50px);",
           },
+          "slide-topsm": {
+            "0%": {
+              "-webkit-transform": "translateY(8px)",
+              transform: "translateY(8px)",
+            },
+            "100%": {
+              "-webkit-transform": "translateY(0)",
+              transform: "translateY(0)",
+            },
+          },
+        },
+        animation: {
+          "slide-top":
+            "slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+          "slide-topsm": "slide-topsm 0.5s linear both",
         },
       },
-      animation: {
-        "slide-top":
-          "slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;",
-      },
     },
+    plugins: [],
   },
-  plugins: [],
 };

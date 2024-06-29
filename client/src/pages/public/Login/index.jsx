@@ -1,5 +1,70 @@
+import { useCallback, useState } from "react";
+import InputField from "./InputField";
+import Button from "components/Button";
+import { Link } from "react-router-dom";
+import path from "utils/path";
+
 function Login() {
-  return <div>Login</div>;
+  const [isRegister, setIsRegister] = useState(false);
+
+  const [payload, setPayload] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
+
+  const handleLogin = useCallback(() => {
+    console.log(payload);
+  }, [payload]);
+
+  return (
+    <div className="w-screen h-screen bg-login flex justify-center items-center">
+      <div className="w-[500px] bg-white min-h-[400px]  p-10 rounded-lg flex flex-col gap-4 items-center relative mx-2">
+        <Link
+          className=" absolute top-2 left-2 cursor-pointer text-main"
+          to={path.HOME}
+        >
+          Trở lại trang chủ
+        </Link>
+        <h1 className="text-main text-center font-bold  text-2xl mb-5  ">
+          {isRegister ? "Đăng kí" : "Đăng nhập"}
+        </h1>
+        {isRegister && (
+          <InputField
+            value={payload.name}
+            nameKey={"name"}
+            setValue={setPayload}
+          />
+        )}
+        <InputField
+          value={payload.email}
+          nameKey={"email"}
+          type={"email"}
+          setValue={setPayload}
+        />
+        <InputField
+          value={payload.password}
+          nameKey={"password"}
+          type={"password"}
+          setValue={setPayload}
+        />
+        <Button
+          name={isRegister ? "Đăng kí" : "Đăng nhập"}
+          handleClick={handleLogin}
+          fw={true}
+        />
+        <div className="flex justify-between w-full items-center mt-2 text-sm">
+          <span className="hover:text-main cursor-help">Quên mật khẩu ?</span>
+          <span
+            className="hover:text-main cursor-pointer select-none text-sm"
+            onClick={() => setIsRegister(!isRegister)}
+          >
+            {isRegister ? "Đăng nhập ngay." : "Đăng kí tài khoản mới."}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Login;
