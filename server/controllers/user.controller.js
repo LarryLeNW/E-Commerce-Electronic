@@ -19,38 +19,54 @@ const register = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (user) throw new Error("User has existed");
   else {
-    const newUser = await User.create(req.body);
+    let tokenRegiser = crypto.randomBytes(16).toString("hex");
+    res.cookie(
+      "dataRegister",
+      { ...req.body, tokenRegiser },
+      {
+        httpOnly: true,
+        maxAge: 15 * 60 * 1000,
+      }
+    );
+
+    const html =
+      "<h1>Welcome to TechShop </h1>" +
+      "<div>Xin vui lòng click vào xác nhận để hoàn tất thủ tục đăng kí tài khoản bên TechShop </div>" +
+      "<div>Link này sẽ hết hạn trong 15p kể từ bây giờ </div>" +
+      `<a href="${process.env.URL_SERVER}/api/user/confirmregiser/${tokenRegiser}">Xác nhận</a>`;
+
+    await sendMail({
+      email,
+      html,
+      subject: "Hoàn tất đăng kí tài khoảng TechShop",
+    });
+
+    console.log("send emaill... ");
+
     return res.status(200).json({
-      success: newUser ? true : false,
-      message: newUser
-        ? "Register is successfully. Please go login~"
-        : "Something went wrong",
+      success: true,
+      message: "Please check your email to active account",
     });
   }
 });
 
+const confirmRegister = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  const { tokenConfirm } = req.params;
 
+  if (!cookie || cookie?.dataRegister?.tokenRegiser != tokenConfirm) {
+    res.clearCookie("dataRegister");
+    return res.redirect(`${process.env.URL_CLIENT}/confirm-register/failed`);
+  }
 
-// const register = asyncHandler(async (req, res) => {
-//   const { email, password, firstname, lastname } = req.body;
-//   if (!email || !password || !lastname || !firstname)
-//     return res.status(400).json({
-//       success: false,
-//       message: "Missing inputs",
-//     });
+  const { tokenRegiser, ...dataRegister } = cookie.dataRegister;
+  const newUser = await User.create(dataRegister);
 
-//   const user = await User.findOne({ email });
-//   if (user) throw new Error("User has existed");
-//   else {
-//     const newUser = await User.create(req.body);
-//     return res.status(200).json({
-//       success: newUser ? true : false,
-//       message: newUser
-//         ? "Register is successfully. Please go login~"
-//         : "Something went wrong",
-//     });
-//   }
-// });
+  res.clearCookie("dataRegister");
+  if (newUser)
+    res.redirect(`${process.env.URL_CLIENT}/confirm-register/success`);
+  else res.redirect(`${process.env.URL_CLIENT}/confirm-register/failed`);
+});
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -326,4 +342,5 @@ module.exports = {
   updateUserByAdmin,
   updateUserAddress,
   updateCart,
+  confirmRegister,
 };
