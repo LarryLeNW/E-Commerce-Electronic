@@ -3,19 +3,52 @@ import InputField from "./InputField";
 import Button from "components/Button";
 import { Link } from "react-router-dom";
 import path from "utils/path";
+import { login, register } from "apis";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { loginRequest } from "redux/slicers/auth.slicer";
 
 function Login() {
+  const dispatch = useDispatch();
   const [isRegister, setIsRegister] = useState(false);
 
   const [payload, setPayload] = useState({
     email: "",
     password: "",
-    name: "",
+    firstname: "",
+    lastname: "",
   });
 
-  const handleLogin = useCallback(() => {
-    console.log(payload);
-  }, [payload]);
+  const resetPayload = () => {
+    setPayload({
+      email: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+    });
+  };
+
+  const handleSubmit = useCallback(async () => {
+    const { lastname, firstname, ...dataLogin } = payload;
+    if (isRegister) {
+      const response = await register(payload);
+      const { success, message } = response;
+      if (success)
+        Swal.fire("Congratulation!", message, "success")
+          .then(setIsRegister(false))
+          .then(resetPayload());
+      else Swal.fire("Oops!", message, "error");
+      return;
+    }
+    dispatch(
+      loginRequest({
+        dataLogin,
+        callback: () => {
+          Swal.fire("Congratulation!", "Login successfully...", "success");
+        },
+      })
+    );
+  }, [payload, isRegister]);
 
   return (
     <div className="w-screen h-screen bg-login flex justify-center items-center">
@@ -30,11 +63,18 @@ function Login() {
           {isRegister ? "Đăng kí" : "Đăng nhập"}
         </h1>
         {isRegister && (
-          <InputField
-            value={payload.name}
-            nameKey={"name"}
-            setValue={setPayload}
-          />
+          <>
+            <InputField
+              value={payload.firstname}
+              nameKey={"firstname"}
+              setValue={setPayload}
+            />
+            <InputField
+              value={payload.lastname}
+              nameKey={"lastname"}
+              setValue={setPayload}
+            />
+          </>
         )}
         <InputField
           value={payload.email}
@@ -50,7 +90,7 @@ function Login() {
         />
         <Button
           name={isRegister ? "Đăng kí" : "Đăng nhập"}
-          handleClick={handleLogin}
+          handleClick={handleSubmit}
           fw={true}
         />
         <div className="flex justify-between w-full items-center mt-2 text-sm">

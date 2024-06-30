@@ -8,7 +8,7 @@ function InputField({
 }) {
   return (
     <div className="w-full relative">
-      {!!value.trim() && (
+      {!!value?.trim() && (
         <label
           htmlFor={nameKey}
           className="text-[12px] absolute top-[-12px] left-[12px] block bg-white px-1 animate-slide-topsm"

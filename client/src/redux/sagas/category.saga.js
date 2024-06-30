@@ -4,12 +4,11 @@ import {
   getCategoriesSuccess,
   getCategoriesFailure,
 } from "../slicers/category.slicer";
-
-import * as API from "../../apis";
+import { getCategories } from "apis";
 
 function* getCategoryListSaga() {
   try {
-    let response = yield API.getCategories();
+    let response = yield getCategories();
     yield put(getCategoriesSuccess(response.data));
   } catch (error) {
     yield put(getCategoriesFailure({ error: error }));

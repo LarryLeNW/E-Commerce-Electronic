@@ -12,8 +12,8 @@ const register = asyncHandler(async (req, res) => {
   const { email, password, firstname, lastname } = req.body;
   if (!email || !password || !lastname || !firstname)
     return res.status(400).json({
-      sucess: false,
-      mes: "Missing inputs",
+      success: false,
+      message: "Missing inputs",
     });
 
   const user = await User.findOne({ email });
@@ -21,20 +21,43 @@ const register = asyncHandler(async (req, res) => {
   else {
     const newUser = await User.create(req.body);
     return res.status(200).json({
-      sucess: newUser ? true : false,
-      mes: newUser
+      success: newUser ? true : false,
+      message: newUser
         ? "Register is successfully. Please go login~"
         : "Something went wrong",
     });
   }
 });
 
+
+
+// const register = asyncHandler(async (req, res) => {
+//   const { email, password, firstname, lastname } = req.body;
+//   if (!email || !password || !lastname || !firstname)
+//     return res.status(400).json({
+//       success: false,
+//       message: "Missing inputs",
+//     });
+
+//   const user = await User.findOne({ email });
+//   if (user) throw new Error("User has existed");
+//   else {
+//     const newUser = await User.create(req.body);
+//     return res.status(200).json({
+//       success: newUser ? true : false,
+//       message: newUser
+//         ? "Register is successfully. Please go login~"
+//         : "Something went wrong",
+//     });
+//   }
+// });
+
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({
-      sucess: false,
-      mes: "Missing inputs",
+      success: false,
+      message: "Missing inputs",
     });
   // plain object
   const response = await User.findOne({ email });
@@ -58,9 +81,9 @@ const login = asyncHandler(async (req, res) => {
     });
 
     return res.status(200).json({
-      sucess: true,
+      success: true,
       accessToken,
-      userData,
+      data: userData,
     });
   } else {
     throw new Error("Invalid credentials!");
@@ -115,7 +138,7 @@ const logout = asyncHandler(async (req, res) => {
   });
   return res.status(200).json({
     success: true,
-    mes: "Logout is done",
+    message: "Logout is done",
   });
 });
 // Client gửi email
@@ -169,7 +192,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   await user.save();
   return res.status(200).json({
     success: user ? true : false,
-    mes: user ? "Updated password" : "Something went wrong",
+    message: user ? "Updated password" : "Something went wrong",
   });
 });
 
