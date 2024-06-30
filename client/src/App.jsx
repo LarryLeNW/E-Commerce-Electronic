@@ -2,6 +2,7 @@ import React from "react";
 import path from "./utils/path";
 import {
   BlogPage,
+  ConfirmRegisterPage,
   FAQPage,
   HomePage,
   ListProductPage,
@@ -25,6 +26,7 @@ function App() {
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
+        <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>
     </div>
   );

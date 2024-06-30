@@ -5,6 +5,7 @@ export const register = (data) =>
     url: "/user/register",
     method: "post",
     data,
+    withCredentials: true,
   });
 
 export const login = (data) =>

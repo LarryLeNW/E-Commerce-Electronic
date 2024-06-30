@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import InputField from "./InputField";
 import Button from "components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import path from "utils/path";
 import { login, register } from "apis";
 import Swal from "sweetalert2";
@@ -10,6 +10,7 @@ import { loginRequest } from "redux/slicers/auth.slicer";
 
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
 
   const [payload, setPayload] = useState({
@@ -33,7 +34,7 @@ function Login() {
     if (isRegister) {
       const response = await register(payload);
       const { success, message } = response;
-      if (success)
+      if (!!success)
         Swal.fire("Congratulation!", message, "success")
           .then(setIsRegister(false))
           .then(resetPayload());
@@ -45,6 +46,7 @@ function Login() {
         dataLogin,
         callback: () => {
           Swal.fire("Congratulation!", "Login successfully...", "success");
+          navigate(path.HOME);
         },
       })
     );
