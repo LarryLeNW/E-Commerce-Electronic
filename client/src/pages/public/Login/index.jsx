@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import InputField from "./InputField";
 import Button from "components/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, generatePath, useNavigate } from "react-router-dom";
 import path from "utils/path";
 import { login, register } from "apis";
 import Swal from "sweetalert2";
@@ -53,13 +53,13 @@ function Login() {
   }, [payload, isRegister]);
 
   return (
-    <div className="w-screen h-screen bg-login flex justify-center items-center">
+    <div className="w-screen h-screen bg-outside flex justify-center items-center">
       <div className="w-[500px] bg-white min-h-[400px]  p-10 rounded-lg flex flex-col gap-4 items-center relative mx-2">
         <Link
-          className=" absolute top-2 left-2 cursor-pointer text-main"
+          className=" absolute top-2 left-2 cursor-pointer text-red-400"
           to={path.HOME}
         >
-          Trở lại trang chủ
+          Trở lại 🏡
         </Link>
         <h1 className="text-main text-center font-bold  text-2xl mb-5  ">
           {isRegister ? "Đăng kí" : "Đăng nhập"}
@@ -96,7 +96,14 @@ function Login() {
           fw={true}
         />
         <div className="flex justify-between w-full items-center mt-2 text-sm">
-          <span className="hover:text-main cursor-help">Quên mật khẩu ?</span>
+          <Link
+            to={generatePath(path.FORGOT_PASSWORD, {
+              type: "request",
+            })}
+            className="hover:text-main cursor-help"
+          >
+            Quên mật khẩu ?
+          </Link>
           <span
             className="hover:text-main cursor-pointer select-none text-sm"
             onClick={() => setIsRegister(!isRegister)}

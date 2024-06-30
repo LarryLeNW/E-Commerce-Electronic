@@ -7,7 +7,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        login: "url('assets/bg-login.jpg')",
+        outside: "url('assets/bg-login.jpg')",
       },
       width: {
         main: "1220px",

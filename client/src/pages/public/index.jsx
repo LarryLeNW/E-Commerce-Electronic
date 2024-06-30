@@ -7,3 +7,4 @@ export { default as FAQPage } from "./FAQ";
 export { default as ListProductPage } from "./ListProduct";
 export { default as ServicePage } from "./Services";
 export { default as ConfirmRegisterPage } from "./ConfirmRegister";
+export { default as ForgotPasswordPage } from "./ForgotPassword";

@@ -14,3 +14,17 @@ export const login = (data) =>
     method: "post",
     data,
   });
+
+export const forgotPassword = (data) =>
+  axios({
+    url: "/user/requestforgotpw",
+    method: "post",
+    data,
+  });
+
+export const resetpassword = (data) =>
+  axios({
+    url: "/user/resetpassword",
+    method: "put",
+    data,
+  });

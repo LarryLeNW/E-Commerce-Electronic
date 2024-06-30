@@ -12,6 +12,7 @@ import {
 } from "./pages/public";
 import { Routes, Route } from "react-router-dom";
 import DetailProduct from "pages/public/DetailProduct";
+import ForgotPassword from "pages/public/ForgotPassword";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
+        <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>
     </div>
