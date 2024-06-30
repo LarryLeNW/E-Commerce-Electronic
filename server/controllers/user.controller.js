@@ -157,32 +157,29 @@ const logout = asyncHandler(async (req, res) => {
     message: "Logout is done",
   });
 });
-// Client gửi email
-// Server check email có hợp lệ hay không => Gửi mail + kèm theo link (password change token)
-// Client check mail => click link
-// Client gửi api kèm token
-// Check token có giống với token mà server gửi mail hay không
-// Change password
 
-const forgotPassword = asyncHandler(async (req, res) => {
-  const { email } = req.query;
+const requestForgotPw = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  console.log("🚀 ~ forgotPassword ~ req.body:", req.body);
   if (!email) throw new Error("Missing email");
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
   const resetToken = user.createPasswordChangedToken();
   await user.save();
 
-  const html = `Xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_CLIENT}/api/user/reset-password/${resetToken}>Click here</a>`;
+  const html = `Xin vui lòng click vào link dưới đây để thay đổi mật khẩu của bạn.Link này sẽ hết hạn sau 15 phút kể từ bây giờ. <a href=${process.env.URL_CLIENT}/forgot-password/${resetToken}>Click here</a>`;
 
-  const data = {
+  const resSendMail = await sendMail({
     email,
     html,
-  };
+    subject: "Reset Account TechShop",
+  });
 
-  const rs = await sendMail(data);
   return res.status(200).json({
-    success: true,
-    rs,
+    success: resSendMail?.response?.includes("OK"),
+    message: resSendMail?.response?.includes("OK")
+      ? "Chúng tôi đã gửi yêu cầu đến email của bạn vui lòng truy cập để hoàn thành thay đổi mật khẩu.."
+      : "Đã có lỗi vui lòng thử lại sau...",
   });
 });
 
@@ -208,7 +205,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   await user.save();
   return res.status(200).json({
     success: user ? true : false,
-    message: user ? "Updated password" : "Something went wrong",
+    message: user ? "Cập nhật mật khẩu thành công !" : "Something went wrong",
   });
 });
 
@@ -334,7 +331,7 @@ module.exports = {
   getCurrent,
   refreshAccessToken,
   logout,
-  forgotPassword,
+  requestForgotPw,
   resetPassword,
   getUsers,
   deleteUser,
