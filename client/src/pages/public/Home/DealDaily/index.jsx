@@ -88,7 +88,9 @@ function DealDaily() {
         />
         <span className="line-clamp-1 text-center">{dealProducts?.title}</span>
         <span className="flex ">
-          {renderStars(dealProducts?.totalRatings, 20)}
+          {renderStars(dealProducts?.totalRatings, 20).map((el, index) => (
+            <span key={index}>{el}</span>
+          ))}
         </span>
         <span>{formatMoney(dealProducts?.price)} VNĐ</span>
       </div>

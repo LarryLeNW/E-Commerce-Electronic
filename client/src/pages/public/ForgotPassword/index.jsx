@@ -1,20 +1,37 @@
-import { forgotPassword, resetpassword } from "apis";
+import { forgotPassword, resetPassword } from "apis";
 import Button from "components/Button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import path from "utils/path";
 import InputField from "../Login/InputField";
+import { validateForm } from "utils/helper";
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [inValidFields, setInValidFields] = useState({});
   const [payload, setPayload] = useState({
     password: "",
     confirmPassword: "",
+    email: "",
   });
 
   const { type } = useParams();
+
+  useEffect(() => {
+    const { email, ...resetData } = payload;
+    if (type === "request")
+      validateForm({ email: payload.email }, setInValidFields);
+    else validateForm(resetData, setInValidFields);
+  }, [payload, type]);
+
+  const clearPayload = () => {
+    setPayload({
+      password: "",
+      confirmPassword: "",
+      email: "",
+    });
+  };
 
   const handleSubmit = useCallback(() => {
     if (type === "request") {
@@ -22,26 +39,22 @@ function ForgotPassword() {
       return;
     }
     handleConfirmReset();
-  }, [email, payload]);
+  }, [payload]);
 
   const handleRequestForgot = async () => {
-    if (!email.trim())
-      Swal.fire("Missing input", "Vui lòng nhập email...", "warning");
-    else {
-      try {
-        const res = await forgotPassword({ email });
-        Swal.fire("Congratulation!", res.message, "success").then(() =>
-          setEmail("")
-        );
-      } catch (error) {
-        Swal.fire("Oops!", error?.response?.data?.message, "error");
-      }
+    try {
+      const res = await forgotPassword({ email: payload.email });
+      Swal.fire("Congratulation!", res.message, "success").then(() =>
+        clearPayload()
+      );
+    } catch (error) {
+      Swal.fire("Oops!", error?.response?.data?.message, "error");
     }
   };
 
   const handleConfirmReset = async () => {
     try {
-      const res = await resetpassword({
+      const res = await resetPassword({
         password: payload.password,
         token: type,
       });
@@ -62,19 +75,16 @@ function ForgotPassword() {
           Trở lại 🏡
         </Link>
         <h1 className="text-main text-center font-bold  text-2xl mb-5  ">
-          Forgot Password
+          Nhập mật khẩu mới
         </h1>
         {type === "request" && (
           <div className="flex flex-col gap-4 w-full">
-            <label htmlFor="email">Enter your email :</label>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              id="email"
-              className="w-full p-4 border-2 border-main  outline-none placeholder:text-sm "
-              placeholder="Enter your email..."
-              required
+            <InputField
+              value={payload.email}
+              nameKey={"email"}
+              type={"email"}
+              setValue={setPayload}
+              inValidFields={inValidFields}
             />
           </div>
         )}
@@ -85,9 +95,11 @@ function ForgotPassword() {
               nameKey={"password"}
               type={"password"}
               setValue={setPayload}
+              inValidFields={inValidFields}
             />
             <InputField
               value={payload.confirmPassword}
+              inValidFields={inValidFields}
               nameKey={"confirmPassword"}
               type={"password"}
               setValue={setPayload}
@@ -96,7 +108,12 @@ function ForgotPassword() {
         )}
 
         <div className="w-full">
-          <Button name={"Submit"} handleClick={handleSubmit} fw={true} />
+          <Button
+            name={"Submit"}
+            disabled={Object.values(inValidFields).length !== 0}
+            handleClick={handleSubmit}
+            fw={true}
+          />
         </div>
         <Link to={path.LOGIN} className="text-start text-blue-500 w-full">
           Trở lại đăng nhập

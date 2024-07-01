@@ -1,17 +1,20 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InputField from "./InputField";
 import Button from "components/Button";
 import { Link, generatePath, useNavigate } from "react-router-dom";
 import path from "utils/path";
-import { login, register } from "apis";
+import { register } from "apis";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { loginRequest } from "redux/slicers/auth.slicer";
+import { validateForm } from "utils/helper";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false);
+  const [inValidFields, setInValidFields] = useState({});
+  console.log("🚀 ~ Login ~ inValidFields:", inValidFields);
 
   const [payload, setPayload] = useState({
     email: "",
@@ -28,6 +31,13 @@ function Login() {
       lastname: "",
     });
   };
+
+  useEffect(() => {
+    const { lastname, firstname, ...dataLogin } = payload;
+    isRegister
+      ? validateForm(payload, setInValidFields)
+      : validateForm(dataLogin, setInValidFields);
+  }, [payload, isRegister]);
 
   const handleSubmit = useCallback(async () => {
     const { lastname, firstname, ...dataLogin } = payload;
@@ -70,27 +80,30 @@ function Login() {
               value={payload.firstname}
               nameKey={"firstname"}
               setValue={setPayload}
+              inValidFields={inValidFields}
             />
             <InputField
               value={payload.lastname}
               nameKey={"lastname"}
               setValue={setPayload}
+              inValidFields={inValidFields}
             />
           </>
         )}
         <InputField
           value={payload.email}
           nameKey={"email"}
-          type={"email"}
           setValue={setPayload}
+          inValidFields={inValidFields}
         />
         <InputField
+          inValidFields={inValidFields}
           value={payload.password}
           nameKey={"password"}
-          type={"password"}
           setValue={setPayload}
         />
         <Button
+          disabled={Object.values(inValidFields).length !== 0}
           name={isRegister ? "Đăng kí" : "Đăng nhập"}
           handleClick={handleSubmit}
           fw={true}

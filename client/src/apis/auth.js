@@ -22,7 +22,7 @@ export const forgotPassword = (data) =>
     data,
   });
 
-export const resetpassword = (data) =>
+export const resetPassword = (data) =>
   axios({
     url: "/user/resetpassword",
     method: "put",

@@ -1,13 +1,16 @@
+import { memo, useEffect, useState } from "react";
+
 function InputField({
   value,
   setValue,
   nameKey,
-  type,
-  invalidField,
-  setInvalidField,
+  type = "text",
+  inValidFields,
 }) {
+  const [isDisplayMess, setIsDisplayMess] = useState(false);
+
   return (
-    <div className="w-full relative">
+    <div className="w-full relative ">
       {!!value?.trim() && (
         <label
           htmlFor={nameKey}
@@ -18,8 +21,10 @@ function InputField({
       )}
 
       <input
-        type={type || "text"}
-        className="px-6 py-4 rounded-sm w-full border placeholder:text-sm placeholder:italic outline-main"
+        type={type}
+        className={`px-6 py-4 rounded-sm w-full border placeholder:text-sm placeholder:italic outline-main border-2 ${
+          inValidFields[nameKey] && "border-red-700 "
+        }`}
         placeholder={
           "Enter your " +
           nameKey?.slice(0, 1).toUpperCase() +
@@ -30,9 +35,15 @@ function InputField({
         onChange={(e) =>
           setValue((prev) => ({ ...prev, [nameKey]: e.target.value }))
         }
+        onKeyDown={() => setIsDisplayMess(true)}
       />
+      {isDisplayMess && inValidFields[nameKey] && (
+        <div className="text-sm text-red-500 italic">
+          {inValidFields[nameKey]}
+        </div>
+      )}
     </div>
   );
 }
 
-export default InputField;
+export default memo(InputField);
