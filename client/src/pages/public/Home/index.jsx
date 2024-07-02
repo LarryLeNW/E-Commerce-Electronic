@@ -12,7 +12,7 @@ function Home() {
 
   return (
     <>
-      <div className="w-main flex">
+      <div className="w-main flex mt-2">
         <div className="flex flex-col gap-5 w-[25%] flex-auto ">
           <Sidebar />
           <DealDaily />

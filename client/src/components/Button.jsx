@@ -1,4 +1,5 @@
 import { memo } from "react";
+import ICONS from "utils/icons";
 
 function Button({
   name,
@@ -8,6 +9,7 @@ function Button({
   iconAfter,
   fw,
   disabled,
+  isLoading,
 }) {
   return (
     <div
@@ -16,16 +18,25 @@ function Button({
         style ||
         `px-4 p-2 rounded-md text-white bg-main font-semibold cursor-pointer text-center ${
           fw ? "w-full" : "w-fit"
-        } ${!!disabled && "opacity-30 cursor-not-allowed"}
+        } ${(isLoading || disabled) && "opacity-30 cursor-not-allowed"}
         `
       }
       onClick={() => {
-        !disabled && handleClick && handleClick();
+        !isLoading && !disabled && handleClick && handleClick();
       }}
     >
-      {iconBefore}
-      <span> {name}</span>
-      {iconAfter}
+      <div className="flex gap-2 justify-center items-center">
+        <div>
+          {iconBefore}
+          <span> {name}</span>
+          {iconAfter}
+        </div>
+        {isLoading && (
+          <div>
+            <ICONS.AiOutlineLoading3Quarters className="animate-spin" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import Header from "components/Header";
-import Navigation from "components/Navigation";
-import TopHeader from "components/TopHeader";
-import Footer from "components/Footer";
+import Header from "pages/public/Components/Header";
+import Navigation from "pages/public/Components/Navigation";
+import TopHeader from "pages/public/Components/TopHeader";
+import Footer from "pages/public/Components/Footer";
 
 function Public() {
   return (

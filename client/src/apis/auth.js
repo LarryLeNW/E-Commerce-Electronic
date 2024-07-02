@@ -13,6 +13,7 @@ export const login = (data) =>
     url: "/user/login",
     method: "post",
     data,
+    withCredentials: true,
   });
 
 export const forgotPassword = (data) =>
@@ -27,4 +28,10 @@ export const resetPassword = (data) =>
     url: "/user/resetpassword",
     method: "put",
     data,
+  });
+
+export const getUserInfo = () =>
+  axios({
+    url: "/user/current",
+    method: "get",
   });

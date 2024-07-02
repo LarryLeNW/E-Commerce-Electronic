@@ -3,6 +3,8 @@ import { IoMdMail } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 import {
   AiFillHome,
   AiFillStar,
@@ -24,6 +26,7 @@ const ICONS = {
   AiOutlineStar,
   AiFillEye,
   AiOutlineMenu,
+  AiOutlineLoading3Quarters,
   BsFillSuitHeartFill,
   IoMdArrowRoundForward,
 };

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
   userInfo: {
@@ -30,9 +31,35 @@ export const authSlicer = createSlice({
       state.loginData.loading = false;
       state.loginData.error = error;
     },
+    getUserInfoRequest: (state, action) => {
+      state.userInfo.loading = true;
+      state.userInfo.error = null;
+    },
+    getUserInfoSuccess: (state, action) => {
+      const data = action.payload;
+      state.userInfo.data = data;
+      state.userInfo.loading = false;
+    },
+    getUserInfoFailure: (state, action) => {
+      const { error } = action.payload;
+      state.userInfo.error = error;
+      state.userInfo.loading = false;
+    },
+    logout: (state, action) => {
+      Cookies.remove("refreshToken");
+      state.userInfo.data = null;
+    },
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure } = authSlicer.actions;
+export const {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  getUserInfoRequest,
+  getUserInfoSuccess,
+  getUserInfoFailure,
+  logout,
+} = authSlicer.actions;
 
 export default authSlicer.reducer;

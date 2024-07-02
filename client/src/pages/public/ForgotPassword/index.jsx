@@ -4,12 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import path from "utils/path";
-import InputField from "../Login/InputField";
 import { validateForm } from "utils/helper";
+import InputField from "components/InputField";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const [inValidFields, setInValidFields] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [payload, setPayload] = useState({
     password: "",
     confirmPassword: "",
@@ -33,12 +34,12 @@ function ForgotPassword() {
     });
   };
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    setIsLoading(true);
     if (type === "request") {
-      handleRequestForgot();
-      return;
-    }
-    handleConfirmReset();
+      await handleRequestForgot();
+    } else await handleConfirmReset();
+    setIsLoading(false);
   }, [payload]);
 
   const handleRequestForgot = async () => {
@@ -113,6 +114,7 @@ function ForgotPassword() {
             disabled={Object.values(inValidFields).length !== 0}
             handleClick={handleSubmit}
             fw={true}
+            isLoading={isLoading}
           />
         </div>
         <Link to={path.LOGIN} className="text-start text-blue-500 w-full">

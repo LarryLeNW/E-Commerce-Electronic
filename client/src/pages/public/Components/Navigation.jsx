@@ -3,7 +3,7 @@ import { navigations } from "utils/constrans";
 
 function Navigation() {
   return (
-    <div className="w-main h-[48px] py-2 border text-sm flex items-center mb-6">
+    <div className="w-main h-[48px] py-2 border text-sm flex items-center ">
       {navigations.map((el, index) => (
         <NavLink
           to={`${el.path}`}

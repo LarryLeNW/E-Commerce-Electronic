@@ -1,20 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
-import InputField from "./InputField";
 import Button from "components/Button";
 import { Link, generatePath, useNavigate } from "react-router-dom";
 import path from "utils/path";
 import { register } from "apis";
 import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "redux/slicers/auth.slicer";
 import { validateForm } from "utils/helper";
+import InputField from "components/InputField";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { loading: isLoadingLogin, error } = useSelector(
+    (state) => state.auth.loginData
+  );
+
   const [isRegister, setIsRegister] = useState(false);
   const [inValidFields, setInValidFields] = useState({});
-  console.log("🚀 ~ Login ~ inValidFields:", inValidFields);
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
+
+  useEffect(() => {
+    if (!!error) {
+      Swal.fire("Oops!", error, "error");
+    }
+  }, [error]);
 
   const [payload, setPayload] = useState({
     email: "",
@@ -42,13 +53,17 @@ function Login() {
   const handleSubmit = useCallback(async () => {
     const { lastname, firstname, ...dataLogin } = payload;
     if (isRegister) {
-      const response = await register(payload);
-      const { success, message } = response;
-      if (!!success)
+      setIsLoadingRegister(true);
+      try {
+        const response = await register(payload);
+        const { message } = response;
         Swal.fire("Congratulation!", message, "success")
           .then(setIsRegister(false))
           .then(resetPayload());
-      else Swal.fire("Oops!", message, "error");
+      } catch (error) {
+        Swal.fire("Oops!", error, "error");
+      }
+      setIsLoadingRegister(false);
       return;
     }
     dispatch(
@@ -107,6 +122,7 @@ function Login() {
           name={isRegister ? "Đăng kí" : "Đăng nhập"}
           handleClick={handleSubmit}
           fw={true}
+          isLoading={isLoadingRegister || isLoadingLogin}
         />
         <div className="flex justify-between w-full items-center mt-2 text-sm">
           <Link
