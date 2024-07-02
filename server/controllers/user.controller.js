@@ -17,12 +17,12 @@ const register = asyncHandler(async (req, res) => {
     });
 
   const user = await User.findOne({ email });
-  if (user) throw new Error("User has existed");
+  if (user) throw new Error("Email đã có người sử dụng ...");
   else {
-    let tokenRegiser = crypto.randomBytes(16).toString("hex");
+    let tokenRegister = crypto.randomBytes(16).toString("hex");
     res.cookie(
       "dataRegister",
-      { ...req.body, tokenRegiser },
+      { ...req.body, tokenRegister },
       {
         httpOnly: true,
         maxAge: 15 * 60 * 1000,
@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res) => {
       "<h1>Welcome to TechShop </h1>" +
       "<div>Xin vui lòng click vào xác nhận để hoàn tất thủ tục đăng kí tài khoản bên TechShop </div>" +
       "<div>Link này sẽ hết hạn trong 15p kể từ bây giờ </div>" +
-      `<a href="${process.env.URL_SERVER}/api/user/confirmregiser/${tokenRegiser}">Xác nhận</a>`;
+      `<a href="${process.env.URL_SERVER}/api/user/confirmregiser/${tokenRegister}">Xác nhận</a>`;
 
     await sendMail({
       email,
@@ -45,7 +45,7 @@ const register = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Please check your email to active account",
+      message: `Chúng tôi đã gửi email đến  <a href="https://mail.google.com"  target="_blank">${email}</a> , vui lòng kiểm tra email để hoàn tất đăng kí, xin cảm ơn...`,
     });
   }
 });
@@ -54,12 +54,12 @@ const confirmRegister = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
   const { tokenConfirm } = req.params;
 
-  if (!cookie || cookie?.dataRegister?.tokenRegiser != tokenConfirm) {
+  if (!cookie || cookie?.dataRegister?.tokenRegister != tokenConfirm) {
     res.clearCookie("dataRegister");
     return res.redirect(`${process.env.URL_CLIENT}/confirm-register/failed`);
   }
 
-  const { tokenRegiser, ...dataRegister } = cookie.dataRegister;
+  const { tokenRegister, ...dataRegister } = cookie.dataRegister;
   const newUser = await User.create(dataRegister);
 
   res.clearCookie("dataRegister");
@@ -78,11 +78,11 @@ const login = asyncHandler(async (req, res) => {
   // plain object
   const response = await User.findOne({ email });
   if (response && (await response.isCorrectPassword(password))) {
-    // Tách password và role ra khỏi response
-    const { password, role, refreshToken, ...userData } = response.toObject();
-    // Tạo access token
-    const accessToken = generateAccessToken(response._id, role);
-    // Tạo refresh token
+    const { password, refreshToken, ...userData } = response.toObject();
+
+    const accessToken = generateAccessToken(response._id, userData.role);
+    console.log("🚀 ~ login ~ accessToken:", accessToken);
+
     const newRefreshToken = generateRefreshToken(response._id);
     // Lưu refresh token vào database
     await User.findByIdAndUpdate(
@@ -91,8 +91,8 @@ const login = asyncHandler(async (req, res) => {
       { new: true }
     );
     // Lưu refresh token vào cookie
-    res.cookie("refreshToken", newRefreshToken, {
-      httpOnly: true,
+    res.cookie("refreshToken", accessToken, {
+      httpOnly: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -102,16 +102,17 @@ const login = asyncHandler(async (req, res) => {
       data: userData,
     });
   } else {
-    throw new Error("Invalid credentials!");
+    throw new Error("Tài khoản hoặc mật khẩu sai!");
   }
 });
 
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-refreshToken -password -role");
+  console.log("🚀 ~ getCurrent ~ req.user:", req.user);
+  const user = await User.findById(_id).select("-refreshToken -password ");
   return res.status(200).json({
     success: user ? true : false,
-    rs: user ? user : "User not found",
+    data: user ? user : "Token không nhận dạng được ...",
   });
 });
 
