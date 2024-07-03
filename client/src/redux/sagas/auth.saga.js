@@ -27,7 +27,6 @@ function* getUserInfoSaga(action) {
     yield put(getUserInfoSuccess(response.data));
     yield callback(response.data.role);
   } catch (error) {
-    console.log("🚀 ~ function*loginSaga ~ error:", error);
     yield put(getUserInfoFailure({ error }));
   }
 }

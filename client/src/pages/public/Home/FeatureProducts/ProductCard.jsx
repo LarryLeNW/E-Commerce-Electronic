@@ -14,7 +14,9 @@ function ProductCard({ data }) {
             {data?.title.toLowerCase()}
           </span>
           <span className="flex h-4">
-            {renderStars(data?.totalRatings, 14)}
+            {renderStars(data?.totalRatings, 14).map((el, index) => (
+              <span key={index}>{el}</span>
+            ))}
           </span>
           <span>{formatMoney(data?.price)} VNĐ</span>
         </div>

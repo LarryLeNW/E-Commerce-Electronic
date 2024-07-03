@@ -5,11 +5,11 @@ const path = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgot-password/:type",
   CONFIRM_REGISTER: "/confirm-register/:status",
-  PRODUCTS: "/products",
+  PRODUCTS: "/:category",
   OUR_SERVICES: "/services",
   FAQ: "/faqs",
   BLOGS: "/blogs",
-  DETAIL_PRODUCT: "/product/:id/:title",
+  DETAIL_PRODUCT: "/:category/:id/:title",
   ADMIN: {
     HOME: "/admin/home",
     // DEMO

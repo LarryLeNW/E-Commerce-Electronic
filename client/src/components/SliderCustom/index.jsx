@@ -12,13 +12,18 @@ var settings = {
   pauseOnHover: true,
 };
 
-function SliderCustom({ products, activedTab }) {
+function SliderCustom({ products, activedTab, normal }) {
   return (
     <>
       {products && (
-        <Slider {...settings}>
+        <Slider className="product-slider" {...settings}>
           {products?.map((p, index) => (
-            <Product isNew={activedTab === 2} key={index} data={p} />
+            <Product
+              isNew={activedTab === 2}
+              key={index}
+              data={p}
+              normal={normal}
+            />
           ))}
         </Slider>
       )}

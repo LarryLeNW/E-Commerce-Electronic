@@ -5,15 +5,15 @@ function Footer() {
   return (
     <div className="w-full bg-main">
       <footer>
-        <div class="footer-container p-6">
-          <div class="footer-section">
+        <div className="footer-container p-6">
+          <div className="footer-section">
             <h2>Contact Us</h2>
             <p>Company Name</p>
             <p>1234 Car Street, Auto City,CA 56789</p>
             <p>Phone:(+91)9876543210</p>
             <p>Email:Youtube@gmail.com</p>
           </div>
-          <div class="footer-section">
+          <div className="footer-section">
             <h2>Quick Links</h2>
             <a href="">
               <li>Home</li>
@@ -37,7 +37,7 @@ function Footer() {
               <li>FAQs</li>
             </a>
           </div>
-          <div class="footer-section">
+          <div className="footer-section">
             <h2>Customer Service</h2>
             <a href="">
               <li>Support</li>
@@ -55,7 +55,7 @@ function Footer() {
               <li>Privacy Policy</li>
             </a>
           </div>
-          <div class="footer-section">
+          <div className="footer-section">
             <h2>Follow Us</h2>
             <a href="">
               <li>Facebook</li>
@@ -70,7 +70,7 @@ function Footer() {
               <li>Youtube</li>
             </a>
           </div>
-          <div class="footer-section">
+          <div className="footer-section">
             <h2>News Letter</h2>
             <p>Subscribe to our newsletter for the latest updates</p>
             <form action="">
@@ -78,13 +78,13 @@ function Footer() {
               <button type="submit">Subscribe</button>
             </form>
           </div>
-          <div class="footer-section2">
+          <div className="footer-section2">
             <h2>Operating Hours</h2>
             <p>Mon - Fri 9AM-7PM</p>
             <p>Saturday 10AM-6PM</p>
             <p>Sunday Closed</p>
           </div>
-          <div class="footer-section2">
+          <div className="footer-section2">
             <h2>Payment Methods</h2>
             <img
               width="48"
@@ -94,21 +94,21 @@ function Footer() {
             />
             <span>Mastercard</span>
             <img
-              class="visa"
+              className="visa"
               width="48"
               height="48"
               src="https://img.icons8.com/color/48/visa.png"
               alt="visa"
             />
             <img
-              class="rupay"
+              className="rupay"
               width="48"
               height="48"
               src="https://img.icons8.com/color/48/rupay.png"
               alt="rupay"
             />
           </div>
-          <div class="footer-section2">
+          <div className="footer-section2">
             <h2>Experiences</h2>
             <a href="">
               <li>MyFerrari</li>
@@ -126,9 +126,9 @@ function Footer() {
               <li>Ferrari Land Barcelona</li>
             </a>
           </div>
-          <div class="footer-section3">
+          <div className="footer-section3">
             <img
-              class="copyright"
+              className="copyright"
               width="24"
               height="24"
               src="https://img.icons8.com/fluency/48/copyright.png"

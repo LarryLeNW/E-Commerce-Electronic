@@ -6,3 +6,10 @@ export const getProducts = (params) =>
     method: "get",
     params,
   });
+
+export const getProduct = (id) => {
+  return axios({
+    url: "/product/" + id,
+    method: "get",
+  });
+};

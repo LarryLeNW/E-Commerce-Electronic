@@ -9,6 +9,10 @@ module.exports = {
       backgroundImage: {
         outside: "url('assets/bg-login.jpg')",
       },
+      listStyleType: {
+        square: "square",
+        roman: "upper-roman",
+      },
       width: {
         main: "1220px",
       },

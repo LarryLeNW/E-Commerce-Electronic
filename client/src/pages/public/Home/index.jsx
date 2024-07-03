@@ -11,8 +11,8 @@ function Home() {
   const { data: categories, loading } = useSelector((state) => state.category);
 
   return (
-    <>
-      <div className="w-main flex mt-2">
+    <div className="w-main mx-auto">
+      <div className="w-main flex mt-2  ">
         <div className="flex flex-col gap-5 w-[25%] flex-auto ">
           <Sidebar />
           <DealDaily />
@@ -22,10 +22,10 @@ function Home() {
           <BestSeller />
         </div>
       </div>
-      <div className="my-8">
+      <div className="my-8 mx-auto">
         <FeatureProducts />
       </div>
-      <div className="my-8 w-full">
+      <div className="my-8 w-full mx-auto">
         <h3 className="text-[20px] font-semibold py-[15px] border-b-2  border-main">
           HOT COLLECTION
         </h3>
@@ -60,12 +60,12 @@ function Home() {
         </div>
       </div>
 
-      <div className="my-8 w-full">
+      <div className="my-8 w-full mx-auto">
         <h3 className="text-[20px] font-semibold py-[15px] border-b-2  border-main">
           BLOGS
         </h3>
       </div>
-    </>
+    </div>
   );
 }
 
