@@ -3,34 +3,21 @@ import { getProduct, getProducts } from "apis/product";
 import BreadCrumb from "components/BreadCrumb";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ReactImageMagnify from "react-image-magnify";
 import { formatMoney, renderStars } from "utils/helper";
 import Button from "components/Button";
 import SelectQuantity from "./SelectQuantity";
 import { ProductExtraInformation } from "constant";
 import TabDescription from "./TabDescription";
 import SliderCustom from "components/SliderCustom";
-
-var settings = {
-  dots: false,
-  infinite: true,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  pauseOnHover: true,
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getProductDetailRequest } from "redux/slicers/product.slicer";
 
 function DetailProduct() {
+  const dispatch = useDispatch();
+  const { productDetail } = useSelector((state) => state.product);
   const { id, title, category } = useParams();
-  const [data, setData] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
-
-  const fetchProductDetail = async () => {
-    const response = await getProduct(id);
-    if (response.success) setData(response.data);
-  };
 
   const fetchRelatedProducts = async () => {
     const response = await getProducts({ category });
@@ -38,11 +25,10 @@ function DetailProduct() {
   };
 
   useEffect(() => {
-    if (id) fetchProductDetail();
+    if (id) dispatch(getProductDetailRequest({ id }));
     if (category) fetchRelatedProducts(category);
-  }, []);
-
-  // let numbers = str.match(/\d+/g);
+    window.scrollTo(0, 0);
+  }, [category, id]);
 
   const handleQuantity = useCallback(
     (input) => {
@@ -58,13 +44,13 @@ function DetailProduct() {
       setQuantity((prev) => prev - 1);
     }
     if (flag == "plus") {
-      if (quantity > data.quantity) return;
+      if (quantity > productDetail?.data.quantity) return;
       setQuantity((prev) => prev + 1);
     }
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="bg-gray-200 mx-auto h-[81px] flex justify-center items-center">
         <div className="w-main">
           <h3>Sản phẩm {title}</h3>
@@ -74,27 +60,28 @@ function DetailProduct() {
       <div className="w-main m-auto bg-white flex">
         {/* image product review */}
         <div className="w-2/5 border border-red-300">
-          <div className="w-[458px] h-[458px] border">
-            {/* {data?.thumb && (
-              <ReactImageMagnify
-                {...{
-                  smallImage: {
-                    alt: "",
-                    isFluidWidth: true,
-                    src: data?.thumb,
-                  },
-                  largeImage: {
-                    width: 1800,
-                    height: 1500,
-                    src: data?.thumb,
-                  },
-                }}
+          <div className=" h-[458px] flex justify-center items-center w-full">
+            {productDetail?.data?.thumb && (
+              <img
+                src={productDetail?.data?.thumb}
+                alt="sub-img"
+                className=" w-full h-full object-contain "
               />
-            )} */}
+            )}
           </div>
           <div className="w-full ">
-            <Slider {...settings} className="image-slider">
-              {data?.images?.map((el) => (
+            <Slider
+              {...{
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                pauseOnHover: true,
+              }}
+              className="image-slider"
+            >
+              {productDetail?.data?.images?.map((el) => (
                 <div className="p-2  w-1/3 " key={el}>
                   <img
                     src={el}
@@ -111,20 +98,26 @@ function DetailProduct() {
         <div className="w-2/5 border border-blue-400 p-4">
           <div className="flex justify-between">
             <h2 className="text-[30px] font-semibold ">
-              {formatMoney(data?.price)} VNĐ
+              {formatMoney(productDetail?.data?.price)} VNĐ
             </h2>
-            <span className="text-yellow-600">Còn {data?.quantity} cái</span>
+            <span className="text-yellow-600">
+              Còn {productDetail?.data?.quantity} cái
+            </span>
           </div>
           <div className="flex gap-2 items-center">
             <div className="flex">
-              {renderStars(data?.totalRatings).map((el, index) => (
-                <span key={index}>{el}</span>
-              ))}
+              {renderStars(productDetail?.data?.totalRatings).map(
+                (el, index) => (
+                  <span key={index}>{el}</span>
+                )
+              )}
             </div>
-            <span className="text-red-400">(Đã bán {data?.sold} cái)</span>
+            <span className="text-red-400">
+              (Đã bán {productDetail?.data?.sold} cái)
+            </span>
           </div>
           <ul className=" p-2 text-gray-500">
-            {data?.description.map((el) => (
+            {productDetail?.data?.description?.map((el) => (
               <li className="leading-6 list-square" key={el}>
                 {el}
               </li>
@@ -160,13 +153,31 @@ function DetailProduct() {
       </div>
       {/* more description */}
       <div className="w-main m-auto mt-8">
-        <TabDescription />
+        <TabDescription
+          ratings={productDetail?.data?.ratings}
+          totalRatings={productDetail?.data?.totalRatings}
+          product={productDetail?.data}
+        />
       </div>
       <div className="w-main m-auto mt-8">
         <h3 className="text-[20px] mb-2 font-semibold py-[15px] border-b-2 border-main">
-          Sản phẩm có liên quan
+          Sản phẩm liên quan
         </h3>
-        <SliderCustom products={relatedProducts} normal={true} />
+        <SliderCustom
+          products={relatedProducts}
+          settings={{
+            ...{
+              dots: true,
+              infinite: true,
+              slidesToShow: 4,
+              slidesToScroll: 2,
+              autoplay: true,
+              autoplaySpeed: 2000,
+              pauseOnHover: true,
+            },
+          }}
+          normal={true}
+        />
       </div>
 
       <div className="h-[400px]"></div>

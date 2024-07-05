@@ -87,7 +87,7 @@ function ListProduct() {
               </button>
               <button
                 className="bg-main text-white p-2"
-                onClick={() => handleSort("createAt")}
+                onClick={() => handleSort("-createAt")}
               >
                 Mới nhất
               </button>
@@ -97,9 +97,18 @@ function ListProduct() {
               >
                 Bán chạy
               </button>
-              <select name="" id="" className="p-2">
-                <option value="-price">Giá cao nhất</option>
-                <option value="price">Giá thấp nhất</option>
+              <select
+                name="Giá"
+                id=""
+                defaultValue={"default"}
+                onChange={(e) => handleSort(e.target.value)}
+                className="p-2"
+              >
+                <option value="default" disabled>
+                  Sắp xếp theo giá
+                </option>
+                <option value="price">Giá : thấp đến cao</option>
+                <option value="-price">Giá : cao đến thấp</option>
               </select>
             </div>
             <div className="flex gap-2 items-center">

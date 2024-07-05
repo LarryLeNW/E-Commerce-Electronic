@@ -57,7 +57,21 @@ function BestSeller() {
         ))}
       </div>
       <div className="mt-4 ">
-        <SliderCustom products={reviewProducts} activedTab={activedTab} />
+        <SliderCustom
+          products={reviewProducts}
+          activedTab={activedTab}
+          settings={{
+            ...{
+              dots: true,
+              infinite: true,
+              slidesToShow: 3,
+              slidesToScroll: 2,
+              autoplay: true,
+              autoplaySpeed: 2000,
+              pauseOnHover: true,
+            },
+          }}
+        />
       </div>
       <div className="w-full flex gap-4 mt-8">
         <img

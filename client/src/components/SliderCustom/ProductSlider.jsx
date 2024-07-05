@@ -10,7 +10,7 @@ function Product({ data, isNew, normal }) {
   const [isShowOption, setShowOption] = useState(false);
 
   return (
-    <div className="w-full text-base  pr-5 px-10">
+    <div className="w-full text-base mx-auto  pr-5 px-10">
       <Link
         className="w-full border  p-[15px] flex flex-col items-center cursor-pointer"
         onMouseEnter={(e) => {

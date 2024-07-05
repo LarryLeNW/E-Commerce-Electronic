@@ -2,17 +2,7 @@ import Slider from "react-slick";
 import { memo } from "react";
 import Product from "./ProductSlider";
 
-var settings = {
-  dots: true,
-  infinite: true,
-  slidesToShow: 3,
-  slidesToScroll: 2,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  pauseOnHover: true,
-};
-
-function SliderCustom({ products, activedTab, normal }) {
+function SliderCustom({ products, activedTab, normal, settings }) {
   return (
     <>
       {products && (

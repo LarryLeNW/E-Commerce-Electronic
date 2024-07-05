@@ -18,10 +18,12 @@ import {
 } from "../pages/public";
 import path from "../utils/path";
 import Dashboard from "pages/private/DashBoard";
+import Modal from "components/Modal";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { modal } = useSelector((state) => state.common);
 
   useEffect(() => {
     dispatch(
@@ -53,6 +55,7 @@ function App() {
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>
+      {modal.isShow && <Modal>{modal.children} </Modal>}
     </div>
   );
 }

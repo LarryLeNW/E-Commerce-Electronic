@@ -13,3 +13,11 @@ export const getProduct = (id) => {
     method: "get",
   });
 };
+
+export const ratings = (data) => {
+  return axios({
+    url: "/product/ratings/",
+    method: "put",
+    data,
+  });
+};
