@@ -47,13 +47,6 @@ var productSchema = new mongoose.Schema(
     color: {
       type: String,
     },
-    ratings: [
-      {
-        star: { type: Number },
-        postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
-        comment: { type: String },
-      },
-    ],
     totalRatings: {
       type: Number,
       default: 0,

@@ -1,8 +1,8 @@
 const { default: slugify } = require("slugify");
-const productData = require("../config/products.json");
-const productCate_Brand = require("../config/categories.json");
-const Product = require("../models/product.model");
-const Category = require("../models/productCategory.model");
+const productData = require("./data/products.json");
+const productCate_Brand = require("./data/categories.json");
+const Product = require("../../models/product.model");
+const Category = require("../../models/productCategory.model");
 
 const fn = async (product) => {
   await Product.create({
@@ -17,7 +17,7 @@ const fn = async (product) => {
     images: product?.images,
     thumb: product?.thumb,
     color: product?.variants?.find((el) => el.label === "Color")?.variants[0],
-    totalRatings: Math.round(Math.random() * 5),
+    totalRatings: 0,
   });
 };
 

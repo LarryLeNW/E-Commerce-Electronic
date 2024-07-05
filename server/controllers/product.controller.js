@@ -11,12 +11,13 @@ const createProduct = asyncHandler(async (req, res) => {
     createdProduct: newProduct ? newProduct : "Cannot create new product",
   });
 });
+
 const getProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
   const product = await Product.findById(pid);
   return res.status(200).json({
     success: product ? true : false,
-    productData: product ? product : "Cannot get product",
+    data: product ? product : "Cannot get product",
   });
 });
 
@@ -34,6 +35,16 @@ const getProducts = asyncHandler(async (req, res) => {
   // filtering
   if (queries?.title)
     formattedQueries.title = { $regex: queries.title, $options: "i" };
+  if (queries?.category)
+    formattedQueries.category = { $regex: queries.category, $options: "i" };
+  if (queries?.color) {
+    delete formattedQueries.color;
+    const colorArr = queries?.color?.split(",");
+    const colorQuery = colorArr.map((el) => ({
+      color: { $regex: el, $options: "i" },
+    }));
+    formattedQueries["$or"] = colorQuery;
+  }
 
   const productsQuery = Product.find(formattedQueries);
 
@@ -93,44 +104,32 @@ const ratings = asyncHandler(async (req, res) => {
 
   if (!star || !pid) throw new Error("Missing inputs");
 
-  // if exit update rating
-  const result = await Product.findOneAndUpdate(
-    {
-      _id: pid,
-      "ratings.postedBy": _id,
-    },
-    {
-      $set: { "ratings.$.star": star, "ratings.$.comment": comment },
-    },
-    { new: true, upsert: true, runValidators: true }
-  );
+  const product = await Product.findById(pid);
 
-  // if not exit add new rating
-  if (!result) {
-    await Product.findByIdAndUpdate(
-      pid,
-      {
-        $addToSet: { ratings: { star, comment, postedBy: _id } },
-      },
-      { new: true, upsert: true }
-    );
+  if (!product) {
+    throw new Error("Product not found");
   }
 
-  // SUM total rating
-  const updatedProduct = await Product.findById(pid).select("ratings");
-  const ratingCounts = updatedProduct.ratings.length;
-  const sumRatings = updatedProduct.ratings.reduce(
-    (sum, el) => (sum += +el.star),
-    0
+  const index = product.ratings.findIndex((rating) =>
+    rating.postedBy.equals(_id)
   );
 
-  updatedProduct.totalRatings =
-    Math.round((sumRatings * 10) / ratingCounts) / 10;
+  if (index !== -1) {
+    product.ratings[index].star = star;
+    product.ratings[index].comment = comment;
+  } else {
+    product.ratings.push({ star, comment, postedBy: _id });
+  }
 
-  await updatedProduct.save();
+  const ratingCounts = product.ratings.length;
+  const sumRatings = product.ratings.reduce((sum, el) => sum + el.star, 0);
+  product.totalRatings = Math.round((sumRatings * 10) / ratingCounts) / 10;
+
+  await product.save();
 
   return res.status(200).json({
     status: true,
+    data: product.ratings,
   });
 });
 

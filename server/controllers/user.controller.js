@@ -81,7 +81,6 @@ const login = asyncHandler(async (req, res) => {
     const { password, refreshToken, ...userData } = response.toObject();
 
     const accessToken = generateAccessToken(response._id, userData.role);
-    console.log("🚀 ~ login ~ accessToken:", accessToken);
 
     const newRefreshToken = generateRefreshToken(response._id);
     // Lưu refresh token vào database
@@ -90,6 +89,7 @@ const login = asyncHandler(async (req, res) => {
       { refreshToken: newRefreshToken },
       { new: true }
     );
+
     // Lưu refresh token vào cookie
     res.cookie("refreshToken", accessToken, {
       httpOnly: false,

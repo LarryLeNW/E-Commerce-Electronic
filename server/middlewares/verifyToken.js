@@ -10,16 +10,16 @@ const verifyAccessToken = asyncHandler(async (req, res, next) => {
       if (err)
         return res.status(401).json({
           success: false,
-          mes: "Invalid access token",
+          message: "Invalid access token",
         });
       req.user = decode;
-      console.log("🚀 ~ jwt.verify ~ decode:", decode);
+      console.log("🚀 ~ jwt.verify ~ req.user:", req.user);
       next();
     });
   } else {
     return res.status(401).json({
       success: false,
-      mes: "Require authentication!!!",
+      message: "Require authentication!!!",
     });
   }
 });
@@ -29,7 +29,7 @@ const isAdmin = asyncHandler((req, res, next) => {
   if (role !== "admin")
     return res.status(401).json({
       success: false,
-      mes: " REQUIRE ADMIN ROLE",
+      message: " REQUIRE ADMIN ROLE",
     });
   next();
 });

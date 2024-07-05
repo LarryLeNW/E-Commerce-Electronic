@@ -7,7 +7,7 @@ const cors = require("cors");
 const {
   insertDataProductTest,
   insertDataBrandCategoryTest,
-} = require("./ultils/insertData");
+} = require("./ultils/generateData/insertData");
 
 const app = express();
 app.use(
@@ -22,7 +22,6 @@ app.use(cookieParser());
 const port = process.env.PORT || 8888;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 dbConnect();
 initRoutes(app);
 app.listen(port, () => {
