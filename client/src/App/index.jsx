@@ -1,7 +1,7 @@
 import { ROLE } from "constant/roleUser";
-import PrivatePage from "pages/private/Private";
-import DetailProduct from "pages/public/DetailProduct";
-import ForgotPassword from "pages/public/ForgotPassword";
+import AdminLayout from "layout/AdminLayout";
+import DetailProduct from "pages/user/DetailProduct";
+import ForgotPassword from "pages/user/ForgotPassword";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -13,12 +13,15 @@ import {
   HomePage,
   ListProductPage,
   LoginPage,
-  PublicPage,
   ServicePage,
-} from "../pages/public";
+} from "../pages/user";
+import UserLayout from "layout/UserLayout";
 import path from "../utils/path";
-import Dashboard from "pages/private/DashBoard";
+import Dashboard from "pages/admin/DashBoard";
 import Modal from "components/Modal";
+import OrderManager from "pages/admin/OrderManager";
+import ProductManager from "pages/admin/ProductManager";
+import UserManager from "pages/admin/UserManager";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,7 +41,7 @@ function App() {
   return (
     <div className="min-h-screen font-main">
       <Routes>
-        <Route element={<PublicPage />}>
+        <Route element={<UserLayout />}>
           <Route index element={<HomePage />} />
           <Route path={path.BLOGS} element={<BlogPage />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
@@ -47,8 +50,17 @@ function App() {
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
         </Route>
 
-        <Route element={<PrivatePage />}>
+        <Route element={<AdminLayout />}>
           <Route path={path.ADMIN.HOME} element={<Dashboard />} />
+          <Route
+            path={path.ADMIN.ORDER_MANAGEMENT}
+            element={<OrderManager />}
+          />
+          <Route
+            path={path.ADMIN.PRODUCT_MANAGEMENT}
+            element={<ProductManager />}
+          />
+          <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
         </Route>
 
         <Route path={path.LOGIN} element={<LoginPage />} />
