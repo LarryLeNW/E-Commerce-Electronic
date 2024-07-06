@@ -21,22 +21,45 @@ const getProduct = asyncHandler(async (req, res) => {
   });
 });
 
+const convertToPriceQueryMongo = (from, to) => {
+  if (from && to) {
+    return {
+      $and: [{ price: { $gte: from } }, { price: { $lte: to } }],
+    };
+  }
+  if (from) return { price: { $gte: from } };
+  if (to) return { price: { $lte: to } };
+  return null;
+};
+
 const getProducts = asyncHandler(async (req, res) => {
   const queries = { ...req.query };
 
-  const excludeFields = ["limit", "sort", "page", "fields"];
+  const excludeFields = [
+    "limit",
+    "sort",
+    "page",
+    "fields",
+    "title",
+    "keyword",
+    "priceFrom",
+    "priceTo",
+  ];
+
   excludeFields.forEach((el) => delete queries[el]);
 
   // format operators for mongoose syntax
   let queryString = JSON.stringify(queries);
   queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
-  const formattedQueries = JSON.parse(queryString);
+  let formattedQueries = JSON.parse(queryString);
 
   // filtering
-  if (queries?.title)
-    formattedQueries.title = { $regex: queries.title, $options: "i" };
+  if (req.query?.keyword)
+    formattedQueries.title = { $regex: req.query.keyword, $options: "i" };
+
   if (queries?.category)
     formattedQueries.category = { $regex: queries.category, $options: "i" };
+
   if (queries?.color) {
     delete formattedQueries.color;
     const colorArr = queries?.color?.split(",");
@@ -45,6 +68,13 @@ const getProducts = asyncHandler(async (req, res) => {
     }));
     formattedQueries["$or"] = colorQuery;
   }
+
+  const priceQuery = convertToPriceQueryMongo(
+    req.query?.priceFrom,
+    req.query?.priceTo
+  );
+
+  if (priceQuery) formattedQueries = { ...formattedQueries, ...priceQuery };
 
   const productsQuery = Product.find(formattedQueries);
 

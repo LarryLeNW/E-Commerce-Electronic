@@ -108,7 +108,6 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  console.log("🚀 ~ getCurrent ~ req.user:", req.user);
   const user = await User.findById(_id).select("-refreshToken -password ");
   return res.status(200).json({
     success: user ? true : false,
@@ -161,7 +160,6 @@ const logout = asyncHandler(async (req, res) => {
 
 const requestForgotPw = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  console.log("🚀 ~ forgotPassword ~ req.body:", req.body);
   if (!email) throw new Error("Missing email");
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");

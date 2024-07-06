@@ -13,7 +13,6 @@ const verifyAccessToken = asyncHandler(async (req, res, next) => {
           message: "Invalid access token",
         });
       req.user = decode;
-      console.log("🚀 ~ jwt.verify ~ req.user:", req.user);
       next();
     });
   } else {

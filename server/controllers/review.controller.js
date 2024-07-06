@@ -23,34 +23,27 @@ const arrangeStarProduct = async (productId) => {
 const createReview = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { productId, star, comment } = req.body;
-  console.log("🚀 ~ createReview ~ productId:", productId);
+
   if (!productId || (!star && !comment)) {
     throw new Error("Missing inputs");
   }
+
   const productFound = await Product.findById(productId);
   if (!productFound) throw new Error("Product not found");
 
-  const productCreated = await Review.updateOne(
-    {
-      postedBy: _id,
-      productId,
-    },
-    {
-      $set: {
-        postedBy: _id,
-        productId,
-        star,
-        comment,
-      },
-    },
+  let review = await Review.findOneAndUpdate(
+    { postedBy: _id, productId },
+    { $set: { postedBy: _id, productId, star, comment } },
     { new: true, upsert: true }
-  );
+  )
+    .populate("postedBy", "firstname lastname avatar")
+    .exec();
 
   await arrangeStarProduct(productId);
 
   res.status(200).json({
     success: true,
-    upsert: productCreated,
+    review,
   });
 });
 

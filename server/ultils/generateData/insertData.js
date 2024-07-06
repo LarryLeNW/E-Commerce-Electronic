@@ -27,9 +27,7 @@ const insertDataProductTest = async () => {
     for (let p of productData) promises.push(fn(p));
     await Promise.all(promises);
     console.log("done insert data product");
-  } catch (error) {
-    console.log("🚀 ~ insertDataProductTest ~ error:", error);
-  }
+  } catch (error) {}
 };
 
 const fn2 = async (item) => {
@@ -46,9 +44,7 @@ const insertDataBrandCategoryTest = async () => {
     for (let cate of productCate_Brand) promises.push(fn2(cate));
     await Promise.all(promises);
     console.log("done insert data category");
-  } catch (error) {
-    console.log("🚀 ~ insertDataBrandCategoryTest ~ error:", error);
-  }
+  } catch (error) {}
 };
 
 module.exports = {
