@@ -6,10 +6,12 @@ import { getCategoriesRequest } from "redux/slicers/category.slicer";
 import path from "utils/path";
 import QueryString from "qs";
 import ICONS from "utils/icons";
+import { setFilterParams } from "redux/slicers/common.slicer";
 
 function Sidebar() {
   const dispatch = useDispatch();
   const { data: categories, loading } = useSelector((state) => state.category);
+  const { filterParams } = useSelector((state) => state.common);
 
   useEffect(() => {
     dispatch(getCategoriesRequest());
@@ -22,17 +24,31 @@ function Sidebar() {
         <span> DANH SÁCH DANH MỤC</span>
       </div>
 
-      {categories.map((el, index) => (
+      {categories.map((cate, index) => (
         <NavLink
           key={index}
-          to={generatePath(path.PRODUCTS, { category: convertSlug(el.title) })}
+          onClick={() =>
+            dispatch(
+              setFilterParams({
+                ...filterParams,
+                category: cate.title,
+              })
+            )
+          }
+          to={{
+            pathname: path.PRODUCTS,
+            search: QueryString.stringify({
+              ...filterParams,
+              category: cate.title,
+            }),
+          }}
           className={({ isActive }) =>
             `px-5 pt-[15px] pb-[14px] text-sm hover:bg-main hover:text-white border  ${
               isActive && "bg-main text-white"
             }`
           }
         >
-          {el?.title}
+          {cate?.title}
         </NavLink>
       ))}
     </div>

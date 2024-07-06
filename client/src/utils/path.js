@@ -5,7 +5,7 @@ const path = {
   LOGIN: "/login",
   FORGOT_PASSWORD: "/forgot-password/:type",
   CONFIRM_REGISTER: "/confirm-register/:status",
-  PRODUCTS: "/:category",
+  PRODUCTS: "/products",
   OUR_SERVICES: "/services",
   FAQ: "/faqs",
   BLOGS: "/blogs",

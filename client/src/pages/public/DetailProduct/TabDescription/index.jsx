@@ -1,5 +1,5 @@
 import { DescriptionProductTabs } from "constant";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import VoteBar from "./VoteBar";
 import { renderStars } from "utils/helper";
 import Button from "components/Button";
@@ -10,14 +10,19 @@ import Swal from "sweetalert2";
 import path from "utils/path";
 import { useNavigate } from "react-router-dom";
 import Comment from "./Comment";
-
+import { getRatingsRequest } from "redux/slicers/review.slicer";
 const activeTabStyle = "bg-white border border-b-0";
 
 function TabDescription({ ratings, totalRatings, product }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { ratingsProduct } = useSelector((state) => state.review);
   const [activeTab, setActiveTab] = useState(0);
   const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getRatingsRequest({ productId: product._id }));
+  }, [product]);
 
   const openVote = () => {
     if (userInfo.data) {
@@ -67,7 +72,7 @@ function TabDescription({ ratings, totalRatings, product }) {
               ))}
             </div>
             <div className="text-blue-900">
-              Tổng {ratings?.length} đánh giá{" "}
+              Tổng {ratingsProduct?.data?.length} đánh giá{" "}
             </div>
           </div>
           <div className="flex-5  flex flex-col p-4">
@@ -77,9 +82,10 @@ function TabDescription({ ratings, totalRatings, product }) {
                 <VoteBar
                   key={el}
                   number={el + 1}
-                  ratingTotal={ratings?.length}
+                  ratingTotal={ratingsProduct?.data?.length}
                   ratingCount={
-                    ratings?.filter((i) => i.star === el + 1)?.length
+                    ratingsProduct?.data?.filter((i) => i.star === el + 1)
+                      ?.length
                   }
                 />
               ))}
@@ -93,13 +99,9 @@ function TabDescription({ ratings, totalRatings, product }) {
             handleClick={openVote}
           ></Button>
         </div>
-        <div>
-          {product?.ratings?.map((el) => (
-            <>
-              <Comment />
-              <Comment />
-              <Comment />
-            </>
+        <div className="max-h-96 overflow-auto">
+          {ratingsProduct?.data?.map((el) => (
+            <Comment key={el?._id} data={el} />
           ))}
         </div>
       </div>

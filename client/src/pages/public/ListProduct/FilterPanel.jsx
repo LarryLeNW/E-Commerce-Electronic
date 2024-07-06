@@ -1,37 +1,23 @@
 import useDebounce from "hooks/useDebounce";
-import QueryString from "qs";
 import { memo, useEffect, useState } from "react";
-import { generatePath, useNavigate, useParams } from "react-router-dom";
-import path from "utils/path";
 
-function FilterPanel({ filterParams }) {
-  console.log("🚀 ~ FilterPanel ~ filterParams:", filterParams);
-  const navigate = useNavigate();
-
-  // Convert filterParams.from and filterParams.to to numbers
-  const initialFrom = +filterParams.from || 0;
-  const initialTo = +filterParams.to || 0;
-
+function FilterPanel({ handleFilter }) {
   const [priceSearch, setPriceSearch] = useState({
-    from: initialFrom,
-    to: initialTo,
+    from: 0,
+    to: 0,
   });
 
-  const { category } = useParams();
-  const priceFromDebounce = useDebounce(priceSearch, 600);
+  const priceFromDebounce = useDebounce(priceSearch.from, 300);
+  const priceToDebounce = useDebounce(priceSearch.to, 300);
 
   useEffect(() => {
-    const searchPriceParams = {};
-    if (Number(priceSearch.from) > 0) searchPriceParams.from = priceSearch.from;
-    if (Number(priceSearch.to) > 0) searchPriceParams.to = priceSearch.to;
-    navigate({
-      pathname: generatePath(path.PRODUCTS, { category }),
-      search: QueryString.stringify({
-        ...filterParams,
-        ...searchPriceParams,
-      }),
-    });
+    if (Number(priceSearch.from) > 0)
+      handleFilter("priceFrom", priceSearch.from);
   }, [priceFromDebounce]);
+
+  useEffect(() => {
+    if (Number(priceSearch.to) > 0) handleFilter("priceTo", priceSearch.to);
+  }, [priceToDebounce]);
 
   return (
     <div className="w-full p-1">
@@ -49,7 +35,7 @@ function FilterPanel({ filterParams }) {
               onChange={(e) =>
                 setPriceSearch((prev) => ({
                   ...prev,
-                  from: +e.target.value || 0,
+                  from: +e.target.value,
                 }))
               }
             />
@@ -61,7 +47,7 @@ function FilterPanel({ filterParams }) {
               onChange={(e) =>
                 setPriceSearch((prev) => ({
                   ...prev,
-                  to: +e.target.value || 0,
+                  to: +e.target.value,
                 }))
               }
             />

@@ -4,11 +4,11 @@ import {
   getProductDetailRequest,
   getProductDetailSuccess,
   getProductDetailFailure,
-  ratingProductRequest,
-  ratingProductSuccess,
-  ratingProductFailure,
+  getProductListRequest,
+  getProductListSuccess,
+  getProductListFailure,
 } from "redux/slicers/product.slicer";
-import { getProduct, ratings } from "apis/product";
+import { getProduct, getProducts, getReview, ratings } from "apis/product";
 
 function* getProductDetailSaga(action) {
   try {
@@ -20,19 +20,30 @@ function* getProductDetailSaga(action) {
   }
 }
 
-function* ratingProducts(action) {
-  const { data, onSuccess, onFailure } = action.payload;
+function* getProductListSaga(action) {
   try {
-    const result = yield ratings(data);
-    yield put(ratingProductSuccess({ data: result.data }));
-    yield onSuccess();
+    const { more, ...params } = action.payload;
+
+    const result = yield getProducts(params);
+    if (result.success)
+      yield put(
+        getProductListSuccess({
+          data: result.data,
+          meta: {
+            page: params.page,
+            limit: params.limit,
+            totalProduct: result.counts,
+            totalPage: Math.ceil(result.counts / params.limit),
+          },
+          more: more,
+        })
+      );
   } catch (e) {
-    yield onFailure(e);
-    yield put(ratingProductFailure("Đã có lỗi xảy ra!"));
+    yield put(getProductListFailure("Đã có lỗi xảy ra!"));
   }
 }
 
 export default function* productSaga() {
+  yield takeEvery(getProductListRequest.type, getProductListSaga);
   yield takeEvery(getProductDetailRequest.type, getProductDetailSaga);
-  yield takeEvery(ratingProductRequest.type, ratingProducts);
 }

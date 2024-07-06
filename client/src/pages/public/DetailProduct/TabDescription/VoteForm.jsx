@@ -4,7 +4,7 @@ import ICONS from "utils/icons";
 import Button from "components/Button";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
-import { ratingProductRequest } from "redux/slicers/product.slicer";
+import { ratingProductRequest } from "redux/slicers/review.slicer";
 
 const voteOptions = [
   { id: 1, text: "Terrible" },
@@ -26,7 +26,7 @@ function VoteForm({ product }) {
     }
     dispatch(
       ratingProductRequest({
-        data: { star, comment, pid: product._id },
+        data: { star, comment, productId: product._id },
         onSuccess: () =>
           Swal.fire(
             "Đánh giá Form",

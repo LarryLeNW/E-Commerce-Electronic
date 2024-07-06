@@ -16,8 +16,16 @@ export const getProduct = (id) => {
 
 export const ratings = (data) => {
   return axios({
-    url: "/product/ratings/",
+    url: "/review/",
     method: "put",
     data,
+  });
+};
+
+export const getReview = (params) => {
+  return axios({
+    url: "/review",
+    method: "get",
+    params,
   });
 };

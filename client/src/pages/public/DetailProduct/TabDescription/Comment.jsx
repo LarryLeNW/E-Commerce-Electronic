@@ -6,31 +6,33 @@ function Comment({ data }) {
     <div className="flex gap-4 p-2">
       <div className="flex-none">
         <img
-          src={AvatarDefault}
-          alt=""
+          src={data?.postedBy?.avatar || AvatarDefault}
+          alt="avatar"
           className="w-[80px] h-[80px] object-cover rounded-full"
         />
       </div>
-      <div className="flex flex-col flex-auto">
+      <div className="flex flex-col flex-auto gap-2">
         <div className="flex justify-between items-center">
-          <h3>name</h3>
-          <span className="text-gray-400">{Date.now()}</span>
+          <h3>{data?.postedBy?.firstname}</h3>
+          <span className="text-gray-400">{data?.updatedAt}</span>
         </div>
         <div className="text-sm bg-gray-200 p-2 rounded">
-          <span className="flex items-center gap-2">
-            <span className="font-semibold">Đánh giá:</span>
-            <span className="flex justify-center gap-1">
-              {renderStars(5).map((el, index) => (
-                <span key={index}>{el}</span>
-              ))}
+          {data?.star && (
+            <span className="flex items-center gap-2">
+              <span className="font-semibold">Đánh giá:</span>
+              <span className="flex justify-center gap-1">
+                {renderStars(data?.star).map((el, index) => (
+                  <span key={index}>{el}</span>
+                ))}
+              </span>
             </span>
-          </span>
-          <span>
-            <span className="font-semibold">Bình luận</span>
-            <span className="flex items-center gap-1">
-              GOoofsdfjsklfdslkdfjlksdfflsdjfls ádasdasdádlkajsdlkasjlkjlk
+          )}
+          {data?.comment && (
+            <span>
+              <span className="font-semibold">Bình luận</span>
+              <span className="flex items-center gap-1">{data?.comment}</span>
             </span>
-          </span>
+          )}
         </div>
       </div>
     </div>

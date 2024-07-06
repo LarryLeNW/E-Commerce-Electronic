@@ -6,7 +6,9 @@ const initialState = {
     loading: false,
     error: null,
   },
-  review: {
+  productList: {
+    data: [],
+    meta: {},
     loading: false,
     error: null,
   },
@@ -30,19 +32,22 @@ export const productSlicer = createSlice({
       state.productDetail.loading = false;
       state.productDetail.error = error;
     },
-    ratingProductRequest: (state, action) => {
-      state.review.loading = true;
-      state.review.error = null;
+    getProductListRequest: (state, action) => {
+      state.productList.loading = true;
+      state.productList.error = null;
     },
-    ratingProductSuccess: (state, action) => {
-      const { data } = action.payload;
-      state.productDetail.data.ratings = data;
-      state.review.loading = false;
+    getProductListSuccess: (state, action) => {
+      const { data, meta, more } = action.payload;
+      state.productList.loading = false;
+      state.productList.meta = meta;
+      state.productList.data = more
+        ? [...state.productList.data, ...data]
+        : data;
     },
-    ratingProductFailure: (state, action) => {
+    getProductListFailure: (state, action) => {
       const { error } = action.payload;
-      state.review.loading = false;
-      state.review.error = error;
+      state.productList.loading = false;
+      state.productList.error = error;
     },
   },
 });
@@ -51,9 +56,9 @@ export const {
   getProductDetailRequest,
   getProductDetailSuccess,
   getProductDetailFailure,
-  ratingProductRequest,
-  ratingProductSuccess,
-  ratingProductFailure,
+  getProductListRequest,
+  getProductListSuccess,
+  getProductListFailure,
 } = productSlicer.actions;
 
 export default productSlicer.reducer;

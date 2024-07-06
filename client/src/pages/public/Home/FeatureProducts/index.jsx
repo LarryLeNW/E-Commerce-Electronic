@@ -4,7 +4,6 @@ import ProductCard from "./ProductCard";
 
 function FeatureProducts() {
   const [featureProducts, setFeatureProducts] = useState([]);
-  console.log("🚀 ~ FeatureProducts ~ featureProducts:", featureProducts);
 
   const fetchProducts = async () => {
     const response = await getProducts({

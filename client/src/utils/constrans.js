@@ -2,14 +2,9 @@ import path from "./path";
 
 export const navigations = [
   {
-    id: 5,
+    id: 1,
     value: "HOME",
     path: `${path.HOME}`,
-  },
-  {
-    id: 1,
-    value: "PRODUCTS",
-    path: `${path.PRODUCTS}`,
   },
   {
     id: 2,

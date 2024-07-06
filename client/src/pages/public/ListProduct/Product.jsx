@@ -7,7 +7,7 @@ import path from "utils/path";
 
 function Product({ data, isNew, normal }) {
   return (
-    <div className="w-full border  text-base">
+    <div className="w-full  text-base">
       <Link
         className="w-full border f p-[15px] flex flex-col  justify-center cursor-pointer"
         to={generatePath(path.DETAIL_PRODUCT, {
