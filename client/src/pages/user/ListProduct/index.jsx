@@ -172,7 +172,7 @@ function ListProduct() {
             name={"Hiển thị thêm"}
           />
           <Pagination
-            totalProduct={productList.meta.totalProduct}
+            totalCount={productList.meta.totalProduct}
             currentPage={productList.meta.page}
             handleChangePage={handleChangePage}
           />

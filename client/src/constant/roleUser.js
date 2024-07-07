@@ -1,5 +1,5 @@
 export const ROLE = {
-  ADMIN: "admin",
-  USER: "user",
-  EMPLOYEE: "employee",
+  CUSTOMER: "1219123123390",
+  ADMIN: "9120938109233",
+  EMPLOYEE: "212038109238",
 };

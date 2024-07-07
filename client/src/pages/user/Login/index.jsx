@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "redux/slicers/auth.slicer";
 import { validateForm } from "utils/helper";
 import InputField from "components/InputField";
+import { ROLE } from "constant/roleUser";
 
 function Login() {
   const dispatch = useDispatch();
@@ -30,28 +31,26 @@ function Login() {
   const [payload, setPayload] = useState({
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    username: "",
   });
 
   const resetPayload = () => {
     setPayload({
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
+      username: "",
     });
   };
 
   useEffect(() => {
-    const { lastname, firstname, ...dataLogin } = payload;
+    const { username, ...dataLogin } = payload;
     isRegister
       ? validateForm(payload, setInValidFields)
       : validateForm(dataLogin, setInValidFields);
   }, [payload, isRegister]);
 
   const handleSubmit = useCallback(async () => {
-    const { lastname, firstname, ...dataLogin } = payload;
+    const { username, ...dataLogin } = payload;
     if (isRegister) {
       setIsLoadingRegister(true);
       try {
@@ -69,10 +68,6 @@ function Login() {
     dispatch(
       loginRequest({
         dataLogin,
-        callback: () => {
-          Swal.fire("Congratulation!", "Login successfully...", "success");
-          navigate(path.HOME);
-        },
       })
     );
   }, [payload, isRegister]);
@@ -92,14 +87,8 @@ function Login() {
         {isRegister && (
           <>
             <InputField
-              value={payload.firstname}
-              nameKey={"firstname"}
-              setValue={setPayload}
-              inValidFields={inValidFields}
-            />
-            <InputField
-              value={payload.lastname}
-              nameKey={"lastname"}
+              value={payload.username}
+              nameKey={"username"}
               setValue={setPayload}
               inValidFields={inValidFields}
             />

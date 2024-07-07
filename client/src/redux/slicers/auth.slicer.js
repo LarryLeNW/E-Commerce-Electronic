@@ -22,7 +22,7 @@ export const authSlicer = createSlice({
       state.loginData.error = null;
     },
     loginSuccess: (state, action) => {
-      const data = action.payload;
+      const { data } = action.payload;
       state.loginData.loading = false;
       state.userInfo.data = data;
     },
@@ -36,7 +36,7 @@ export const authSlicer = createSlice({
       state.userInfo.error = null;
     },
     getUserInfoSuccess: (state, action) => {
-      const data = action.payload;
+      const { data } = action.payload;
       state.userInfo.data = data;
       state.userInfo.loading = false;
     },

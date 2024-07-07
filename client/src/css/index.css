@@ -83,51 +83,21 @@ html{
 } 
 
 
-
-@import url('https://cdn.syncfusion.com/ej2/material.css');
-
-.sidebar {
-  box-shadow: rgb(113 122 131 / 11%) 0px 7px 30px 0px;
-}
-.nav-item,
-.navbar {
-  z-index: 10000;
-}
-@media  screen and (max-width:800px) {
-  .sidebar{
-    z-index: 10000000;
-  }
+.hover-row {
+  /* border: 1px solid #718096; */
+  transition: all 0.7s ease-in-out;
 }
 
-.e-dlg-center-center, .e-quick-popup-wrapper.e-device{
-  z-index: 1000000 !important;
+.hover-row:hover {
+  z-index: 10;
+  transform: scale(1.05);
+  background-color: #2d3748;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgb(216, 216, 216);
-  border-radius: 40px;
-}
-::-webkit-scrollbar-track {
-  background-color: transparent;
+.hover-row:hover td {
+  color : rgb(239, 167, 43);
+  font-weight: bold;
 }
 
-/* color-picker style  */
 
- #preview {
-  background: transparent
-    url('https://ej2.syncfusion.com/react/demos/src/color-picker/images/pen.png')
-    no-repeat;
-  display: inline-block;
-  height: 80px;
-  margin: 10px 0;
-  min-width: 300px;
-  max-width: 600px;
-  background-color: #008000;
-}
 
-.e-input-group:not(.e-float-icon-left), .e-input-group.e-success:not(.e-float-icon-left), .e-input-group.e-warning:not(.e-float-icon-left), .e-input-group.e-error:not(.e-float-icon-left), .e-input-group.e-control-wrapper:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-success:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-warning:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left){
-  border: none;
-}

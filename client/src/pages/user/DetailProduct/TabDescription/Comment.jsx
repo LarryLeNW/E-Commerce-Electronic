@@ -13,7 +13,7 @@ function Comment({ data }) {
       </div>
       <div className="flex flex-col flex-auto gap-2">
         <div className="flex justify-between items-center">
-          <h3>{data?.postedBy?.firstname}</h3>
+          <h3>{data?.postedBy?.username}</h3>
           <span className="text-gray-400">{data?.updatedAt}</span>
         </div>
         <div className="text-sm bg-gray-200 p-2 rounded">

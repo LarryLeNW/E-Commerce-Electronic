@@ -1,4 +1,5 @@
 import ICONS from "utils/icons";
+import path from "utils/path";
 
 // for ProductDetail page
 export const ProductExtraInformation = [
@@ -60,5 +61,47 @@ export const DescriptionProductTabs = [
     id: 4,
     name: "CUSTOMER REVIEW",
     content: "content CUSTOMER REVIEW",
+  },
+];
+
+export const MenuAdminSidebar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Dashboard",
+    path: path.ADMIN.HOME,
+    icon: <ICONS.AiFillDashboard />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "User Management",
+    path: path.ADMIN.USER_MANAGEMENT,
+    icon: <ICONS.FaUsersGear />,
+  },
+  {
+    id: 3,
+    type: "PARENT",
+    text: "Product Management",
+    icon: <ICONS.AiFillProduct />,
+    submenu: [
+      {
+        id: 1,
+        text: "Create Product",
+        path: path.ADMIN.CREATE_PRODUCT,
+      },
+      {
+        id: 2,
+        text: "Product Management",
+        path: path.ADMIN.PRODUCT_MANAGEMENT,
+      },
+    ],
+  },
+  {
+    id: 4,
+    type: "SINGLE",
+    text: "Order Management",
+    path: path.ADMIN.ORDER_MANAGEMENT,
+    icon: <ICONS.TbPackages />,
   },
 ];

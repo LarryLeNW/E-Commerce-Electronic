@@ -11,10 +11,11 @@ const path = {
   BLOGS: "/blogs",
   DETAIL_PRODUCT: "/:category/:id/:title",
   ADMIN: {
-    HOME: "/admin",
+    HOME: "/admin/dashboard",
     USER_MANAGEMENT: "/admin/user-management",
     ORDER_MANAGEMENT: "/admin/order-management",
     PRODUCT_MANAGEMENT: "/admin/product-management",
+    CREATE_PRODUCT: "/admin/create-product",
   },
 };
 

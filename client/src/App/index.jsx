@@ -22,21 +22,26 @@ import Modal from "components/Modal";
 import OrderManager from "pages/admin/OrderManager";
 import ProductManager from "pages/admin/ProductManager";
 import UserManager from "pages/admin/UserManager";
+import CreateProduct from "pages/admin/CreateProduct";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { modal } = useSelector((state) => state.common);
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log("🚀 ~ App ~ userInfo:", userInfo.data);
 
   useEffect(() => {
-    dispatch(
-      getUserInfoRequest({
-        callback: (role) => {
-          if (role === ROLE.ADMIN) navigate(path.ADMIN.HOME);
-        },
-      })
-    );
+    dispatch(getUserInfoRequest());
   }, []);
+
+  useEffect(() => {
+    if (!!userInfo?.data && userInfo.data.role === ROLE.ADMIN) {
+      navigate(path.ADMIN.HOME);
+      return;
+    }
+    navigate(path.HOME);
+  }, [userInfo.data?.role]);
 
   return (
     <div className="min-h-screen font-main">
@@ -60,6 +65,7 @@ function App() {
             path={path.ADMIN.PRODUCT_MANAGEMENT}
             element={<ProductManager />}
           />
+          <Route path={path.ADMIN.CREATE_PRODUCT} element={<CreateProduct />} />
           <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
         </Route>
 

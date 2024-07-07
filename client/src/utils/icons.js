@@ -1,5 +1,9 @@
 import { RiPhoneFill, RiTruckFill } from "react-icons/ri";
-import { IoMdMail } from "react-icons/io";
+import {
+  IoIosArrowDropdown,
+  IoIosArrowDropright,
+  IoMdMail,
+} from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
 import { FaTty, FaUserCircle } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
@@ -11,7 +15,9 @@ import {
   AiOutlineLoading3Quarters,
   AiOutlineMenu,
   AiFillGift,
+  AiFillDashboard,
 } from "react-icons/ai";
+import { RiLogoutBoxLine } from "react-icons/ri";
 
 import { IoMdArrowRoundForward } from "react-icons/io";
 import {
@@ -19,6 +25,9 @@ import {
   BsReplyFill,
   BsShieldShaded,
 } from "react-icons/bs";
+import { FaUsersGear } from "react-icons/fa6";
+import { AiFillProduct } from "react-icons/ai";
+import { TbPackages } from "react-icons/tb";
 
 const ICONS = {
   RiPhoneFill,
@@ -39,6 +48,13 @@ const ICONS = {
   AiFillGift,
   BsReplyFill,
   FaTty,
+  RiLogoutBoxLine,
+  AiFillDashboard,
+  FaUsersGear,
+  AiFillProduct,
+  TbPackages,
+  IoIosArrowDropdown,
+  IoIosArrowDropright,
 };
 
 export default ICONS;

@@ -11,21 +11,19 @@ import { getUserInfo, login } from "apis";
 
 function* loginSaga(action) {
   try {
-    const { dataLogin, callback } = action.payload;
+    const { dataLogin } = action.payload;
     let response = yield login(dataLogin);
-    yield put(loginSuccess(response.data));
-    yield callback();
+    yield put(loginSuccess(response));
   } catch (error) {
     yield put(loginFailure({ error }));
   }
 }
 
-function* getUserInfoSaga(action) {
+function* getUserInfoSaga() {
   try {
-    const { callback } = action.payload;
     let response = yield getUserInfo();
-    yield put(getUserInfoSuccess(response.data));
-    yield callback(response.data.role);
+    console.log("🚀 ~ function*getUserInfoSaga ~ response:", response);
+    yield put(getUserInfoSuccess(response));
   } catch (error) {
     yield put(getUserInfoFailure({ error }));
   }
