@@ -15,7 +15,7 @@ function AdminLayout() {
         <AdminSideBar />
       </div>
       <div className="w-[327px]"></div>
-      <div className="flex-auto">
+      <div className="flex-auto ">
         <Outlet />
       </div>
     </div>

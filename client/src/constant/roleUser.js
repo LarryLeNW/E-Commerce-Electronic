@@ -3,3 +3,8 @@ export const ROLE = {
   ADMIN: "9120938109233",
   EMPLOYEE: "212038109238",
 };
+
+let usercheck = {
+  email: "user@example.com",
+  role: "9120938109233",
+};

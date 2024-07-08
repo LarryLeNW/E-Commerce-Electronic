@@ -1,3 +1,4 @@
+import { ROLE } from "constant/roleUser";
 import ICONS from "./icons";
 
 let MaxStar = 5;
@@ -138,4 +139,10 @@ export const validateForm = (payload, setInValidFields) => {
 export const generateRange = (start, end) => {
   const length = end + 1 - start;
   return Array.from({ length }, (_, i) => start + i);
+};
+
+export const convertCodeRoleToName = (code) => {
+  return (
+    Object.keys(ROLE).find((key) => ROLE[key] === code) || "Không xác định..."
+  );
 };

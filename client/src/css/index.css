@@ -89,14 +89,11 @@ html{
 }
 
 .hover-row:hover {
-  z-index: 10;
-  transform: scale(1.05);
   background-color: #2d3748;
 }
 
-.hover-row:hover td {
+.hover-row:hover td span{
   color : rgb(239, 167, 43);
-  font-weight: bold;
 }
 
 

@@ -1,0 +1,41 @@
+import React from "react";
+
+function InputForm({
+  label,
+  disabled,
+  register,
+  errors,
+  id,
+  validate,
+  type = "text",
+  placeholder,
+  fullWidth,
+}) {
+  return (
+    <div className={`flex flex-col  gap-1 ${fullWidth && "w-full"} `}>
+      <div className="flex w-full items-center">
+        {id && (
+          <label className="flex-1 font-bold" htmlFor={id}>
+            {id.slice(0, 1).toUpperCase() + id.slice(1)} :
+          </label>
+        )}
+        <input
+          type={type}
+          id={id}
+          defaultValue={register[id]?.value}
+          {...register(id, validate)}
+          disabled={disabled}
+          placeholder={placeholder || `Enter ${id}`}
+          className={`flex-4 w-full p-4  border outline-main  border-main   `}
+        />
+      </div>
+      {errors[id] && (
+        <small className="text-xs text-red-500 text-end">
+          {errors[id].message}
+        </small>
+      )}
+    </div>
+  );
+}
+
+export default InputForm;
