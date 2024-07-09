@@ -88,7 +88,7 @@ export const MenuAdminSidebar = [
       {
         id: 1,
         text: "Create Product",
-        path: path.ADMIN.CREATE_PRODUCT,
+        path: path.ADMIN.UPDATE_PRODUCT,
       },
       {
         id: 2,

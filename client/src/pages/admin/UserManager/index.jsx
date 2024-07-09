@@ -66,7 +66,7 @@ function UserManager() {
   };
 
   return (
-    <div className="w-full p-4 flex flex-col max-h-screen">
+    <div className="w-full p-4 flex flex-col  overflow-auto ">
       <div className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-blue-300">
         Manager users
       </div>
@@ -89,8 +89,8 @@ function UserManager() {
           </button>
         </div>
 
-        <div className="max-h-[77vh] flex flex-col border justify-between overflow-auto ">
-          <table className="table-auto mb-1 text-left w-full border-separate border border-slate-400   ">
+        <div className="flex flex-col border justify-between ">
+          <table className="table-auto mb-1 text-left w-full border-separate border border-slate-400">
             <thead className="font-bold bg-gray-700 text-[13px] text-center border border-blue-300   ">
               <tr>
                 <th className="px-4 py-2">#</th>
@@ -148,6 +148,7 @@ function UserManager() {
           </table>
           <div className="w-full text-right ">
             <Pagination
+              currentPage={queries?.page}
               totalCount={users?.counts}
               handleChangePage={handleChangePage}
             ></Pagination>

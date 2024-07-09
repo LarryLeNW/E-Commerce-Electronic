@@ -29,3 +29,10 @@ export const getReview = (params) => {
     params,
   });
 };
+
+export const deleteProduct = (pid) => {
+  return axios({
+    url: "/product/" + pid,
+    method: "delete",
+  });
+};

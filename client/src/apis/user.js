@@ -14,8 +14,16 @@ export const updateUser = (uid, data) =>
     data,
   });
 
-export const deleteUser = (uid, data) =>
+export const deleteUser = (uid) =>
   axios({
     url: "/user/" + uid,
     method: "delete",
   });
+
+export const createUser = async (data) => {
+  axios({
+    url: "/user/mock",
+    method: "post",
+    data,
+  });
+};

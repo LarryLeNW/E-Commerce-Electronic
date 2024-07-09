@@ -22,7 +22,7 @@ import Modal from "components/Modal";
 import OrderManager from "pages/admin/OrderManager";
 import ProductManager from "pages/admin/ProductManager";
 import UserManager from "pages/admin/UserManager";
-import CreateProduct from "pages/admin/CreateProduct";
+import UpdateProduct from "pages/admin/UpdateProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ function App() {
             path={path.ADMIN.PRODUCT_MANAGEMENT}
             element={<ProductManager />}
           />
-          <Route path={path.ADMIN.CREATE_PRODUCT} element={<CreateProduct />} />
+          <Route path={path.ADMIN.UPDATE_PRODUCT} element={<UpdateProduct />} />
           <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
         </Route>
 

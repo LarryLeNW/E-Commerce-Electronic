@@ -18,7 +18,7 @@ function AdminSideBar() {
   };
 
   return (
-    <div className=" bg-zinc-800 h-full select-none">
+    <div className=" bg-zinc-800 h-full select-none w-full">
       <div className="flex flex-col justify-center items-center p-4 border-white border-b  ">
         <img
           src={logo}

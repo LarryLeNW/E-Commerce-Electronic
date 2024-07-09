@@ -14,7 +14,7 @@ function SelectForm({
   }));
 
   return (
-    <div className="flex flex-col gap-2 ">
+    <div className={`flex flex-col gap-2  ${!!fullWidth && "w-full"} `}>
       <div className="flex w-full items-center">
         {id && (
           <label className="flex-1 font-bold" htmlFor={id}>
@@ -23,18 +23,14 @@ function SelectForm({
         )}
         <select
           {...register(id, validate)}
-          className={`flex-4 w-full p-2  border outline-main  border-main   `}
+          className={`flex-4 w-full p-2  border outline-main  border-main text-black`}
           id={id}
         >
           <option value="" disabled>
             Choose Option
           </option>
           {optionsConvert?.map((el) => (
-            <option
-              className="font-bold text-black"
-              key={el.value}
-              value={el.value}
-            >
+            <option className="font-bold " key={el.value} value={el.value}>
               {el.name}
             </option>
           ))}

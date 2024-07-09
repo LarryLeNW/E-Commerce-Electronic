@@ -10,9 +10,14 @@ function InputForm({
   type = "text",
   placeholder,
   fullWidth,
+  style,
 }) {
   return (
-    <div className={`flex flex-col  gap-1 ${fullWidth && "w-full"} `}>
+    <div
+      className={`flex flex-col  gap-1 ${fullWidth && "w-full"} ${
+        !!style && style
+      }`}
+    >
       <div className="flex w-full items-center">
         {id && (
           <label className="flex-1 font-bold" htmlFor={id}>
@@ -26,7 +31,7 @@ function InputForm({
           {...register(id, validate)}
           disabled={disabled}
           placeholder={placeholder || `Enter ${id}`}
-          className={`flex-4 w-full p-4  border outline-main  border-main   `}
+          className={`flex-4 w-full p-4  border outline-main  border-main  text-black  `}
         />
       </div>
       {errors[id] && (

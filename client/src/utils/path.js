@@ -15,7 +15,7 @@ const path = {
     USER_MANAGEMENT: "/admin/user-management",
     ORDER_MANAGEMENT: "/admin/order-management",
     PRODUCT_MANAGEMENT: "/admin/product-management",
-    CREATE_PRODUCT: "/admin/create-product",
+    UPDATE_PRODUCT: "/admin/update-product",
   },
 };
 

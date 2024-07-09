@@ -1,13 +1,16 @@
 import { notification } from "antd";
-import { updateUser } from "apis";
+import { createUser, updateUser } from "apis";
 import logo from "assets/logo.png";
 import InputForm from "components/InputForm";
 import SelectForm from "components/SelectForm";
 import { ROLE } from "constant/roleUser";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { showModal } from "redux/slicers/common.slicer";
 
 function UserForm({ userCurrent, callbackUpdateAfter }) {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -26,24 +29,34 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
   }, []);
 
   const handleUpdate = async (data) => {
-    if (userCurrent?._id) {
-      try {
-        const response = await updateUser(userCurrent?._id, data);
-        if (response.success) {
-          notification.success({
-            message: "User updated successfully",
-          });
-          callbackUpdateAfter();
-        }
-      } catch (error) {
-        notification.error({
-          message: "User update failed" + error.message,
+    try {
+      let response;
+      if (userCurrent?._id) {
+        response = await updateUser(userCurrent._id, data);
+        notification.success({
+          message: "User updated successfully",
         });
+      } else {
+        try {
+          response = await createUser(data);
+          notification.success({
+            message: "User created successfully",
+          });
+        } catch (error) {
+          console.log("🚀 ~ handleUpdate ~ error:", error);
+        }
       }
-      return;
+      callbackUpdateAfter();
+      dispatch(showModal({ isShow: false }));
+    } catch (error) {
+      console.error("Error in handleUpdate:", error);
+      const errorMessage = userCurrent?._id
+        ? "User update failed"
+        : "Create failed";
+      notification.error({
+        message: `${errorMessage}: ${error.message}`,
+      });
     }
-
-    console.log("created user data");
   };
 
   return (
@@ -74,6 +87,18 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
             },
           }}
         />
+        {!userCurrent && (
+          <InputForm
+            errors={errors}
+            id={"password"}
+            register={register}
+            fullWidth
+            validate={{
+              required: `Require this field`,
+            }}
+          />
+        )}
+
         <InputForm
           errors={errors}
           id={"username"}
@@ -105,7 +130,7 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
           options={{ active: "false", block: "true" }}
         />
         <button className="w-full p-2 bg-main text-white" type="submit">
-          Submit
+          {userCurrent ? `Update` : "Create"}
         </button>
       </form>
     </div>
