@@ -54,11 +54,19 @@ const getProducts = asyncHandler(async (req, res) => {
   let formattedQueries = JSON.parse(queryString);
 
   // filtering
-  if (req.query?.keyword)
-    formattedQueries.title = { $regex: req.query.keyword, $options: "i" };
+
+  if (req.query?.keyword) {
+    formattedQueries["$or"] = [
+      { title: { $regex: req.query?.keyword, $options: "i" } },
+      { description: { $regex: req.query?.keyword, $options: "i" } },
+    ];
+  }
 
   if (queries?.category)
     formattedQueries.category = { $regex: queries.category, $options: "i" };
+
+  if (queries?.brand)
+    formattedQueries.brand = { $regex: queries.brand, $options: "i" };
 
   if (queries?.color) {
     delete formattedQueries.color;

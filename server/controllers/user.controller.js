@@ -9,8 +9,8 @@ const sendMail = require("../ultils/sendMail");
 const crypto = require("crypto");
 
 const register = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname } = req.body;
-  if (!email || !password || !lastname || !firstname)
+  const { email, password, username } = req.body;
+  if (!email || !password || !username)
     return res.status(400).json({
       success: false,
       message: "Missing inputs",
@@ -110,8 +110,8 @@ const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const user = await User.findById(_id).select("-refreshToken -password ");
   return res.status(200).json({
-    success: user ? true : false,
-    data: user ? user : "Token không nhận dạng được ...",
+    success: !!user,
+    data: user || "Token không nhận dạng được ...",
   });
 });
 
@@ -208,21 +208,87 @@ const resetPassword = asyncHandler(async (req, res) => {
   });
 });
 
-const getUsers = asyncHandler(async (req, res) => {
-  const response = await User.find().select("-refreshToken -password -role");
-  return res.status(200).json({
+const createUsers = asyncHandler(async (req, res) => {
+  const response = await User.create(req.body);
+  return res.status(201).json({
     success: response ? true : false,
-    users: response,
+    updatedUser: response ? response : "Some thing went wrong",
+  });
+});
+
+const getUsers = asyncHandler(async (req, res) => {
+  const queries = { ...req.query };
+  const excludeFields = ["limit", "sort", "page", "fields", "q"];
+  excludeFields.forEach((el) => delete queries[el]);
+
+  // format operators for mongoose compare syntax
+  let queryString = JSON.stringify(queries);
+  queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
+  let formattedQueries = JSON.parse(queryString);
+
+  // filtering
+  if (req.query.q) {
+    formattedQueries["$or"] = [
+      { username: { $regex: req.query.q, $options: "i" } },
+      { email: { $regex: req.query.q, $options: "i" } },
+    ];
+  }
+
+  // Aggregation pipeline stages
+  const pipeline = [];
+
+  // Match stage
+  pipeline.push({ $match: formattedQueries });
+
+  // Lookup stage to join with roles collection
+  // pipeline.push({
+  //   $lookup: {
+  //     from: "roles",
+  //     localField: "role",
+  //     foreignField: "code",
+  //     as: "roleInfo",
+  //   },
+  // });
+
+  // Sorting stage
+  if (req.query.sort) {
+    let sortBy = req.query.sort.split(",").join(" ");
+    pipeline.push({ $sort: sortBy });
+  }
+
+  // Fields limiting stage
+  if (req.query.fields) {
+    let fields = req.query.fields.split(",").join(" ");
+    pipeline.push({ $project: fields });
+  }
+
+  // Pagination stage
+  const page = +req.query.page || 1;
+  const limit = +req.query.limit || +process.env.LIMIT_PRODUCT;
+  const skip = (page - 1) * limit;
+  pipeline.push({ $skip: skip });
+  pipeline.push({ $limit: limit });
+
+  // Perform aggregation
+  const users = await User.aggregate(pipeline);
+
+  // Count documents matching the filters
+  const counts = await User.countDocuments(formattedQueries);
+
+  res.status(200).json({
+    success: true,
+    data: users,
+    counts: counts,
   });
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const { _id } = req.query;
-  if (!_id) throw new Error("Missing inputs");
-  const response = await User.findByIdAndDelete(_id);
+  const { uid } = req.params;
+  if (!uid) throw new Error("Missing inputs");
+  const response = await User.findByIdAndDelete(uid);
   return res.status(200).json({
-    success: response ? true : false,
-    deletedUser: response
+    success: !!response,
+    message: response
       ? `User with email ${response.email} deleted`
       : "No user delete",
   });
@@ -236,6 +302,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const response = await User.findByIdAndUpdate(_id, req.body, {
     new: true,
   }).select("-password -role -refreshToken");
+
   return res.status(200).json({
     success: response ? true : false,
     updatedUser: response ? response : "Some thing went wrong",
@@ -249,9 +316,10 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   const response = await User.findByIdAndUpdate(uid, req.body, {
     new: true,
   }).select("-password -role -refreshToken");
+
   return res.status(200).json({
-    success: response ? true : false,
-    updatedUser: response ? response : "Some thing went wrong",
+    success: !!response,
+    updatedUser: response || "Some thing went wrong",
   });
 });
 
@@ -339,4 +407,5 @@ module.exports = {
   updateUserAddress,
   updateCart,
   confirmRegister,
+  createUsers,
 };

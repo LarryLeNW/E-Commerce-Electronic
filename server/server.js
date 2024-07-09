@@ -7,6 +7,8 @@ const cors = require("cors");
 const {
   insertDataProductTest,
   insertDataBrandCategoryTest,
+  insertDataRoleTest,
+  insertDataUserTest,
 } = require("./ultils/generateData/insertData");
 
 const app = express();
@@ -17,6 +19,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(cookieParser());
 
 const port = process.env.PORT || 8888;

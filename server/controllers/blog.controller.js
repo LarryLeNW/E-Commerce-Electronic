@@ -95,7 +95,7 @@ const getBlog = asyncHandler(async (req, res) => {
     { new: true }
   ).populate({
     path: "interactions.user",
-    select: "firstname lastname ",
+    select: "username ",
   });
   return res.json({
     success: response ? true : false,

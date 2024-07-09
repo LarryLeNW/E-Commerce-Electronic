@@ -36,7 +36,7 @@ const createReview = asyncHandler(async (req, res) => {
     { $set: { postedBy: _id, productId, star, comment } },
     { new: true, upsert: true }
   )
-    .populate("postedBy", "firstname lastname avatar")
+    .populate("postedBy", "username avatar")
     .exec();
 
   await arrangeStarProduct(productId);
@@ -49,7 +49,7 @@ const createReview = asyncHandler(async (req, res) => {
 
 const getReviews = asyncHandler(async (req, res) => {
   const reviews = await Review.find(req.query)
-    .populate("postedBy", "firstname lastname avatar")
+    .populate("postedBy", "username avatar")
     .exec();
 
   res.status(200).json(reviews);
