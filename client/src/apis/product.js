@@ -14,6 +14,22 @@ export const getProduct = (id) => {
   });
 };
 
+export const createProduct = (data) => {
+  return axios({
+    url: "/product/",
+    method: "post",
+    data,
+  });
+};
+
+export const updateProduct = (id, data) => {
+  return axios({
+    url: "/product/" + id,
+    method: "put",
+    data,
+  });
+};
+
 export const ratings = (data) => {
   return axios({
     url: "/review/",

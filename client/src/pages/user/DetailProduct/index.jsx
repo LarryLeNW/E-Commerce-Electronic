@@ -11,6 +11,7 @@ import TabDescription from "./TabDescription";
 import SliderCustom from "components/SliderCustom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetailRequest } from "redux/slicers/product.slicer";
+import * as DOMPurify from "dompurify";
 
 function DetailProduct() {
   const dispatch = useDispatch();
@@ -116,10 +117,12 @@ function DetailProduct() {
               (Đã bán {productDetail?.data?.sold} cái)
             </span>
           </div>
-          <ul className=" p-2 text-gray-500">
+          <ul className="p-2 text-gray-500 ">
             {productDetail?.data?.description?.map((el) => (
               <li className="leading-6 list-square" key={el}>
-                {el}
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el) }}
+                ></div>
               </li>
             ))}
           </ul>

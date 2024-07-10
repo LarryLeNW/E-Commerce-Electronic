@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import { getCategories } from "apis";
 import { deleteProduct, getProducts } from "apis/product";
+import DOMPurify from "dompurify";
 import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
@@ -227,7 +228,11 @@ function ProductManager() {
                   <span>{p?.sold}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
-                  <span>{p?.description.toString()}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(p?.description.toString()),
+                    }}
+                  ></span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
                   <span>{p?.totalRatings != 0 || "No Review"}</span>

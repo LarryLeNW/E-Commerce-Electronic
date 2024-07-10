@@ -9,6 +9,7 @@ export default function MarkdownEditor({
   invalidFields,
   setInvalidFields,
 }) {
+  console.log("🚀 ~ value:", value);
   const editorRef = useRef(null);
 
   const log = () => {
@@ -31,7 +32,7 @@ export default function MarkdownEditor({
       <Editor
         apiKey={`${process.env.REACT_APP_TINY_MCE_KEY}`}
         onInit={(_evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        initialValue={value}
         init={{
           height: 500,
           menubar: true,

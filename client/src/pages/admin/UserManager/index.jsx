@@ -89,7 +89,7 @@ function UserManager() {
           </button>
         </div>
 
-        <div className="flex flex-col border justify-between ">
+        <div className="flex flex-col border justify-between overflow-auto">
           <table className="table-auto mb-1 text-left w-full border-separate border border-slate-400">
             <thead className="font-bold bg-gray-700 text-[13px] text-center border border-blue-300   ">
               <tr>

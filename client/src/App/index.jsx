@@ -23,13 +23,13 @@ import OrderManager from "pages/admin/OrderManager";
 import ProductManager from "pages/admin/ProductManager";
 import UserManager from "pages/admin/UserManager";
 import UpdateProduct from "pages/admin/UpdateProduct";
+import Loading from "components/Loading";
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { modal } = useSelector((state) => state.common);
   const { userInfo } = useSelector((state) => state.auth);
-  console.log("🚀 ~ App ~ userInfo:", userInfo.data);
 
   useEffect(() => {
     dispatch(getUserInfoRequest());
@@ -73,7 +73,9 @@ function App() {
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>
-      {modal.isShow && <Modal>{modal.children} </Modal>}
+      {modal.isShow && (
+        <Modal isAction={modal.isAction}>{modal.children || <Loading />}</Modal>
+      )}
     </div>
   );
 }

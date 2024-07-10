@@ -146,11 +146,3 @@ export const convertCodeRoleToName = (code) => {
     Object.keys(ROLE).find((key) => ROLE[key] === code) || "Không xác định..."
   );
 };
-
-export const convertImgToBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-  });

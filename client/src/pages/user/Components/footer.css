@@ -38,10 +38,7 @@ li {
     margin-bottom: 8px; /* Bottom margin */
 }
 
-/* Hover effect for list items */
-li:hover {
-    text-decoration: underline; /* Underline on hover */
-}
+
 
 /* Remove default underline for anchor elements */
 a {

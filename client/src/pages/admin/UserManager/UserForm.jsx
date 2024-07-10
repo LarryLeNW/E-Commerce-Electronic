@@ -43,7 +43,9 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
             message: "User created successfully",
           });
         } catch (error) {
-          console.log("🚀 ~ handleUpdate ~ error:", error);
+          notification.error({
+            message: "User created successfully",
+          });
         }
       }
       callbackUpdateAfter();
