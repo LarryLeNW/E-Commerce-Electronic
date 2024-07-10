@@ -3,12 +3,35 @@ const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
 
 const createProduct = asyncHandler(async (req, res) => {
-  if (Object.keys(req.body).length === 0) throw new Error("Missing inputs");
-  if (req.body && req.body.title) req.body.slug = slugify(req.body.title);
+  const { title, price, description, brand, category } = req.body;
+  const files = req.files?.map((el) => el.path);
+  if (!(title, price, description, brand, category))
+    throw new Error("Missing inputs");
+  req.body.slug = slugify(req.body.title);
+  req.body.images = files;
+  req.body.thumb = files[0];
   const newProduct = await Product.create(req.body);
   return res.status(200).json({
     success: newProduct ? true : false,
     createdProduct: newProduct ? newProduct : "Cannot create new product",
+  });
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
+  const { pid } = req.params;
+  const { title, price, description, brand, category } = req.body;
+  const files = req.files?.map((el) => el.path);
+  if (!(pid, title, price, description, brand, category))
+    throw new Error("Missing inputs");
+  req.body.slug = slugify(req.body.title);
+  req.body.images = files;
+  req.body.thumb = files[0];
+  const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
+    new: true,
+  });
+  return res.status(200).json({
+    success: updatedProduct ? true : false,
+    updatedProduct: updatedProduct ? updatedProduct : "Cannot update product",
   });
 });
 
@@ -115,18 +138,6 @@ const getProducts = asyncHandler(async (req, res) => {
   });
 });
 
-const updateProduct = asyncHandler(async (req, res) => {
-  const { pid } = req.params;
-  if (req.body && req.body.title) req.body.slug = slugify(req.body.title);
-  const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
-    new: true,
-  });
-  return res.status(200).json({
-    success: updatedProduct ? true : false,
-    updatedProduct: updatedProduct ? updatedProduct : "Cannot update product",
-  });
-});
-
 const deleteProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
   const deletedProduct = await Product.findByIdAndDelete(pid);
@@ -172,6 +183,8 @@ const ratings = asyncHandler(async (req, res) => {
 });
 
 const uploadImagesProduct = asyncHandler(async (req, res) => {
+  console.log(req.files);
+  return;
   const { pid } = req.params;
   if (!req.files) throw new Error("missing inputs");
   const response = await Product.findByIdAndUpdate(
