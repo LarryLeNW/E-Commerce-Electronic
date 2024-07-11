@@ -1,11 +1,10 @@
+import withBaseComponent from "hocs";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import path from "utils/path";
 
-function ConfirmRegister() {
-  const { status } = useParams();
-  const navigate = useNavigate();
+function ConfirmRegister({ params, navigate }) {
+  const { status } = params;
 
   useEffect(() => {
     if (status == "success")
@@ -26,4 +25,4 @@ function ConfirmRegister() {
   );
 }
 
-export default ConfirmRegister;
+export default withBaseComponent(ConfirmRegister);

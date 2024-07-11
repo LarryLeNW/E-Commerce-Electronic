@@ -59,6 +59,20 @@ export const authSlicer = createSlice({
       state.userInfo.error = error;
       state.userInfo.loading = false;
     },
+    changeInfoRequest: (state, action) => {
+      state.userInfo.error = null;
+      state.userInfo.loading = true;
+    },
+    changeInfoSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.userInfo.data = data;
+      state.userInfo.loading = false;
+    },
+    changeInfoFailure: (state, action) => {
+      const { error } = action.payload;
+      state.userInfo.error = error;
+      state.userInfo.loading = false;
+    },
     logout: (state, action) => {
       Cookies.remove("refreshToken");
       state.userInfo.data = null;
@@ -76,6 +90,9 @@ export const {
   changeAvatarRequest,
   changeAvatarSuccess,
   changeAvatarFailure,
+  changeInfoRequest,
+  changeInfoSuccess,
+  changeInfoFailure,
   logout,
 } = authSlicer.actions;
 

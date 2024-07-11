@@ -45,13 +45,6 @@ a {
     text-decoration: none; /* Remove underline */
 }
 
-/* Style input fields */
-input {
-    width: 15vw; /* Width */
-    height: 4vh; /* Height */
-    border-radius: 6px; /* Border radius */
-    padding-left: 10px; /* Left padding */
-}
 
 /* Style buttons */
 button {

@@ -30,10 +30,9 @@ import Profile from "pages/member/Profile";
 import ListCart from "pages/member/ListCart";
 import History from "pages/member/History";
 import WhiteList from "pages/member/WhiteList";
+import withBaseComponent from "hocs";
 
-function App() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -90,4 +89,4 @@ function App() {
   );
 }
 
-export default App;
+export default withBaseComponent(App);

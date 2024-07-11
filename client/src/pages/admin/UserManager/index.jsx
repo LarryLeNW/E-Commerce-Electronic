@@ -1,16 +1,15 @@
+import { notification } from "antd";
 import { deleteUser, getUsers } from "apis";
+import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { showModal } from "redux/slicers/common.slicer";
-import UserForm from "./UserForm";
-import { notification } from "antd";
 import { convertCodeRoleToName } from "utils/helper";
+import UserForm from "./UserForm";
 
-function UserManager() {
-  const dispatch = useDispatch();
+function UserManager({ dispatch }) {
   const [users, setUsers] = useState({ data: [] });
   const [queries, setQueries] = useState({
     q: "",
@@ -159,4 +158,4 @@ function UserManager() {
   );
 }
 
-export default UserManager;
+export default withBaseComponent(UserManager);

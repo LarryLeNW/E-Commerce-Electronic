@@ -4,13 +4,12 @@ import logo from "assets/logo.png";
 import InputForm from "components/Form/InputForm";
 import SelectForm from "components/Form/SelectForm";
 import { ROLE } from "constant/roleUser";
+import withBaseComponent from "hocs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { showModal } from "redux/slicers/common.slicer";
 
-function UserForm({ userCurrent, callbackUpdateAfter }) {
-  const dispatch = useDispatch();
+function UserForm({ userCurrent, callbackUpdateAfter, dispatch }) {
   const {
     register,
     handleSubmit,
@@ -139,4 +138,4 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
   );
 }
 
-export default UserForm;
+export default withBaseComponent(UserForm);

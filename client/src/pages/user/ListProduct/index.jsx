@@ -1,27 +1,18 @@
-import {
-  generatePath,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { useEffect, useState } from "react";
-import BreadCrumb from "components/BreadCrumb";
-import Product from "./Product";
-import path from "utils/path";
-import FilterPanel from "./FilterPanel";
-import Pagination from "./Pagination";
+import Button from "components/Form/Button";
+import withBaseComponent from "hocs";
+import QueryString from "qs";
+import { useEffect } from "react";
 import {
   clearFilterParams,
   setFilterParams,
 } from "redux/slicers/common.slicer";
-import { useDispatch, useSelector } from "react-redux";
-import QueryString from "qs";
 import { getProductListRequest } from "redux/slicers/product.slicer";
-import Button from "components/Form/Button";
+import path from "utils/path";
+import FilterPanel from "./FilterPanel";
+import Pagination from "./Pagination";
+import Product from "./Product";
 
-function ListProduct() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+function ListProduct({ navigate, dispatch, useSelector }) {
   const { filterParams } = useSelector((state) => state.common);
   const { productList } = useSelector((state) => state.product);
 
@@ -178,10 +169,8 @@ function ListProduct() {
           />
         </div>
       </div>
-
-      <div className="h-[400px]"></div>
     </div>
   );
 }
 
-export default ListProduct;
+export default withBaseComponent(ListProduct);

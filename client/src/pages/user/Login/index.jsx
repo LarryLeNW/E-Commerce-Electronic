@@ -8,11 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "redux/slicers/auth.slicer";
 import { validateForm } from "utils/helper";
 import InputField from "components/Form/InputField";
-import { ROLE } from "constant/roleUser";
 
 function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { loading: isLoadingLogin, error } = useSelector(
     (state) => state.auth.loginData

@@ -1,13 +1,18 @@
-import { message } from "antd";
+import { updateInfoUserCurrent } from "apis";
+import Fieldset from "components/Form/Fieldset";
 import InputForm from "components/Form/InputForm";
+import withBaseComponent from "hocs";
 import moment from "moment";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import {
+  changeInfoFailure,
+  changeInfoRequest,
+} from "redux/slicers/auth.slicer";
 
-function Profile() {
+function Profile({ useSelector, dispatch }) {
   const { userInfo } = useSelector((state) => state.auth);
-  console.log("🚀 ~ Profile ~ userInfo:", userInfo?.data);
+
   const {
     register,
     formState: { errors },
@@ -20,12 +25,11 @@ function Profile() {
       username: userInfo.data?.username,
       email: userInfo.data?.email,
       mobile: userInfo.data?.mobile,
-      title: userInfo.data?.title,
     });
   }, [userInfo.data]);
 
-  const handleUpdateInfo = (data) => {
-    console.log("🚀 ~ handleUpdateInfo ~ data:", data);
+  const handleUpdateInfo = async (data) => {
+    dispatch(changeInfoRequest(data));
   };
 
   return (
@@ -40,11 +44,19 @@ function Profile() {
         >
           <div className="ml-auto">
             <span className="font-medium">Account status: </span>
-            <span>{userInfo.data?.isBlocked ? "Blocked" : "Active"}</span>
+            <span>
+              {userInfo.data?.isBlocked ? (
+                <span className="text-red-600">Blocked</span>
+              ) : (
+                <span className="text-green-600">Active</span>
+              )}
+            </span>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto ">
             <span className="font-medium">Updated at: </span>
-            <span>{moment(userInfo?.data?.createdAt).fromNow()}</span>
+            <span className="text-green-600">
+              {moment(userInfo?.data?.createdAt).fromNow()}
+            </span>
           </div>
           <InputForm
             errors={errors}
@@ -94,4 +106,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default withBaseComponent(Profile);

@@ -4,11 +4,11 @@ import { createProduct, getProduct, updateProduct } from "apis/product";
 import InputForm from "components/Form/InputForm";
 import MarkdownEditor from "components/Form/MarkdownEditor";
 import SelectForm from "components/Form/SelectForm";
+import withBaseComponent from "hocs";
 import QueryString from "qs";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { showModal } from "redux/slicers/common.slicer";
 import Swal from "sweetalert2";
 import { convertBase64ToImage, convertImageToBase64 } from "utils/file";
@@ -16,14 +16,12 @@ import { validate } from "utils/helper";
 import ICONS from "utils/icons";
 import path from "utils/path";
 
-function UpdateProduct() {
-  const { search } = useLocation();
-  const dispatch = useDispatch();
+function UpdateProduct({ location, dispatch }) {
+  const { search } = location;
   const [currentProduct, setCurrentProduct] = useState(null);
   const [categories, setCategories] = useState({ data: [] });
   const [previewImg, setPreviewImg] = useState([]);
   const [imgUpload, setImageUpload] = useState([]);
-  console.log("🚀 ~ UpdateProduct ~ imgUpload:", imgUpload);
   const [payload, setPayload] = useState({ description: "" });
   const [invalidFields, setInvalidFields] = useState([]);
   const [indexImgHover, setIndexImgHover] = useState(null);
@@ -298,4 +296,4 @@ function UpdateProduct() {
   );
 }
 
-export default UpdateProduct;
+export default withBaseComponent(UpdateProduct);

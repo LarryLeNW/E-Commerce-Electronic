@@ -1,12 +1,12 @@
 import { ROLE } from "constant/roleUser";
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import path from "utils/path";
 import MemberSideBar from "./Sidebar";
 import Navigation from "pages/user/Components/Navigation";
 import TopHeader from "pages/user/Components/TopHeader";
 import Header from "pages/user/Components/Header";
-function MemberLayout() {
+import withBaseComponent from "hocs";
+function MemberLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
   if (!userInfo.data) return <Navigate to={path.HOME} replace={true} />;
@@ -30,4 +30,4 @@ function MemberLayout() {
   );
 }
 
-export default MemberLayout;
+export default withBaseComponent(MemberLayout);

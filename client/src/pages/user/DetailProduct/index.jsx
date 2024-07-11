@@ -1,22 +1,20 @@
-import Slider from "react-slick";
-import { getProduct, getProducts } from "apis/product";
+import { getProducts } from "apis/product";
 import BreadCrumb from "components/BreadCrumb";
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { formatMoney, renderStars } from "utils/helper";
 import Button from "components/Form/Button";
-import SelectQuantity from "./SelectQuantity";
-import { ProductExtraInformation } from "constant";
-import TabDescription from "./TabDescription";
 import SliderCustom from "components/SliderCustom";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductDetailRequest } from "redux/slicers/product.slicer";
+import { ProductExtraInformation } from "constant";
 import * as DOMPurify from "dompurify";
+import withBaseComponent from "hocs";
+import { useCallback, useEffect, useState } from "react";
+import Slider from "react-slick";
+import { getProductDetailRequest } from "redux/slicers/product.slicer";
+import { formatMoney, renderStars } from "utils/helper";
+import SelectQuantity from "./SelectQuantity";
+import TabDescription from "./TabDescription";
 
-function DetailProduct() {
-  const dispatch = useDispatch();
+function DetailProduct({ dispatch, useSelector, params }) {
   const { productDetail } = useSelector((state) => state.product);
-  const { id, title, category } = useParams();
+  const { id, title, category } = params;
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
@@ -188,4 +186,4 @@ function DetailProduct() {
   );
 }
 
-export default DetailProduct;
+export default withBaseComponent(DetailProduct);

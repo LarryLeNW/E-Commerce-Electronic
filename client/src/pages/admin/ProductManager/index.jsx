@@ -2,16 +2,15 @@ import { notification } from "antd";
 import { getCategories } from "apis";
 import { deleteProduct, getProducts } from "apis/product";
 import DOMPurify from "dompurify";
+import withBaseComponent from "hocs";
 import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
 
-function ProductManager() {
-  const navigate = useNavigate();
+function ProductManager({ navigate }) {
   const [products, setProducts] = useState({ data: [] });
   const [categories, setCategories] = useState({ data: [] });
 
@@ -293,4 +292,4 @@ function ProductManager() {
   );
 }
 
-export default ProductManager;
+export default withBaseComponent(ProductManager);

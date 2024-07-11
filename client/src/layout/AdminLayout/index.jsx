@@ -1,9 +1,10 @@
 import { ROLE } from "constant/roleUser";
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import path from "utils/path";
 import AdminSideBar from "./Sidebar";
-function AdminLayout() {
+import withBaseComponent from "hocs";
+
+function AdminLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
   if (userInfo.data?.role != ROLE.ADMIN)
@@ -22,4 +23,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminLayout;
+export default withBaseComponent(AdminLayout);

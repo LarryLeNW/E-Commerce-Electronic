@@ -21,6 +21,14 @@ export const changeAvatar = (data) =>
     data,
   });
 
+export const updateInfoUserCurrent = (data) => {
+  return axios({
+    url: "/user/current",
+    method: "put",
+    data,
+  });
+};
+
 export const deleteUser = (uid) =>
   axios({
     url: "/user/" + uid,
