@@ -392,6 +392,17 @@ const updateCart = asyncHandler(async (req, res) => {
   });
 });
 
+const changeAvatar = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const avatar = req.file.path;
+  const response = await User.findByIdAndUpdate(_id, { avatar }, { new: true });
+  res.status(200).json({
+    success: !!response,
+    message: "Avatar updated successfully",
+    avatar,
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -408,4 +419,5 @@ module.exports = {
   updateCart,
   confirmRegister,
   createUsers,
+  changeAvatar,
 };
