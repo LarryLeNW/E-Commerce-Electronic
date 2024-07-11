@@ -17,7 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import QueryString from "qs";
 import { getProductListRequest } from "redux/slicers/product.slicer";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 
 function ListProduct() {
   const navigate = useNavigate();

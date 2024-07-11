@@ -1,11 +1,11 @@
 import { forgotPassword, resetPassword } from "apis";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import path from "utils/path";
 import { validateForm } from "utils/helper";
-import InputField from "components/InputField";
+import InputField from "components/Form/InputField";
 
 function ForgotPassword() {
   const navigate = useNavigate();

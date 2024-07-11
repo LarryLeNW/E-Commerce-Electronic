@@ -4,7 +4,7 @@ import BreadCrumb from "components/BreadCrumb";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { formatMoney, renderStars } from "utils/helper";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 import SelectQuantity from "./SelectQuantity";
 import { ProductExtraInformation } from "constant";
 import TabDescription from "./TabDescription";

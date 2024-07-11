@@ -83,7 +83,7 @@ function App() {
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>
-      {modal.isShow && (
+      {(modal.isShow || userInfo.loading) && (
         <Modal isAction={modal.isAction}>{modal.children || <Loading />}</Modal>
       )}
     </div>

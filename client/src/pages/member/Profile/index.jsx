@@ -1,5 +1,5 @@
 import { message } from "antd";
-import InputForm from "components/InputForm";
+import InputForm from "components/Form/InputForm";
 import moment from "moment";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -48,15 +48,6 @@ function Profile() {
           </div>
           <InputForm
             errors={errors}
-            id={"username"}
-            register={register}
-            fullWidth
-            validate={{
-              required: `Require this field`,
-            }}
-          />
-          <InputForm
-            errors={errors}
             id={"email"}
             register={register}
             fullWidth
@@ -67,6 +58,16 @@ function Profile() {
                   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm,
                 message: "Email invalid...",
               },
+            }}
+            disabled
+          />
+          <InputForm
+            errors={errors}
+            id={"username"}
+            register={register}
+            fullWidth
+            validate={{
+              required: `Require this field`,
             }}
           />
           <InputForm

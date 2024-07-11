@@ -2,7 +2,7 @@ import { DescriptionProductTabs } from "constant";
 import { memo, useEffect, useState } from "react";
 import VoteBar from "./VoteBar";
 import { renderStars } from "utils/helper";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "redux/slicers/common.slicer";
 import VoteForm from "./VoteForm";

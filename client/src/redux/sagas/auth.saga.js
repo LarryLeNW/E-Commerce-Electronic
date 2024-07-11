@@ -6,8 +6,11 @@ import {
   getUserInfoRequest,
   getUserInfoSuccess,
   getUserInfoFailure,
+  changeAvatarRequest,
+  changeAvatarSuccess,
+  changeAvatarFailure,
 } from "../slicers/auth.slicer";
-import { getUserInfo, login } from "apis";
+import { changeAvatar, getUserInfo, login } from "apis";
 
 function* loginSaga(action) {
   try {
@@ -29,7 +32,19 @@ function* getUserInfoSaga() {
   }
 }
 
+function* changeAvatarSaga(action) {
+  try {
+    const data = action.payload;
+    let response = yield changeAvatar(data);
+    yield put(changeAvatarSuccess(response));
+  } catch (error) {
+    console.log("🚀 ~ function*changeAvatarSaga ~ error:", error);
+    yield put(changeAvatarFailure({ error }));
+  }
+}
+
 export default function* authSaga() {
   yield takeEvery(loginRequest.type, loginSaga);
   yield takeEvery(getUserInfoRequest.type, getUserInfoSaga);
+  yield takeEvery(changeAvatarRequest.type, changeAvatarSaga);
 }

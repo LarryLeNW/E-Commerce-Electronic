@@ -1,9 +1,9 @@
 import { notification } from "antd";
 import { getCategories } from "apis";
 import { createProduct, getProduct, updateProduct } from "apis/product";
-import InputForm from "components/InputForm";
-import MarkdownEditor from "components/MarkdownEditor";
-import SelectForm from "components/SelectForm";
+import InputForm from "components/Form/InputForm";
+import MarkdownEditor from "components/Form/MarkdownEditor";
+import SelectForm from "components/Form/SelectForm";
 import QueryString from "qs";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

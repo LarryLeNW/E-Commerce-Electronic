@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 import { Link, generatePath, useNavigate } from "react-router-dom";
 import path from "utils/path";
 import { register } from "apis";
@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "redux/slicers/auth.slicer";
 import { validateForm } from "utils/helper";
-import InputField from "components/InputField";
+import InputField from "components/Form/InputField";
 import { ROLE } from "constant/roleUser";
 
 function Login() {

@@ -1,8 +1,8 @@
 import { notification } from "antd";
 import { createUser, updateUser } from "apis";
 import logo from "assets/logo.png";
-import InputForm from "components/InputForm";
-import SelectForm from "components/SelectForm";
+import InputForm from "components/Form/InputForm";
+import SelectForm from "components/Form/SelectForm";
 import { ROLE } from "constant/roleUser";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

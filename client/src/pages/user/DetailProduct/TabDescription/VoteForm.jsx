@@ -1,7 +1,7 @@
 import { useState } from "react";
 import logo from "assets/logo.png";
 import ICONS from "utils/icons";
-import Button from "components/Button";
+import Button from "components/Form/Button";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { ratingProductRequest } from "redux/slicers/review.slicer";

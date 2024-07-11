@@ -3,6 +3,7 @@ import {
   IoIosArrowDropdown,
   IoIosArrowDropright,
   IoMdMail,
+  IoMdReverseCamera,
 } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
 import { FaTty, FaUserCircle } from "react-icons/fa";
@@ -55,6 +56,7 @@ const ICONS = {
   TbPackages,
   IoIosArrowDropdown,
   IoIosArrowDropright,
+  IoMdReverseCamera,
 };
 
 export default ICONS;
