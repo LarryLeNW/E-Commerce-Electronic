@@ -64,7 +64,7 @@ function UserForm({ userCurrent, callbackUpdateAfter }) {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className=" w-[50%] flex flex-col justify-center items-center  bg-white rounded  z-40 border-main border p-4 gap-2 text-black"
+      className=" w-[50%] flex flex-col justify-center items-center  bg-white rounded  z-40 border-main border p-4 gap-2 text-black "
     >
       <div className="flex flex-col justify-center  w-full items-center">
         <img src={logo} alt="logo" className="w-[300px] object-contain" />

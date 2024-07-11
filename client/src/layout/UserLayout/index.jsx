@@ -10,7 +10,7 @@ function UserLayout() {
       <TopHeader />
       <Header />
       <Navigation />
-      <div className="w-full">
+      <div className="w-full flex flex-col  min-h-[80vh]">
         <Outlet />
       </div>
       <Footer />

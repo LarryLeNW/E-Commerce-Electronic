@@ -64,6 +64,7 @@ export const DescriptionProductTabs = [
   },
 ];
 
+// for sidebar admin
 export const MenuAdminSidebar = [
   {
     id: 1,
@@ -102,6 +103,38 @@ export const MenuAdminSidebar = [
     type: "SINGLE",
     text: "Order Management",
     path: path.ADMIN.ORDER_MANAGEMENT,
+    icon: <ICONS.TbPackages />,
+  },
+];
+
+// for sidebar member
+export const MemberSidebar = [
+  {
+    id: 1,
+    type: "SINGLE",
+    text: "Profile",
+    path: path.MEMBER.PROFILE,
+    icon: <ICONS.AiFillDashboard />,
+  },
+  {
+    id: 2,
+    type: "SINGLE",
+    text: "My Cart",
+    path: path.MEMBER.MY_CART,
+    icon: <ICONS.FaUsersGear />,
+  },
+  {
+    id: 3,
+    type: "SINGLE",
+    text: "Buys history",
+    path: path.MEMBER.HISTORY,
+    icon: <ICONS.TbPackages />,
+  },
+  {
+    id: 4,
+    type: "SINGLE",
+    text: "Wishlist",
+    path: path.MEMBER.WISH_LIST,
     icon: <ICONS.TbPackages />,
   },
 ];

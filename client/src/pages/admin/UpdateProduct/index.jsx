@@ -8,11 +8,13 @@ import QueryString from "qs";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { showModal } from "redux/slicers/common.slicer";
 import Swal from "sweetalert2";
 import { convertBase64ToImage, convertImageToBase64 } from "utils/file";
 import { validate } from "utils/helper";
+import ICONS from "utils/icons";
+import path from "utils/path";
 
 function UpdateProduct() {
   const { search } = useLocation();
@@ -167,7 +169,13 @@ function UpdateProduct() {
   return (
     <div className="w-full p-4 flex flex-col overflow-auto ">
       <div className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-blue-300">
-        {currentProduct ? "Update " : "Create "} Product
+        <div>{currentProduct ? "Update " : "Create "} Product</div>
+        <Link
+          to={path.ADMIN.PRODUCT_MANAGEMENT}
+          className="flex items-center gap-2 text-main cursor-pointer"
+        >
+          Back to list <ICONS.AiFillProduct />
+        </Link>
       </div>
       <div className="p-4">
         <div className="flex gap-2  overflow-auto">

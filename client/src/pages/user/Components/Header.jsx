@@ -2,7 +2,18 @@ import { Link } from "react-router-dom";
 import logo from "assets/logo.png";
 import ICON from "utils/icons";
 import path from "utils/path";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import ICONS from "utils/icons";
+import { useClickOutside } from "hooks/useClickOutside";
 function Header() {
+  const { userInfo } = useSelector((state) => state.auth);
+  const [isShowMenuMember, setIsShowMenuMember] = useState(false);
+
+  const menuRef = useClickOutside(() => {
+    setIsShowMenuMember(false);
+  });
+
   return (
     <div className="w-main border flex justify-between items-center h-[110px] py-[35px]">
       <Link to={`${path.HOME}`}>
@@ -27,10 +38,47 @@ function Header() {
           <ICON.LuBaggageClaim />
           <span>0 item(s)</span>
         </div>
-
-        <div className="flex items-center justify-center px-4">
-          <ICON.FaUserCircle size={26} />
-        </div>
+        {userInfo?.data && (
+          <div
+            className="flex items-center justify-center px-4 relative"
+            ref={menuRef}
+          >
+            <ICON.FaUserCircle
+              size={26}
+              className="cursor-pointer"
+              onClick={() => setIsShowMenuMember(true)}
+            />
+            {isShowMenuMember && (
+              <div className="absolute top-[50px] right-[20px] text-white bg-blue-400  w-[200px] flex flex-col border rounded-xl">
+                <Link
+                  onClick={() => setIsShowMenuMember(false)}
+                  className="px-6 py-2 border hover:bg-main hover:text-white font-bold text-lg  rounded-t-xl"
+                  to={path.MEMBER.PROFILE}
+                >
+                  Profile
+                </Link>
+                <Link
+                  onClick={() => setIsShowMenuMember(false)}
+                  className="px-6 py-2 border hover:bg-main hover:text-white font-bold text-lg"
+                  to={path.MEMBER.PROFILE}
+                >
+                  Profile
+                </Link>
+                <Link
+                  onClick={() => setIsShowMenuMember(false)}
+                  className="px-6 py-2 border hover:bg-main hover:text-white font-bold text-lg"
+                  to={path.MEMBER.PROFILE}
+                >
+                  Profile
+                </Link>
+                <button className="bg-red-600 w-full rounded-b-xl text-white font-bold  rounded-none text-lg flex justify-center items-center gap-2">
+                  <ICONS.RiLogoutBoxLine />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

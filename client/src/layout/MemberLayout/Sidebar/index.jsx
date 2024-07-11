@@ -1,13 +1,14 @@
 import logo from "assets/logo.png";
-import { MenuAdminSidebar } from "constant";
+import { MemberSidebar, MenuAdminSidebar } from "constant";
 import { useState, useEffect, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { logout } from "redux/slicers/auth.slicer";
 import ICONS from "utils/icons";
 
-function AdminSideBar() {
+function MemberSideBar() {
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log("🚀 ~ MemberSideBar ~ userInfo:", userInfo);
 
   const [indexOpenSubmenu, setIndexOpenSubmenu] = useState([]);
 
@@ -22,17 +23,19 @@ function AdminSideBar() {
   };
 
   return (
-    <div className=" bg-zinc-800 h-full select-none w-full flex flex-col">
-      <div className="flex flex-col justify-center items-center p-4 border-white border-b  ">
+    <div className="bg-main rounded h-full select-none w-full flex flex-col text-white">
+      <div className="flex flex-col justify-center items-center p-4 border-white border-b gap-2 ">
         <img
-          src={logo}
+          src={
+            userInfo.data?.avatar || "https://avatar.iran.liara.run/public/boy"
+          }
           alt="img"
-          className={`w-[200px] drop-shadow-[-10px_0_10px_aqua] `}
+          className={`w-[80px]  rounded-[50%] object-cover`}
         />
-        <small>Admin workspace</small>
+        <span className="font-semibold">{userInfo.data?.username}</span>
       </div>
       <div>
-        {MenuAdminSidebar.map((el) => (
+        {MemberSidebar.map((el) => (
           <Fragment key={el.id}>
             {el.type === "SINGLE" && (
               <NavLink
@@ -85,15 +88,8 @@ function AdminSideBar() {
           </Fragment>
         ))}
       </div>
-      <button
-        onClick={() => dispatch(logout())}
-        className="w-full mt-auto bg-red-600 py-5 flex justify-center items-center gap-2 rounded-none font-bold text-white hover:bg-red-700 transition-all "
-      >
-        <ICONS.RiLogoutBoxLine />
-        <span>Logout</span>
-      </button>
     </div>
   );
 }
 
-export default AdminSideBar;
+export default MemberSideBar;

@@ -6,6 +6,7 @@ import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
 
@@ -26,6 +27,14 @@ function ProductManager() {
   });
   const [hoveredProductId, setHoveredProductId] = useState(null);
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [params]);
+
   const fetchProducts = async () => {
     const response = await getProducts(params);
     if (response?.success) setProducts(response);
@@ -35,19 +44,6 @@ function ProductManager() {
     const response = await getCategories();
     if (response?.success) setCategories(response);
   };
-
-  const refetchProducts = async () => {
-    const response = await getProducts();
-    if (response) setProducts(response);
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [params]);
 
   const handleFilter = (key, value) => {
     const newFilterParams = {
@@ -71,17 +67,31 @@ function ProductManager() {
     setHoveredProductId(null);
   };
 
-  const handleDelete = async (pid) => {
-    setIsLoadingActions({ loading: true, pid });
-    let response;
-    try {
-      response = await deleteProduct(pid);
-      if (response.success) refetchProducts();
-      notification.success({ message: "Delete product successfully" });
-    } catch (error) {
-      notification.error({ message: "Delete failed..." });
-    }
-    setIsLoadingActions({ loading: false, pid: null });
+  const handleDelete = async (pid, index) => {
+    Swal.fire({
+      text: "Are u sure remove this product ?",
+      cancelButtonText: "Cancel",
+      cancelButtonColor: "red",
+      icon: "warning",
+      confirmButtonText: "Yes",
+      confirmButtonColor: "green",
+      title: "Confirm",
+    }).then(async (rs) => {
+      if (rs.isConfirmed) {
+        setIsLoadingActions({ loading: true, pid });
+        let response;
+        try {
+          response = await deleteProduct(pid);
+          if (response.success) {
+            notification.success({ message: "Delete product successfully" });
+            products.data.splice(index, 1);
+          }
+        } catch (error) {
+          notification.error({ message: "Delete failed..." });
+        }
+        setIsLoadingActions({ loading: false, pid: null });
+      }
+    });
   };
 
   return (
@@ -200,8 +210,9 @@ function ProductManager() {
               <th className="px-4 py-2">Price</th>
               <th className="px-4 py-2">Quantity</th>
               <th className="px-4 py-2">Sold</th>
-              <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2">Star Average</th>
+              <th className="px-4 py-2">Brand</th>
+              <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2">UpdateAt</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
@@ -215,7 +226,7 @@ function ProductManager() {
                 onMouseLeave={handleMouseLeave}
               >
                 <td className="px-4 py-1 border border-slate-500">{index}</td>
-                <td className="px-4 py-1 border border-slate-500">
+                <td className="px-4 py-1 border border-slate-500 text-sm">
                   <span>{p?.title}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500">
@@ -228,14 +239,18 @@ function ProductManager() {
                   <span>{p?.sold}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
+                  <span>{p?.totalRatings != 0 || "No Review"}</span>
+                </td>
+                <td className="px-4 py-1 border border-slate-500 text-sm ">
+                  <span>{p?.brand}</span>
+                </td>
+                <td className="px-4 py-1 border border-slate-500 text-sm ">
                   <span
+                    className="line-clamp-4"
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(p?.description.toString()),
                     }}
                   ></span>
-                </td>
-                <td className="px-4 py-1 border border-slate-500 text-sm">
-                  <span>{p?.totalRatings != 0 || "No Review"}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
                   <span>{moment(p?.updatedAt).format("DD/MM/YYYY")}</span>
@@ -255,7 +270,7 @@ function ProductManager() {
                   <button
                     className="px-2 text-light cursor-pointer border bg-red-600"
                     disabled={isLoadingActions.loading}
-                    onClick={() => handleDelete(p?._id)}
+                    onClick={() => handleDelete(p?._id, index)}
                   >
                     {isLoadingActions.pid === p._id ? "Loading..." : "Delete"}
                   </button>

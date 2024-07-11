@@ -17,6 +17,12 @@ const path = {
     PRODUCT_MANAGEMENT: "/admin/product-management",
     UPDATE_PRODUCT: "/admin/update-product",
   },
+  MEMBER: {
+    PROFILE: "/member/profile",
+    MY_CART: "/member/my-cart",
+    HISTORY: "/member/buy-history",
+    WISH_LIST: "/member/wishlist",
+  },
 };
 
 export default path;

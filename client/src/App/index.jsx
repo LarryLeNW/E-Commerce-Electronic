@@ -14,7 +14,8 @@ import {
   ListProductPage,
   LoginPage,
   ServicePage,
-} from "../pages/user";
+} from "pages/user";
+
 import UserLayout from "layout/UserLayout";
 import path from "../utils/path";
 import Dashboard from "pages/admin/DashBoard";
@@ -24,6 +25,11 @@ import ProductManager from "pages/admin/ProductManager";
 import UserManager from "pages/admin/UserManager";
 import UpdateProduct from "pages/admin/UpdateProduct";
 import Loading from "components/Loading";
+import MemberLayout from "layout/MemberLayout";
+import Profile from "pages/member/Profile";
+import ListCart from "pages/member/ListCart";
+import History from "pages/member/History";
+import WhiteList from "pages/member/WhiteList";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,7 +60,12 @@ function App() {
           <Route path={path.FAQ} element={<FAQPage />} />
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
         </Route>
-
+        <Route element={<MemberLayout />}>
+          <Route path={path.MEMBER.PROFILE} element={<Profile />} />
+          <Route path={path.MEMBER.MY_CART} element={<ListCart />} />
+          <Route path={path.MEMBER.HISTORY} element={<History />} />
+          <Route path={path.MEMBER.WISH_LIST} element={<WhiteList />} />
+        </Route>
         <Route element={<AdminLayout />}>
           <Route path={path.ADMIN.HOME} element={<Dashboard />} />
           <Route
@@ -68,7 +79,6 @@ function App() {
           <Route path={path.ADMIN.UPDATE_PRODUCT} element={<UpdateProduct />} />
           <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
         </Route>
-
         <Route path={path.LOGIN} element={<LoginPage />} />
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
