@@ -295,17 +295,17 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  //
   const { _id } = req.user;
-  if (!_id || Object.keys(req.body).length === 0)
-    throw new Error("Missing inputs");
+  console.log(req.body);
+  console.log("🚀 ~ updateUser ~ _id:", _id);
+  if (Object.keys(req.body).length === 0) throw new Error("Missing inputs");
   const response = await User.findByIdAndUpdate(_id, req.body, {
     new: true,
   }).select("-password -role -refreshToken");
 
   return res.status(200).json({
     success: response ? true : false,
-    updatedUser: response ? response : "Some thing went wrong",
+    data: response || "Some thing went wrong",
   });
 });
 
