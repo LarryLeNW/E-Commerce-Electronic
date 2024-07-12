@@ -6,7 +6,7 @@ import {
   IoMdReverseCamera,
 } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
-import { FaTty, FaUserCircle } from "react-icons/fa";
+import { FaCartArrowDown, FaTty, FaUserCircle } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
 import {
   AiFillHome,
@@ -57,6 +57,7 @@ const ICONS = {
   IoIosArrowDropdown,
   IoIosArrowDropright,
   IoMdReverseCamera,
+  FaCartArrowDown,
 };
 
 export default ICONS;

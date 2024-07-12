@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import Slider from "react-slick";
 import { getProductDetailRequest } from "redux/slicers/product.slicer";
 import { formatMoney, renderStars } from "utils/helper";
-import SelectQuantity from "./SelectQuantity";
+import SelectQuantity from "../../../components/Form/SelectQuantity";
 import TabDescription from "./TabDescription";
 
 function DetailProduct({ dispatch, useSelector, params }) {

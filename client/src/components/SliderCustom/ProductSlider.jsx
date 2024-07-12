@@ -3,15 +3,49 @@ import SelectOption from "./SelectOption";
 import ICONS from "utils/icons";
 import { useState } from "react";
 import { formatMoney, renderStars } from "utils/helper";
-import { Link, generatePath } from "react-router-dom";
+import { generatePath } from "react-router-dom";
 import path from "utils/path";
+import withBaseComponent from "hocs";
+import { showModal } from "redux/slicers/common.slicer";
+import QuickViewProduct from "components/Modal/QuickViewProduct";
+import { addToCartRequest } from "redux/slicers/cart.slicer";
 
-function Product({ data, isNew, normal }) {
+function Product({ data, isNew, normal, dispatch, navigate }) {
   const [isShowOption, setShowOption] = useState(false);
+
+  const handleClickOptions = (e, type) => {
+    e.stopPropagation();
+    switch (type) {
+      case "AddCart":
+        dispatch(
+          addToCartRequest({
+            data: {
+              productId: data?._id,
+              title: data?.title,
+              quantity: 1,
+              price: data?.price,
+            },
+          })
+        );
+        break;
+      case "QuickView":
+        dispatch(
+          showModal({
+            isShowModal: true,
+            children: <QuickViewProduct productData={data} />,
+          })
+        );
+        console.log("QuickView");
+        break;
+      case "WishList":
+        console.log("WishList");
+        break;
+    }
+  };
 
   return (
     <div className="w-full text-base mx-auto  pr-5 px-10">
-      <Link
+      <div
         className="w-full border  p-[15px] flex flex-col items-center cursor-pointer"
         onMouseEnter={(e) => {
           e.stopPropagation();
@@ -21,18 +55,37 @@ function Product({ data, isNew, normal }) {
           e.stopPropagation();
           setShowOption(false);
         }}
-        to={generatePath(path.DETAIL_PRODUCT, {
-          category: data?.category.toLowerCase(),
-          title: data?.title,
-          id: data?._id,
-        })}
+        onClick={(e) =>
+          navigate(
+            generatePath(path.DETAIL_PRODUCT, {
+              category: data?.category.toLowerCase(),
+              title: data?.title,
+              id: data?._id,
+            })
+          )
+        }
       >
         <div className="w-full relative ">
           {isShowOption && (
-            <div className="absolute bottom-[-10px] left-0 right-0 flex gap-2 justify-center animate-slide-top">
-              <SelectOption icon={<ICONS.AiFillEye />} />
-              <SelectOption icon={<ICONS.AiOutlineMenu />} />
-              <SelectOption icon={<ICONS.BsFillSuitHeartFill />} />
+            <div className="absolute bottom-[-10px] left-0 right-0 flex gap-2 justify-center animate-slide-top animate-slide-topsm">
+              <span
+                title="Quick View"
+                onClick={(e) => handleClickOptions(e, "QuickView")}
+              >
+                <SelectOption icon={<ICONS.AiFillEye />} />
+              </span>
+              <span
+                title="Add to cart"
+                onClick={(e) => handleClickOptions(e, "AddCart")}
+              >
+                <SelectOption icon={<ICONS.FaCartArrowDown />} />
+              </span>
+              <span
+                title="Add wishlist"
+                onClick={(e) => handleClickOptions(e, "WishList")}
+              >
+                <SelectOption icon={<ICONS.BsFillSuitHeartFill />} />
+              </span>
             </div>
           )}
           <img
@@ -69,9 +122,9 @@ function Product({ data, isNew, normal }) {
           </span>
           <span>{formatMoney(data?.price)} VNĐ</span>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
 
-export default Product;
+export default withBaseComponent(Product);

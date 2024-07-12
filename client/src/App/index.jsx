@@ -3,7 +3,6 @@ import AdminLayout from "layout/AdminLayout";
 import DetailProduct from "pages/user/DetailProduct";
 import ForgotPassword from "pages/user/ForgotPassword";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { getUserInfoRequest } from "redux/slicers/auth.slicer";
 import {
