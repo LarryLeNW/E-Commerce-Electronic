@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import logo from "assets/logo.png";
 import ICON from "utils/icons";
 import path from "utils/path";
-import { useSelector } from "react-redux";
 import { useState } from "react";
 import ICONS from "utils/icons";
 import { useClickOutside } from "hooks/useClickOutside";
-function Header() {
+import withBaseComponent from "hocs";
+import { showModal } from "redux/slicers/common.slicer";
+import CartReview from "components/CartReview";
+function Header({ useSelector, dispatch }) {
   const { userInfo } = useSelector((state) => state.auth);
   const [isShowMenuMember, setIsShowMenuMember] = useState(false);
 
@@ -15,7 +17,7 @@ function Header() {
   });
 
   return (
-    <div className="w-main border flex justify-between items-center h-[110px] py-[35px]">
+    <div className="w-main border flex justify-between items-center h-[110px] py-[35px] select-none">
       <Link to={`${path.HOME}`}>
         <img src={logo} alt="" className="w-[140px] object-contain " />
       </Link>
@@ -34,18 +36,27 @@ function Header() {
           </span>
           <span className="text-main">SUPPORT ONLINE 24/7</span>
         </div>
-        <div className="flex items-center justify-center gap-2 border-r px-6">
+        <div
+          className="flex items-center justify-center gap-2 border-r px-6 cursor-pointer"
+          onClick={() =>
+            dispatch(showModal({ children: <CartReview />, isShowModal: true }))
+          }
+        >
           <ICON.LuBaggageClaim />
-          <span>0 item(s)</span>
+          <span>{userInfo.data?.cart.length || 0} item(s)</span>
         </div>
         {userInfo?.data && (
           <div
             className="flex items-center justify-center px-4 relative"
             ref={menuRef}
           >
-            <ICON.FaUserCircle
-              size={26}
-              className="cursor-pointer"
+            <img
+              src={
+                userInfo.data?.avatar ||
+                "https://avatar.iran.liara.run/public/boy"
+              }
+              alt=""
+              className="w-[40px] h-[40px] rounded-[50%]  object-cover cursor-pointer"
               onClick={() => setIsShowMenuMember(true)}
             />
             {isShowMenuMember && (
@@ -84,4 +95,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withBaseComponent(Header);

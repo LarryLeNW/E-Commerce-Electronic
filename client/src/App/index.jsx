@@ -30,6 +30,7 @@ import ListCart from "pages/member/ListCart";
 import History from "pages/member/History";
 import WhiteList from "pages/member/WhiteList";
 import withBaseComponent from "hocs";
+import CartReview from "components/CartReview";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);

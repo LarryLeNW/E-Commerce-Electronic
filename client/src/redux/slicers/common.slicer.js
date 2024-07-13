@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import CartReview from "components/CartReview";
 import qs from "qs";
 
 const locationSearch = qs.parse(window.location.search, {
@@ -7,8 +8,11 @@ const locationSearch = qs.parse(window.location.search, {
 
 const initialState = {
   modal: {
-    isShow: false,
-    children: null,
+    // isShow: false,
+    // children: null,
+    isShow: true,
+    children: <CartReview />,
+
     isAction: true,
   },
   filterParams: {

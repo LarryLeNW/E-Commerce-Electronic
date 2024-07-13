@@ -11,6 +11,11 @@ const initialState = {
     loading: false,
     error: null,
   },
+  cart: {
+    loading: false,
+    error: null,
+  },
+  isLogged: false,
 };
 
 export const authSlicer = createSlice({
@@ -25,6 +30,7 @@ export const authSlicer = createSlice({
       const { data } = action.payload;
       state.loginData.loading = false;
       state.userInfo.data = data;
+      state.isLogged = true;
     },
     loginFailure: (state, action) => {
       const { error } = action.payload;
@@ -38,6 +44,7 @@ export const authSlicer = createSlice({
     getUserInfoSuccess: (state, action) => {
       const { data } = action.payload;
       state.userInfo.data = data;
+      state.isLogged = true;
       state.userInfo.loading = false;
     },
     getUserInfoFailure: (state, action) => {
@@ -73,9 +80,40 @@ export const authSlicer = createSlice({
       state.userInfo.error = error;
       state.userInfo.loading = false;
     },
+    // cart
+    updateCartRequest: (state, action) => {
+      state.cart.loading = true;
+      state.cart.error = null;
+    },
+    updateCartSuccess: (state, action) => {
+      const { listCart } = action.payload;
+      state.userInfo.data.cart = listCart;
+      state.cart.loading = false;
+    },
+    updateCartFailure: (state, action) => {
+      const { error } = action.payload;
+      state.cart.error = error;
+      state.cart.loading = false;
+    },
+    removeCartRequest: (state, action) => {
+      state.cart.loading = true;
+      state.cart.error = null;
+    },
+    removeCartSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.userInfo.data.cart = data.cart;
+      state.cart.loading = false;
+    },
+    removeCartFailure: (state, action) => {
+      const { error } = action.payload;
+      console.log("🚀 ~ error:", error);
+      state.cart.error = error;
+      state.cart.loading = false;
+    },
     logout: (state, action) => {
       Cookies.remove("refreshToken");
       state.userInfo.data = null;
+      state.isLogged = false;
     },
   },
 });
@@ -93,6 +131,13 @@ export const {
   changeInfoRequest,
   changeInfoSuccess,
   changeInfoFailure,
+  // cart
+  updateCartRequest,
+  updateCartSuccess,
+  updateCartFailure,
+  removeCartRequest,
+  removeCartSuccess,
+  removeCartFailure,
   logout,
 } = authSlicer.actions;
 

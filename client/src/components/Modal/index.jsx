@@ -13,7 +13,6 @@ function Modal({ children, isAction }) {
         dispatch(
           showModal({
             isShowModal: false,
-            children: null,
           })
         )
       }

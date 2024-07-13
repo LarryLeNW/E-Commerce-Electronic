@@ -8,19 +8,33 @@ import path from "utils/path";
 import withBaseComponent from "hocs";
 import { showModal } from "redux/slicers/common.slicer";
 import QuickViewProduct from "components/Modal/QuickViewProduct";
-import { addToCartRequest } from "redux/slicers/cart.slicer";
+import Swal from "sweetalert2";
+import { updateCartRequest } from "redux/slicers/auth.slicer";
 
-function Product({ data, isNew, normal, dispatch, navigate }) {
+function Product({ data, isNew, normal, dispatch, navigate, useSelector }) {
   const [isShowOption, setShowOption] = useState(false);
+  const { isLogged, userInfo } = useSelector((state) => state.auth);
 
   const handleClickOptions = (e, type) => {
     e.stopPropagation();
     switch (type) {
       case "AddCart":
+        if (!isLogged) {
+          Swal.fire({
+            text: "Đăng nhập để thêm vào giỏ",
+            cancelButtonText: "Cancel",
+            cancelButtonColor: "red",
+            confirmButtonText: "Go login",
+            title: "Thông báo",
+          }).then((rs) => {
+            if (rs.isConfirmed) navigate(path.LOGIN);
+          });
+          return;
+        }
         dispatch(
-          addToCartRequest({
+          updateCartRequest({
             data: {
-              productId: data?._id,
+              pid: data?._id,
               title: data?.title,
               quantity: 1,
               price: data?.price,
@@ -78,7 +92,17 @@ function Product({ data, isNew, normal, dispatch, navigate }) {
                 title="Add to cart"
                 onClick={(e) => handleClickOptions(e, "AddCart")}
               >
-                <SelectOption icon={<ICONS.FaCartArrowDown />} />
+                <SelectOption
+                  icon={
+                    userInfo.data?.cart?.some(
+                      (el) => el.product._id == data?._id
+                    ) ? (
+                      <ICONS.BsFillCartCheckFill color="green" />
+                    ) : (
+                      <ICONS.FaCartArrowDown />
+                    )
+                  }
+                />
               </span>
               <span
                 title="Add wishlist"

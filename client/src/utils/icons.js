@@ -2,7 +2,9 @@ import { RiPhoneFill, RiTruckFill } from "react-icons/ri";
 import {
   IoIosArrowDropdown,
   IoIosArrowDropright,
+  IoIosCloseCircleOutline,
   IoMdMail,
+  IoMdRemoveCircleOutline,
   IoMdReverseCamera,
 } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
@@ -22,6 +24,7 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 
 import { IoMdArrowRoundForward } from "react-icons/io";
 import {
+  BsFillCartCheckFill,
   BsFillSuitHeartFill,
   BsReplyFill,
   BsShieldShaded,
@@ -58,6 +61,9 @@ const ICONS = {
   IoIosArrowDropright,
   IoMdReverseCamera,
   FaCartArrowDown,
+  BsFillCartCheckFill,
+  IoIosCloseCircleOutline,
+  IoMdRemoveCircleOutline,
 };
 
 export default ICONS;
