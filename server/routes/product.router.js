@@ -22,10 +22,4 @@ router.put(
   ctrls.updateProduct
 );
 
-router.put(
-  "/image/:pid",
-  [verifyAccessToken, isAdmin],
-  uploader.array("images", 10),
-  ctrls.uploadImagesProduct
-);
 module.exports = router;

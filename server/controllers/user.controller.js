@@ -108,7 +108,15 @@ const login = asyncHandler(async (req, res) => {
 
 const getCurrent = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-refreshToken -password ");
+  const user = await User.findById(_id)
+    .select("-refreshToken -password ")
+    .populate({
+      path: "cart",
+      populate: {
+        path: "product",
+        select: "title thumb price ",
+      },
+    });
   return res.status(200).json({
     success: !!user,
     data: user || "Token không nhận dạng được ...",
@@ -346,52 +354,6 @@ const updateUserAddress = asyncHandler(async (req, res) => {
   });
 });
 
-const updateCart = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-  const { pid, quantity, color } = req.body;
-  if (!pid || !quantity || !color) throw new Error("Missing inputs");
-  const user = await User.findById(_id).select("cart");
-  const exitProduct = user?.cart?.find((el) => el.product.toString() === pid);
-
-  let response = null;
-  if (exitProduct) {
-    if (exitProduct.color === color) {
-      response = await User.updateOne(
-        {
-          cart: { $elemMatch: exitProduct },
-        },
-        {
-          $set: { "cart.$.quantity": quantity },
-        },
-        {
-          new: true,
-        }
-      );
-    } else {
-      response = await User.findByIdAndUpdate(
-        _id,
-        {
-          $push: { cart: { product: pid, quantity, color } },
-        },
-        { new: true }
-      );
-    }
-  } else {
-    response = await User.findByIdAndUpdate(
-      _id,
-      {
-        $push: { cart: { product: pid, quantity, color } },
-      },
-      { new: true }
-    );
-  }
-
-  return res.status(200).json({
-    success: response ? true : false,
-    updatedUser: response ? response : "Some thing went wrong",
-  });
-});
-
 const changeAvatar = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const avatar = req.file.path;
@@ -416,7 +378,6 @@ module.exports = {
   updateUser,
   updateUserByAdmin,
   updateUserAddress,
-  updateCart,
   confirmRegister,
   createUsers,
   changeAvatar,

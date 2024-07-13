@@ -22,7 +22,6 @@ router.get("/", [verifyAccessToken, isAdmin], ctrls.getUsers);
 router.post("/mock", [verifyAccessToken, isAdmin], ctrls.createUsers);
 router.delete("/:uid", [verifyAccessToken, isAdmin], ctrls.deleteUser);
 router.put("/address", verifyAccessToken, ctrls.updateUserAddress);
-router.put("/cart", verifyAccessToken, ctrls.updateCart);
 router.put("/:uid", [verifyAccessToken, isAdmin], ctrls.updateUserByAdmin);
 
 module.exports = router;
