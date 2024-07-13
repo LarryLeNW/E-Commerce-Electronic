@@ -3,11 +3,12 @@ import AdminLayout from "layout/AdminLayout";
 import DetailProduct from "pages/user/DetailProduct";
 import ForgotPassword from "pages/user/ForgotPassword";
 import { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { getUserInfoRequest } from "redux/slicers/auth.slicer";
 import {
   BlogPage,
   ConfirmRegisterPage,
+  DetailCartPage,
   FAQPage,
   HomePage,
   ListProductPage,
@@ -30,11 +31,11 @@ import ListCart from "pages/member/ListCart";
 import History from "pages/member/History";
 import WhiteList from "pages/member/WhiteList";
 import withBaseComponent from "hocs";
-import CartReview from "components/CartReview";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
   const { userInfo } = useSelector((state) => state.auth);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     dispatch(getUserInfoRequest());
@@ -45,7 +46,10 @@ function App({ dispatch, navigate, useSelector }) {
       navigate(path.ADMIN.HOME);
       return;
     }
-    navigate(path.HOME);
+    // handle check redirect prev page
+    searchParams.get("redirect")
+      ? navigate(searchParams.get("redirect"))
+      : navigate(path.HOME);
   }, [userInfo.data?.role]);
 
   return (
@@ -53,6 +57,7 @@ function App({ dispatch, navigate, useSelector }) {
       <Routes>
         <Route element={<UserLayout />}>
           <Route index element={<HomePage />} />
+          <Route path={path.DETAIL_CART} element={<DetailCartPage />} />
           <Route path={path.BLOGS} element={<BlogPage />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
           <Route path={path.OUR_SERVICES} element={<ServicePage />} />

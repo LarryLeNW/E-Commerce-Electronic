@@ -3,10 +3,11 @@ import { removeCartRequest } from "redux/slicers/auth.slicer";
 import { showModal } from "redux/slicers/common.slicer";
 import { formatMoney } from "utils/helper";
 import ICONS from "utils/icons";
+import Button from "./Form/Button";
+import path from "utils/path";
 
-function CartReview({ dispatch, useSelector }) {
+function CartReview({ navigate, dispatch, useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
-  console.log("🚀 ~ CartReview ~ userInfo.data?.cart:", userInfo.data?.cart);
 
   return (
     <div className="w-full h-full flex justify-end ">
@@ -49,7 +50,7 @@ function CartReview({ dispatch, useSelector }) {
         <div className="mt-auto flex-1  border-t border-gray-200 ">
           <div className="flex justify-between p-2">
             <span>Subtotal : </span>
-            <span>
+            <span className="font-bold text-green-700">
               {formatMoney(
                 userInfo.data?.cart?.reduce(
                   (sum, el) => (sum += el?.product?.price),
@@ -59,6 +60,14 @@ function CartReview({ dispatch, useSelector }) {
               vnđ
             </span>
           </div>
+          <Button
+            fw
+            name={"Detail cart"}
+            handleClick={() => {
+              navigate(path.DETAIL_CART);
+              dispatch(showModal({ isShowModal: false }));
+            }}
+          />
         </div>
       </div>
     </div>

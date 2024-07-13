@@ -8,11 +8,8 @@ const locationSearch = qs.parse(window.location.search, {
 
 const initialState = {
   modal: {
-    // isShow: false,
-    // children: null,
-    isShow: true,
-    children: <CartReview />,
-
+    isShow: false,
+    children: null,
     isAction: true,
   },
   filterParams: {

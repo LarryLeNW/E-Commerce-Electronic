@@ -10,6 +10,7 @@ const path = {
   FAQ: "/faqs",
   BLOGS: "/blogs",
   DETAIL_PRODUCT: "/:category/:id/:title",
+  DETAIL_CART: "detail-cart",
   ADMIN: {
     HOME: "/admin/dashboard",
     USER_MANAGEMENT: "/admin/user-management",

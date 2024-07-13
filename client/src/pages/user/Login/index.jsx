@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
-import Button from "components/Form/Button";
-import { Link, generatePath, useNavigate } from "react-router-dom";
-import path from "utils/path";
 import { register } from "apis";
-import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "redux/slicers/auth.slicer";
-import { validateForm } from "utils/helper";
+import Button from "components/Form/Button";
 import InputField from "components/Form/InputField";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, generatePath } from "react-router-dom";
+import { loginRequest } from "redux/slicers/auth.slicer";
+import Swal from "sweetalert2";
+import { validateForm } from "utils/helper";
+import path from "utils/path";
 
 function Login() {
   const dispatch = useDispatch();
@@ -61,13 +61,12 @@ function Login() {
         Swal.fire("Oops!", error, "error");
       }
       setIsLoadingRegister(false);
-      return;
-    }
-    dispatch(
-      loginRequest({
-        dataLogin,
-      })
-    );
+    } else
+      dispatch(
+        loginRequest({
+          dataLogin,
+        })
+      );
   }, [payload, isRegister]);
 
   return (

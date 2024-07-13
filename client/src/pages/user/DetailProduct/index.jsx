@@ -11,8 +11,14 @@ import { getProductDetailRequest } from "redux/slicers/product.slicer";
 import { formatMoney, renderStars } from "utils/helper";
 import SelectQuantity from "../../../components/Form/SelectQuantity";
 import TabDescription from "./TabDescription";
+import { updateCartRequest } from "redux/slicers/auth.slicer";
 
-function DetailProduct({ dispatch, useSelector, params }) {
+function DetailProduct({
+  dispatch,
+  useSelector,
+  params,
+  checkLoginBeforeAction,
+}) {
   const { productDetail } = useSelector((state) => state.product);
   const { id, title, category } = params;
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -46,6 +52,21 @@ function DetailProduct({ dispatch, useSelector, params }) {
       if (quantity > productDetail?.data.quantity) return;
       setQuantity((prev) => prev + 1);
     }
+  };
+
+  let handleAddCart = () => {
+    checkLoginBeforeAction(() =>
+      dispatch(
+        updateCartRequest({
+          data: {
+            pid: productDetail?.data?._id,
+            title: productDetail?.data?.title,
+            quantity: quantity,
+            price: productDetail?.data?.price,
+          },
+        })
+      )
+    );
   };
 
   return (
@@ -133,7 +154,11 @@ function DetailProduct({ dispatch, useSelector, params }) {
                 handleClickQuantity={handleClickQuantity}
               />
             </div>
-            <Button name={"Add to cart"} fw={true} />
+            <Button
+              name={"Add to cart"}
+              fw={true}
+              handleClick={handleAddCart}
+            />
           </div>
         </div>
 

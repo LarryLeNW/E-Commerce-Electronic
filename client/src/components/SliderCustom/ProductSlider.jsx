@@ -11,35 +11,33 @@ import QuickViewProduct from "components/Modal/QuickViewProduct";
 import Swal from "sweetalert2";
 import { updateCartRequest } from "redux/slicers/auth.slicer";
 
-function Product({ data, isNew, normal, dispatch, navigate, useSelector }) {
+function Product({
+  data,
+  isNew,
+  normal,
+  dispatch,
+  navigate,
+  useSelector,
+  checkLoginBeforeAction,
+}) {
   const [isShowOption, setShowOption] = useState(false);
-  const { isLogged, userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const handleClickOptions = (e, type) => {
     e.stopPropagation();
     switch (type) {
       case "AddCart":
-        if (!isLogged) {
-          Swal.fire({
-            text: "Đăng nhập để thêm vào giỏ",
-            cancelButtonText: "Cancel",
-            cancelButtonColor: "red",
-            confirmButtonText: "Go login",
-            title: "Thông báo",
-          }).then((rs) => {
-            if (rs.isConfirmed) navigate(path.LOGIN);
-          });
-          return;
-        }
-        dispatch(
-          updateCartRequest({
-            data: {
-              pid: data?._id,
-              title: data?.title,
-              quantity: 1,
-              price: data?.price,
-            },
-          })
+        checkLoginBeforeAction(() =>
+          dispatch(
+            updateCartRequest({
+              data: {
+                pid: data?._id,
+                title: data?.title,
+                quantity: 1,
+                price: data?.price,
+              },
+            })
+          )
         );
         break;
       case "QuickView":
