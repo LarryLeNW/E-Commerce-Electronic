@@ -3,8 +3,8 @@ const asyncHandler = require("express-async-handler");
 
 const updateCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { pid, quantity = 1, color } = req.body;
-  if (!pid || !quantity) {
+  const { pid, quantity = 1, color, price, thumb, title } = req.body;
+  if (!(pid && quantity && color && thumb && title)) {
     throw new Error("Missing inputs");
   }
 
@@ -15,6 +15,7 @@ const updateCart = asyncHandler(async (req, res) => {
   }
 
   let listCart = user.cart;
+
   const exitProductIndex = listCart.findIndex(
     (el) => el.product.toString() === pid
   );
@@ -23,17 +24,17 @@ const updateCart = asyncHandler(async (req, res) => {
     if (listCart[exitProductIndex].color === color) {
       listCart[exitProductIndex].quantity = quantity;
     } else {
-      listCart.push({ product: pid, quantity, color });
+      listCart.push({ product: pid, quantity, color, price, thumb, title });
     }
   } else {
-    listCart.push({ product: pid, quantity, color });
+    listCart.push({ product: pid, quantity, color, price, thumb, title });
   }
 
   const updatedUserCart = await User.findByIdAndUpdate(
     _id,
     { cart: listCart },
     { new: true }
-  ).populate("cart.product", "title thumb price ");
+  );
 
   return res.status(200).json({
     success: !!updatedUserCart,
@@ -47,14 +48,8 @@ const updateCart = asyncHandler(async (req, res) => {
 const removeItemCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { pid } = req.params;
+  console.log("🚀 ~ removeItemCart ~ pid:", pid);
   if (!pid) throw new Error("Missing inputs ");
-  const user = await User.findById(_id).select("cart");
-  const exitProduct = user?.cart?.find((el) => el.product.toString() === pid);
-  if (!exitProduct)
-    return res.status(400).json({
-      success: false,
-      message: "This item not exits in your cart",
-    });
 
   const response = await User.findByIdAndUpdate(
     _id,
@@ -62,7 +57,8 @@ const removeItemCart = asyncHandler(async (req, res) => {
       $pull: { cart: { product: pid } },
     },
     { new: true }
-  ).populate("cart.product", "title thumb price ");
+  );
+  console.log("🚀 ~ removeItemCart ~ response:", response);
 
   return res.status(200).json({
     success: !!response,

@@ -3,9 +3,9 @@ const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { title, price, description, brand, category } = req.body;
+  const { title, price, description, brand, category, color } = req.body;
   const files = req.files?.map((el) => el.path);
-  if (!(title, price, description, brand, category))
+  if (!(title && price && description && brand && category && color))
     throw new Error("Missing inputs");
   req.body.slug = slugify(req.body.title);
   req.body.images = files;
@@ -182,6 +182,94 @@ const ratings = asyncHandler(async (req, res) => {
   });
 });
 
+const addVariant = asyncHandler(async (req, res) => {
+  const { pid } = req.params;
+  const { title, price, color, description, quantity } = req.body;
+  const files = req.files?.map((el) => el.path);
+  if (!(title && price && color && description && quantity))
+    throw new Error("Missing inputs");
+  const response = await Product.findByIdAndUpdate(
+    pid,
+    {
+      $push: {
+        variants: { ...req.body, thumb: files[0], images: files },
+      },
+    },
+    { new: true }
+  );
+  return res.status(200).json({
+    success: response ? true : false,
+    message: response
+      ? "Update variant successfully"
+      : "Cannot create new product",
+    data: response && response.variants,
+  });
+});
+
+const updateVariant = asyncHandler(async (req, res) => {
+  const { pid, vid } = req.params; // PID: Product ID, VID: Variant ID
+  const { title, price, color, description, quantity } = req.body;
+  const files = req.files?.map((el) => el.path);
+
+  if (!(title || price || color || description || quantity)) {
+    throw new Error("Missing inputs for updating variant");
+  }
+
+  // Tìm sản phẩm theo ID
+  const product = await Product.findById(pid);
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  // Tìm biến thể và cập nhật thuộc tính của nó
+  const variant = product.variants.id(vid);
+  if (!variant) {
+    return res.status(404).json({ message: "Variant not found" });
+  }
+
+  // Cập nhật thuộc tính của biến thể
+  variant.title = title || variant.title;
+  variant.price = price || variant.price;
+  variant.color = color || variant.color;
+  variant.description = description || variant.description;
+  variant.quantity = quantity || variant.quantity;
+  variant.thumb = files?.[0] || variant.thumb;
+  variant.images = files ? [...files] : variant.images;
+
+  // Lưu sản phẩm đã cập nhật
+  const updatedProduct = await product.save();
+
+  return res.status(200).json({
+    success: updatedProduct ? true : false,
+    message: updatedProduct
+      ? "Variant updated successfully"
+      : "Cannot update variant",
+    data: updatedProduct.variants,
+  });
+});
+
+const removeVariant = asyncHandler(async (req, res) => {
+  const { pid, vid } = req.params;
+  const product = await Product.findById(pid);
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  product.variants = product.variants.filter(
+    (variant) => variant._id.toString() !== vid
+  );
+
+  const updatedProduct = await product.save();
+
+  return res.status(200).json({
+    success: updatedProduct ? true : false,
+    message: updatedProduct
+      ? "Variant removed successfully"
+      : "Cannot remove variant",
+    data: updatedProduct.variants,
+  });
+});
+
 module.exports = {
   createProduct,
   getProduct,
@@ -189,4 +277,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   ratings,
+  addVariant,
+  removeVariant,
 };
