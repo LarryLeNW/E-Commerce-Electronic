@@ -23,21 +23,19 @@ function* getProductDetailSaga(action) {
 function* getProductListSaga(action) {
   try {
     const { more, ...params } = action.payload;
-
     const result = yield getProducts(params);
-    if (result.success)
-      yield put(
-        getProductListSuccess({
-          data: result.data,
-          meta: {
-            page: params.page,
-            limit: params.limit,
-            totalProduct: result.counts,
-            totalPage: Math.ceil(result.counts / params.limit),
-          },
-          more: more,
-        })
-      );
+    yield put(
+      getProductListSuccess({
+        data: result.data,
+        meta: {
+          page: params.page,
+          limit: params.limit,
+          totalProduct: result.counts,
+          totalPage: Math.ceil(result.counts / params.limit),
+        },
+        more: more,
+      })
+    );
   } catch (e) {
     yield put(getProductListFailure("Đã có lỗi xảy ra!"));
   }

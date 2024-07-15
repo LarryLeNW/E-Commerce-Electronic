@@ -25,13 +25,20 @@ function CartReview({ navigate, dispatch, useSelector }) {
         </header>
         <div className="flex-4 overflow-y-auto flex flex-col gap-3 py-2">
           {userInfo.data?.cart?.map((el) => (
-            <div className="flex p-2" key={el?._id}>
+            <div className="flex p-2 items-center" key={el?._id}>
               <img src={el?.thumb} alt="" className="w-16 h-16 object-cover" />
               <div className="p-2 text-sm">
                 <div className="text-main">{el?.title}</div>
-                <div className="text-green-700">
-                  {formatMoney(el?.price)} vnđ
+                <div className="flex gap-2">
+                  <span className="text-green-700">
+                    {formatMoney(el?.price * el?.quantity)} vnđ
+                  </span>
+                  {el?.quantity > 1 && (
+                    <span>({formatMoney(el?.price)} x1)</span>
+                  )}
                 </div>
+                <div className="text-main">Color : {el?.color}</div>
+                <div className="text-main">Quantity : {el?.quantity}</div>
               </div>
               <ICONS.IoMdRemoveCircleOutline
                 className="ml-auto text-red-500 cursor-pointer "

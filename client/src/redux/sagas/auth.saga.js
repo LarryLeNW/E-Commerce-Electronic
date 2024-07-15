@@ -77,15 +77,10 @@ function* changeInfoSaga(action) {
 
 function* updateCartSaga(action) {
   try {
-    const { data } = action.payload;
+    const { data, callback } = action.payload;
     let response = yield updateCart(data);
-    console.log("🚀 ~ function*updateCartSaga ~ response:", response);
     yield put(updateCartSuccess(response));
-    Swal.fire(
-      "Techshop",
-      `Thêm ${data.title} vào giỏ hàng thành công `,
-      "success"
-    );
+    yield callback();
   } catch (error) {
     yield put(updateCartFailure({ error }));
     Swal.fire("Techshop", "Vui lòng thử lại sau...", "warning");

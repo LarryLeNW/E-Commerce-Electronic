@@ -10,6 +10,7 @@ import { showModal } from "redux/slicers/common.slicer";
 import QuickViewProduct from "components/Modal/QuickViewProduct";
 import Swal from "sweetalert2";
 import { updateCartRequest } from "redux/slicers/auth.slicer";
+import { notification } from "antd";
 
 function Product({
   data,
@@ -19,6 +20,7 @@ function Product({
   navigate,
   useSelector,
   checkLoginBeforeAction,
+  style,
 }) {
   const [isShowOption, setShowOption] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
@@ -37,6 +39,12 @@ function Product({
                 price: data?.price,
                 color: data?.color,
                 thumb: data?.thumb,
+              },
+              callback: () => {
+                notification.success({
+                  message: `Cập nhật ${data?.title} vào giỏ hàng thành công ...`,
+                  duration: 1,
+                });
               },
             })
           )
@@ -58,7 +66,7 @@ function Product({
   };
 
   return (
-    <div className="w-full text-base mx-auto  pr-5 px-10">
+    <div className={style || "w-full text-base mx-auto  pr-5 px-10"}>
       <div
         className="w-full border  p-[15px] flex flex-col items-center cursor-pointer"
         onMouseEnter={(e) => {
@@ -95,7 +103,7 @@ function Product({
                 <SelectOption
                   icon={
                     userInfo.data?.cart?.some(
-                      (el) => el.product?._id == data?._id
+                      (el) => el.product == data?._id
                     ) ? (
                       <ICONS.BsFillCartCheckFill color="green" />
                     ) : (

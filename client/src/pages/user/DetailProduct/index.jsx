@@ -12,6 +12,7 @@ import { formatMoney, renderStars } from "utils/helper";
 import SelectQuantity from "../../../components/Form/SelectQuantity";
 import TabDescription from "./TabDescription";
 import { updateCartRequest } from "redux/slicers/auth.slicer";
+import { notification } from "antd";
 
 function DetailProduct({
   dispatch,
@@ -78,6 +79,12 @@ function DetailProduct({
             price: currentProduct?.price,
             color: currentProduct?.color,
             thumb: currentProduct?.thumb,
+          },
+          callback: () => {
+            notification.success({
+              message: `Cập nhật ${currentProduct?.title} vào giỏ hàng thành công ...`,
+              duration: 1,
+            });
           },
         })
       )

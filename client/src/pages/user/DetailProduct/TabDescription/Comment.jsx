@@ -1,4 +1,5 @@
 import AvatarDefault from "assets/avatar-user.png";
+import moment from "moment";
 import { renderStars } from "utils/helper";
 
 function Comment({ data }) {
@@ -14,7 +15,9 @@ function Comment({ data }) {
       <div className="flex flex-col flex-auto gap-2">
         <div className="flex justify-between items-center">
           <h3>{data?.postedBy?.username}</h3>
-          <span className="text-gray-400">{data?.updatedAt}</span>
+          <span className="text-gray-400">
+            {moment(data?.updatedAt).fromNow()}
+          </span>
         </div>
         <div className="text-sm bg-gray-200 p-2 rounded">
           {data?.star && (

@@ -24,7 +24,7 @@ function ListProduct({ navigate, dispatch, useSelector }) {
         limit: +process.env.REACT_APP_LIMIT_PRODUCT_PAGE,
       })
     );
-
+    window.scrollTo(0, 0);
     return () => dispatch(clearFilterParams());
   }, []);
 
