@@ -24,12 +24,15 @@ import Swal from "sweetalert2";
 import { removeCart, updateCart } from "apis/cart";
 
 function* loginSaga(action) {
+  const { dataLogin, onSuccess, onFailure } = action.payload;
   try {
-    const { dataLogin } = action.payload;
     let response = yield login(dataLogin);
     yield put(loginSuccess(response));
+    yield onSuccess();
   } catch (error) {
+    console.log("🚀 ~ function*loginSaga ~ error:", error);
     yield put(loginFailure({ error }));
+    yield onFailure();
   }
 }
 
@@ -92,6 +95,7 @@ function* updateCartSaga(action) {
 function* removeCartSaga(action) {
   try {
     const { pid } = action.payload;
+    console.log("🚀 ~ function*removeCartSaga ~ pid:", pid);
     let response = yield removeCart(pid);
     console.log("🚀 ~ function*updateCartSaga ~ response:", response);
     yield put(removeCartSuccess(response));

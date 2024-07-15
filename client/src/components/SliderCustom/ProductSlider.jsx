@@ -35,6 +35,8 @@ function Product({
                 title: data?.title,
                 quantity: 1,
                 price: data?.price,
+                color: data?.color,
+                thumb: data?.thumb,
               },
             })
           )
@@ -67,7 +69,7 @@ function Product({
           e.stopPropagation();
           setShowOption(false);
         }}
-        onClick={(e) =>
+        onClick={() =>
           navigate(
             generatePath(path.DETAIL_PRODUCT, {
               category: data?.category.toLowerCase(),
@@ -93,7 +95,7 @@ function Product({
                 <SelectOption
                   icon={
                     userInfo.data?.cart?.some(
-                      (el) => el.product._id == data?._id
+                      (el) => el.product?._id == data?._id
                     ) ? (
                       <ICONS.BsFillCartCheckFill color="green" />
                     ) : (

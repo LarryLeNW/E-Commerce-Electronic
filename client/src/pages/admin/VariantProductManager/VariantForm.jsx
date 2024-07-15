@@ -1,6 +1,11 @@
 import { notification } from "antd";
 import { getCategories } from "apis";
-import { createProduct, getProduct, updateProduct } from "apis/product";
+import {
+  createProduct,
+  createVariant,
+  getProduct,
+  updateProduct,
+} from "apis/product";
 import InputForm from "components/Form/InputForm";
 import MarkdownEditor from "components/Form/MarkdownEditor";
 import SelectForm from "components/Form/SelectForm";
@@ -16,17 +21,20 @@ import { validate } from "utils/helper";
 import ICONS from "utils/icons";
 import path from "utils/path";
 
-function UpdateProduct({ location, dispatch }) {
-  const { search } = location;
-  const [currentProduct, setCurrentProduct] = useState(null);
-  const [categories, setCategories] = useState({ data: [] });
+function VariantForm({
+  dispatch,
+  variantCurrent,
+  productCurrent,
+  callbackUpdateAfter,
+}) {
+  console.log("🚀 ~ VariantForm ~ productCurrent:", productCurrent);
+  console.log("🚀 ~ VariantForm ~ variantCurrent:", variantCurrent);
+
   const [previewImg, setPreviewImg] = useState([]);
   const [imgUpload, setImageUpload] = useState([]);
   const [payload, setPayload] = useState({ description: "" });
   const [invalidFields, setInvalidFields] = useState([]);
   const [indexImgHover, setIndexImgHover] = useState(null);
-  const [brands, setBrands] = useState([]);
-  let searchParams = QueryString.parse(search, { ignoreQueryPrefix: true });
 
   const {
     register,
@@ -37,59 +45,31 @@ function UpdateProduct({ location, dispatch }) {
     setValue,
   } = useForm();
 
-  // fetch category one time
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await getCategories();
-      if (response?.success) setCategories(response);
-    };
-    fetchCategories();
-  }, []);
-
-  // fetch product
-  useEffect(() => {
-    const fetchProduct = async (pid) => {
-      const response = await getProduct(pid);
-      if (response?.success) setCurrentProduct(response.data);
-    };
-
-    if (!!searchParams?.edit && !!searchParams?.pid)
-      fetchProduct(searchParams?.pid);
-  }, []);
-
   // filter product update to form
   useEffect(() => {
     const handleFillToForm = async () => {
-      if (currentProduct) {
-        setValue("category", currentProduct?.category);
-        setValue("title", currentProduct?.title);
-        setValue("price", currentProduct?.price);
-        setValue("color", currentProduct?.color);
-        setValue("quantity", currentProduct?.quantity);
-        setValue("brand", currentProduct?.brand);
-        payload.description = currentProduct?.description.toString();
-        if (currentProduct?.images) {
+      if (variantCurrent) {
+        setValue("title", variantCurrent?.title);
+        setValue("price", variantCurrent?.price);
+        setValue("quantity", variantCurrent?.quantity);
+        payload.description = variantCurrent?.description.toString();
+        if (variantCurrent?.images) {
           setImageUpload([]);
-          setPreviewImg(currentProduct?.images);
-          for (let image of currentProduct?.images) {
+          setPreviewImg(variantCurrent?.images);
+          for (let image of variantCurrent?.images) {
             let file = await convertBase64ToImage(image);
             setImageUpload((prev) => [...prev, file]);
           }
         }
+      } else {
+        setValue("title", productCurrent?.title);
+        setValue("price", productCurrent?.price);
+        payload.description = productCurrent?.description.toString();
       }
     };
 
     handleFillToForm();
-  }, [currentProduct]);
-
-  // fetch brand
-  useEffect(() => {
-    if (watch("category")) {
-      setBrands(
-        categories?.data.find((c) => c?.title === watch("category"))?.brand
-      );
-    }
-  }, [watch("category")]);
+  }, [variantCurrent]);
 
   const changeValue = useCallback(
     (e) => {
@@ -110,15 +90,14 @@ function UpdateProduct({ location, dispatch }) {
     }
   };
 
-  const handleUpdateProduct = async (data) => {
-    console.log("🚀 ~ handleUpdateProduct ~ data:", data);
-
+  const handleUpdateVariant = async (data) => {
     if (imgUpload.length == 0) {
       notification.error({ message: "Please upload at least one image..." });
       return;
     }
     const invalids = validate(payload, setInvalidFields);
-    if (!invalids || invalids === 0) {
+    console.log("🚀 ~ handleUpdateVariant ~ invalids:", invalids);
+    if (invalids === 0) {
       dispatch(showModal({ isShowModal: true, isAction: true }));
       const dataPayload = {
         ...data,
@@ -131,18 +110,21 @@ function UpdateProduct({ location, dispatch }) {
         for (let image of imgUpload) formData.append("images", image);
       }
 
+      for (let x of formData) {
+        console.log(x);
+      }
+
       try {
         let response;
-        if (currentProduct)
-          response = await updateProduct(currentProduct?._id, formData);
-        else response = await createProduct(formData);
-
+        // if (variantCurrent)
+        //   response = await updateProduct(variantCurrent?._id, formData);
+        response = await createVariant(productCurrent?._id, formData);
         if (response.success)
           Swal.fire(
             "Action Product",
-            `Product ${!!currentProduct ? "updated" : "created"} successfully`,
+            `Product ${!!variantCurrent ? "updated" : "created"} successfully`,
             "success"
-          );
+          ).then(() => callbackUpdateAfter(response.data));
         else Swal.fire("Action Product", response.message, "error");
       } catch (error) {
         Swal.fire("Action Product", error?.response?.data?.message, "error");
@@ -166,15 +148,16 @@ function UpdateProduct({ location, dispatch }) {
   };
 
   return (
-    <div className="w-full p-4 flex flex-col overflow-auto ">
-      <div className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-blue-300">
-        <div>{currentProduct ? "Update " : "Create "} Product</div>
-        <Link
-          to={path.ADMIN.PRODUCT_MANAGEMENT}
-          className="flex items-center gap-2 text-main cursor-pointer"
-        >
-          Back to list <ICONS.AiFillProduct />
-        </Link>
+    <div
+      className="w-main p-4  mt-2 flex flex-col  bg-white text-black  overflow-auto "
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="h-[75px] flex justify-between items-center text-sm font-bold px-4 border-b border-blue-300">
+        <div>
+          {variantCurrent ? `Update ` : "Create "}
+          {productCurrent?.title + " Variant"}
+        </div>
+        <label htmlFor="images">Chọn ảnh cho variant</label>
       </div>
       <div className="p-4">
         <div className="flex gap-2  overflow-auto">
@@ -183,12 +166,12 @@ function UpdateProduct({ location, dispatch }) {
               <div
                 onMouseEnter={() => setHoverImgReview(index)}
                 key={index}
-                className="relative w-[200px] h-[30vh]"
+                className="relative w-[150px] h-[20vh]"
               >
                 <img
                   src={img}
                   alt="preview "
-                  className={`w-[200px]  h-[30vh] `}
+                  className={`w-[150px]  h-[20vh] `}
                 />
                 {indexImgHover != NaN && indexImgHover === index && (
                   <span
@@ -203,8 +186,8 @@ function UpdateProduct({ location, dispatch }) {
         </div>
 
         <form
-          onSubmit={handleSubmit(handleUpdateProduct)}
-          className="flex flex-col gap-2"
+          onSubmit={handleSubmit(handleUpdateVariant)}
+          className="flex flex-col gap-2 text-sm"
         >
           <div>
             <input
@@ -214,6 +197,7 @@ function UpdateProduct({ location, dispatch }) {
               onChange={(e) => handleConvertFile(e.target.files)}
               multiple
               accept=".jpg, .jpeg, .png"
+              className="hidden"
             />
             {errors["images"] && (
               <small className="text-xs text-red-500 text-end">
@@ -241,7 +225,6 @@ function UpdateProduct({ location, dispatch }) {
               }}
             />
           </div>
-
           <div className="flex gap-3">
             <InputForm
               errors={errors}
@@ -266,32 +249,6 @@ function UpdateProduct({ location, dispatch }) {
               style={"flex-1"}
             />
           </div>
-          <div className="flex gap-3">
-            <SelectForm
-              errors={errors}
-              id={"category"}
-              register={register}
-              validate={{ required: `Require this field` }}
-              fullWidth
-              options={categories?.data?.reduce((prev, category) => {
-                return { ...prev, [category?.title]: category?.title };
-              }, {})}
-            />
-            <SelectForm
-              errors={errors}
-              id={"brand"}
-              register={register}
-              validate={{ required: `Require this field` }}
-              fullWidth
-              options={brands?.reduce(
-                (prev, brand) => ({
-                  ...prev,
-                  [brand]: brand,
-                }),
-                {}
-              )}
-            />
-          </div>
           <MarkdownEditor
             label={"Description : "}
             name={"description"}
@@ -299,9 +256,10 @@ function UpdateProduct({ location, dispatch }) {
             changeValue={changeValue}
             invalidFields={invalidFields}
             setInvalidFields={setInvalidFields}
+            height={300}
           />
           <button className="w-full p-2 bg-main text-white" type="submit">
-            {currentProduct ? `Update` : "Create"} Product
+            {variantCurrent ? `Update` : "Create"} Variant
           </button>
         </form>
       </div>
@@ -309,4 +267,4 @@ function UpdateProduct({ location, dispatch }) {
   );
 }
 
-export default withBaseComponent(UpdateProduct);
+export default withBaseComponent(VariantForm);

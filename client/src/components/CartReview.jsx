@@ -25,23 +25,19 @@ function CartReview({ navigate, dispatch, useSelector }) {
         </header>
         <div className="flex-4 overflow-y-auto flex flex-col gap-3 py-2">
           {userInfo.data?.cart?.map((el) => (
-            <div className="flex p-2" key={el?.product?._id}>
-              <img
-                src={el?.product?.thumb}
-                alt=""
-                className="w-16 h-16 object-cover"
-              />
+            <div className="flex p-2" key={el?._id}>
+              <img src={el?.thumb} alt="" className="w-16 h-16 object-cover" />
               <div className="p-2 text-sm">
-                <div className="text-main">{el?.product?.title}</div>
+                <div className="text-main">{el?.title}</div>
                 <div className="text-green-700">
-                  {formatMoney(el?.product?.price)} vnđ
+                  {formatMoney(el?.price)} vnđ
                 </div>
               </div>
               <ICONS.IoMdRemoveCircleOutline
                 className="ml-auto text-red-500 cursor-pointer "
                 size={24}
                 onClick={() =>
-                  dispatch(removeCartRequest({ pid: el?.product?._id }))
+                  dispatch(removeCartRequest({ pid: el?.product }))
                 }
               />
             </div>
@@ -53,7 +49,7 @@ function CartReview({ navigate, dispatch, useSelector }) {
             <span className="font-bold text-green-700">
               {formatMoney(
                 userInfo.data?.cart?.reduce(
-                  (sum, el) => (sum += el?.product?.price),
+                  (sum, el) => (sum += el?.price * el.quantity),
                   0
                 )
               )}

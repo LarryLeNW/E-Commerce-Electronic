@@ -22,6 +22,7 @@ function DetailCart({ location, useSelector }) {
               <th className="px-4 py-2">#</th>
               <th className="px-4 py-2">Product</th>
               <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Color</th>
               <th className="px-4 py-2">Price</th>
             </tr>
           </thead>
@@ -34,22 +35,25 @@ function DetailCart({ location, useSelector }) {
                 <td className="px-4 py-2 border border-slate-500 flex items-center gap-2 justify-center">
                   <span>
                     <img
-                      src={c.product.thumb}
+                      src={c.thumb}
                       className="w-[70px] h-[70px] object-cover"
                       alt="img product"
                     />
                   </span>
-                  <span>{c.product.title}</span>
+                  <span>{c.title}</span>
                 </td>
                 <td className="px-4 py-2 border border-slate-500 ">
                   <span>{c.quantity}</span>
                 </td>
                 <td className="px-4 py-2 border border-slate-500 ">
+                  <span>{c.color}</span>
+                </td>
+                <td className="px-4 py-2 border border-slate-500 ">
                   <div className="flex gap-2 justify-between">
-                    <span>{formatMoney(c.product.price * c.quantity)} vnđ</span>
+                    <span>{formatMoney(c.price * c.quantity)} vnđ</span>
                     {c.quantity > 1 && (
                       <span className="text-sm text-green-700 italic">{`  ${formatMoney(
-                        c.product.price
+                        c.price
                       )} vnđ x1`}</span>
                     )}
                   </div>
@@ -64,7 +68,7 @@ function DetailCart({ location, useSelector }) {
             <span className="font-bold text-green-700">
               {formatMoney(
                 userInfo.data?.cart?.reduce(
-                  (sum, c) => (sum += c.product.price * c.quantity),
+                  (sum, c) => (sum += c.price * c.quantity),
                   0
                 )
               )}

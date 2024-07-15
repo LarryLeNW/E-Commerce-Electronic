@@ -17,6 +17,7 @@ const path = {
     ORDER_MANAGEMENT: "/admin/order-management",
     PRODUCT_MANAGEMENT: "/admin/product-management",
     UPDATE_PRODUCT: "/admin/update-product",
+    VARIANT_MANAGEMENT: "/admin/variant-management/:pid",
   },
   MEMBER: {
     PROFILE: "/member/profile",

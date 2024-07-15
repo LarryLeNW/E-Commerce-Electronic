@@ -75,6 +75,7 @@ export const validate = (payload, setInvalidFields) => {
         break;
     }
   }
+  return invalids;
 };
 
 export const validateValue = {

@@ -1,8 +1,22 @@
+import { generatePath, useNavigate } from "react-router-dom";
 import { formatMoney, renderStars } from "utils/helper";
+import path from "utils/path";
 
 function ProductCard({ data }) {
+  const navigate = useNavigate();
   return (
-    <div className="w-1/3 flex-auto px-[10px] mb-2">
+    <div
+      className="w-1/3 flex-auto px-[10px] mb-2 cursor-pointer"
+      onClick={() =>
+        navigate(
+          generatePath(path.DETAIL_PRODUCT, {
+            category: data?.category.toLowerCase(),
+            title: data?.title,
+            id: data?._id,
+          })
+        )
+      }
+    >
       <div className="flex w-full border p-2">
         <img
           src={data?.thumb}

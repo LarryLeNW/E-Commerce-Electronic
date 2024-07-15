@@ -20,6 +20,8 @@ function DetailProduct({
   checkLoginBeforeAction,
 }) {
   const { productDetail } = useSelector((state) => state.product);
+  const [variantSelected, setVariantSelected] = useState(null);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const { id, title, category } = params;
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -34,6 +36,17 @@ function DetailProduct({
     if (category) fetchRelatedProducts(category);
     window.scrollTo(0, 0);
   }, [category, id]);
+
+  useEffect(() => {
+    if (!variantSelected) {
+      const { variants, ...currentProduct } = productDetail?.data;
+      setCurrentProduct(currentProduct);
+      return;
+    }
+    setCurrentProduct(
+      productDetail?.data?.variants?.find((el) => el?._id === variantSelected)
+    );
+  }, [variantSelected, productDetail]);
 
   const handleQuantity = useCallback(
     (input) => {
@@ -59,10 +72,12 @@ function DetailProduct({
       dispatch(
         updateCartRequest({
           data: {
-            pid: productDetail?.data?._id,
-            title: productDetail?.data?.title,
+            pid: currentProduct?._id,
+            title: currentProduct?.title,
             quantity: quantity,
-            price: productDetail?.data?.price,
+            price: currentProduct?.price,
+            color: currentProduct?.color,
+            thumb: currentProduct?.thumb,
           },
         })
       )
@@ -73,17 +88,17 @@ function DetailProduct({
     <div className="w-full">
       <div className="bg-gray-200 mx-auto h-[81px] flex justify-center items-center">
         <div className="w-main">
-          <h3>Sản phẩm {title}</h3>
+          <h3>Sản phẩm {currentProduct?.title}</h3>
           <BreadCrumb title={title} category={category} />
         </div>
       </div>
       <div className="w-main m-auto bg-white flex">
         {/* image product review */}
-        <div className="w-2/5 border border-red-300">
+        <div className="w-2/5 ">
           <div className=" h-[458px] flex justify-center items-center w-full">
-            {productDetail?.data?.thumb && (
+            {currentProduct?.thumb && (
               <img
-                src={productDetail?.data?.thumb}
+                src={currentProduct?.thumb}
                 alt="sub-img"
                 className=" w-full h-full object-contain "
               />
@@ -101,7 +116,7 @@ function DetailProduct({
               }}
               className="image-slider"
             >
-              {productDetail?.data?.images?.map((el) => (
+              {currentProduct?.images?.map((el) => (
                 <div className="p-2  w-1/3 " key={el}>
                   <img
                     src={el}
@@ -115,13 +130,13 @@ function DetailProduct({
         </div>
 
         {/* info product */}
-        <div className="w-2/5 border border-blue-400 p-4">
+        <div className="w-2/5  p-4">
           <div className="flex justify-between">
             <h2 className="text-[30px] font-semibold ">
-              {formatMoney(productDetail?.data?.price)} VNĐ
+              {formatMoney(currentProduct?.price)} VNĐ
             </h2>
             <span className="text-yellow-600">
-              Còn {productDetail?.data?.quantity} cái
+              Còn {currentProduct?.quantity} cái
             </span>
           </div>
           <div className="flex gap-2 items-center">
@@ -145,6 +160,50 @@ function DetailProduct({
               </li>
             ))}
           </ul>
+          <div className="my-4 flex flex-col items-start gap-4">
+            <span className="font-bold ">Color : </span>
+            <div className="flex flex-wrap gap-4 items-center w-full">
+              <div
+                className={`flex items-center gap-2 p-2 border-2 cursor-pointer ${
+                  !variantSelected && "border-3  border-main"
+                }`}
+                onClick={() => setVariantSelected(null)}
+              >
+                <img
+                  src={productDetail?.data?.thumb}
+                  alt="thumb"
+                  className="w-8 h-8 rounded-md object-cover"
+                />
+                <span className="flex flex-col">
+                  <span>{productDetail?.data?.color}</span>
+                  <span>{formatMoney(productDetail?.data?.price)}đ</span>
+                </span>
+              </div>
+              {productDetail?.data?.variants?.map((variant) => (
+                <div
+                  className={`
+                    flex items-center gap-2 p-2 border-2 cursor-pointer
+                    ${
+                      variantSelected &&
+                      variantSelected == variant?._id &&
+                      "border-3 border-main"
+                    }`}
+                  key={variant?._id}
+                  onClick={() => setVariantSelected(variant?._id)}
+                >
+                  <img
+                    src={variant?.thumb}
+                    alt="thumb"
+                    className="w-8 h-8 rounded-md object-cover"
+                  />
+                  <span className="flex flex-col">
+                    <span>{variant?.color}</span>
+                    <span>{formatMoney(variant?.price)}đ</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-4">
               <span className="font-semibold">Quantity : </span>
@@ -163,7 +222,7 @@ function DetailProduct({
         </div>
 
         {/* extra info */}
-        <div className="w-1/5 border border-yellow-300 p-4 flex flex-col gap-3">
+        <div className="w-1/5 p-4 flex flex-col gap-3">
           {ProductExtraInformation.map((el) => (
             <div key={el.id} className="flex items-center gap-2 border p-2">
               <span className="p-4 text-white bg-gray-800 rounded-full flex justify-center items-center">

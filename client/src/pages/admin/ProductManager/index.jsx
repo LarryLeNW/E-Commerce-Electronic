@@ -6,6 +6,7 @@ import withBaseComponent from "hocs";
 import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
+import { generatePath } from "react-router-dom";
 import Swal from "sweetalert2";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
@@ -272,6 +273,18 @@ function ProductManager({ navigate }) {
                     onClick={() => handleDelete(p?._id, index)}
                   >
                     {isLoadingActions.pid === p._id ? "Loading..." : "Delete"}
+                  </button>
+                  <button
+                    className="px-2 text-light cursor-pointer border bg-green-600"
+                    onClick={() =>
+                      navigate(
+                        generatePath(path.ADMIN.VARIANT_MANAGEMENT, {
+                          pid: p._id,
+                        })
+                      )
+                    }
+                  >
+                    Variants
                   </button>
                 </td>
                 {hoveredProductId === p._id && (

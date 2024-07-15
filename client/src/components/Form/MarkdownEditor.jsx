@@ -8,6 +8,7 @@ export default function MarkdownEditor({
   name,
   invalidFields,
   setInvalidFields,
+  height = 500,
 }) {
   console.log("🚀 ~ value:", value);
   const editorRef = useRef(null);
@@ -34,7 +35,7 @@ export default function MarkdownEditor({
         onInit={(_evt, editor) => (editorRef.current = editor)}
         initialValue={value}
         init={{
-          height: 500,
+          height,
           menubar: true,
           plugins: [
             "advlist",

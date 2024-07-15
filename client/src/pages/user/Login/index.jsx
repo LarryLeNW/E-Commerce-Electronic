@@ -1,30 +1,27 @@
 import { register } from "apis";
 import Button from "components/Form/Button";
 import InputField from "components/Form/InputField";
+import withBaseComponent from "hocs";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, generatePath } from "react-router-dom";
+import { Link, generatePath, useSearchParams } from "react-router-dom";
 import { loginRequest } from "redux/slicers/auth.slicer";
 import Swal from "sweetalert2";
 import { validateForm } from "utils/helper";
 import path from "utils/path";
 
-function Login() {
+function Login({ navigate }) {
+  const [searchParams] = useSearchParams();
+
   const dispatch = useDispatch();
 
-  const { loading: isLoadingLogin, error } = useSelector(
+  const { loading: isLoadingLogin } = useSelector(
     (state) => state.auth.loginData
   );
 
   const [isRegister, setIsRegister] = useState(false);
   const [inValidFields, setInValidFields] = useState({});
   const [isLoadingRegister, setIsLoadingRegister] = useState(false);
-
-  useEffect(() => {
-    if (!!error) {
-      Swal.fire("Oops!", error, "error");
-    }
-  }, [error]);
 
   const [payload, setPayload] = useState({
     email: "",
@@ -65,6 +62,12 @@ function Login() {
       dispatch(
         loginRequest({
           dataLogin,
+          onSuccess: () => {
+            navigate(searchParams.get("redirect") || path.HOME);
+          },
+          onFailure: () => {
+            Swal.fire("Oops!", "Email hoặc mật khẩu không đúng!", "error");
+          },
         })
       );
   }, [payload, isRegister]);
@@ -131,4 +134,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withBaseComponent(Login);

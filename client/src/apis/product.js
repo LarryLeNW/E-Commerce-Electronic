@@ -22,11 +22,26 @@ export const createProduct = (data) => {
   });
 };
 
-export const updateProduct = (id, data) => {
+export const updateProduct = (pid, data) => {
   return axios({
-    url: "/product/" + id,
+    url: "/product/" + pid,
     method: "put",
     data,
+  });
+};
+
+export const createVariant = (pid, data) => {
+  return axios({
+    url: "/product/" + pid + "/variant",
+    method: "put",
+    data,
+  });
+};
+
+export const deleteVariant = (pid, vid) => {
+  return axios({
+    url: "/product/" + pid + "/variant/" + vid,
+    method: "delete",
   });
 };
 

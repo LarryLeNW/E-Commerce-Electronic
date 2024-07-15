@@ -31,6 +31,7 @@ import ListCart from "pages/member/ListCart";
 import History from "pages/member/History";
 import WhiteList from "pages/member/WhiteList";
 import withBaseComponent from "hocs";
+import { VariantProductPage } from "pages/admin";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
@@ -47,9 +48,7 @@ function App({ dispatch, navigate, useSelector }) {
       return;
     }
     // handle check redirect prev page
-    searchParams.get("redirect")
-      ? navigate(searchParams.get("redirect"))
-      : navigate(path.HOME);
+    searchParams.get("redirect") && navigate(searchParams.get("redirect"));
   }, [userInfo.data?.role]);
 
   return (
@@ -82,6 +81,10 @@ function App({ dispatch, navigate, useSelector }) {
           />
           <Route path={path.ADMIN.UPDATE_PRODUCT} element={<UpdateProduct />} />
           <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
+          <Route
+            path={path.ADMIN.VARIANT_MANAGEMENT}
+            element={<VariantProductPage />}
+          />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
