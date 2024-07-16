@@ -10,18 +10,19 @@ const userModel = require("../../models/user.model");
 
 const fnProd = async (product) => {
   await Product.create({
-    title: product?.name,
-    slug: slugify(product?.name),
+    title: product?.title,
+    slug: slugify(product?.title),
     description: product?.description,
     brand: product?.brand,
-    price: Math.round(Number(product?.price.match(/\d/g).join("")) / 100),
-    category: product?.category[1],
+    price: product?.price,
+    category: product?.category,
     quantity: Math.round(Math.random() * 1000),
     sold: Math.round(Math.random() * 100),
     images: product?.images,
     thumb: product?.thumb,
-    color: product?.variants?.find((el) => el.label === "Color")?.variants[0],
+    color: product?.color,
     totalRatings: 0,
+    variants: product?.variants,
   });
 };
 

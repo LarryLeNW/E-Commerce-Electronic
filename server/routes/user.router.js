@@ -1,7 +1,7 @@
 const router = require("express").Router();
+const { uploadCloud } = require("../config/cloudinary.config");
 const ctrls = require("../controllers/user.controller");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
-const uploader = require("../config/cloudinary.config");
 
 router.post("/register", ctrls.register);
 router.get("/confirmregiser/:tokenConfirm", ctrls.confirmRegister);
@@ -13,7 +13,7 @@ router.put("/resetpassword", ctrls.resetPassword);
 router.put(
   "/changeAvatar",
   verifyAccessToken,
-  uploader.single("image"),
+  uploadCloud.single("image"),
   ctrls.changeAvatar
 );
 router.get("/current", verifyAccessToken, ctrls.getCurrent);

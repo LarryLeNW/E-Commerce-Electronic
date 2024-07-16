@@ -10,6 +10,7 @@ const {
   insertDataRoleTest,
   insertDataUserTest,
 } = require("./ultils/generateData/insertData");
+const { deleteFilesInFolder } = require("./config/cloudinary.config");
 
 const app = express();
 app.use(

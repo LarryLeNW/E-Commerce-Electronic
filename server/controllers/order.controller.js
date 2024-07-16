@@ -5,34 +5,9 @@ const Counpon = require("../models/coupon.model");
 
 const createOrder = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { coupon } = req.body;
+  const { products, total } = req.body;
 
-  const userCart = await User.findById(_id)
-    .select("cart")
-    .populate("cart.product", "title price");
-
-  const products = userCart?.cart?.map((el) => ({
-    product: el.product._id,
-    count: el.quantity,
-    color: el.color,
-  }));
-
-  let total = userCart?.cart?.reduce(
-    (sum, el) => (sum += el.product.price * el.quantity),
-    0
-  );
-
-  const createdData = { products, total, orderBy: _id };
-
-  if (coupon) {
-    const selectedCoupon = await Counpon.findById(coupon);
-    total =
-      Math.round((total * (1 - +selectedCoupon?.discount / 100)) / 1000) * 1000;
-    createdData.total = total;
-    createdData.coupon = coupon;
-  }
-
-  const response = await Order.create(createdData);
+  const response = await Order.create({ products, total, orderBy: _id });
   return res.json({
     success: response ? true : false,
     createdOrder: response || "Can't create new order",

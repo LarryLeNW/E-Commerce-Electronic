@@ -1,7 +1,7 @@
 const router = require("express").Router();
+const { uploadCloud } = require("../config/cloudinary.config");
 const ctrls = require("../controllers/blog.controller");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
-const uploader = require("../config/cloudinary.config");
 
 router.post("/", [verifyAccessToken, isAdmin], ctrls.createNewBlog);
 router.get("/", ctrls.getBlogs);
@@ -12,7 +12,7 @@ router.post("/react/:bid/:type", verifyAccessToken, ctrls.reactBlog);
 router.put(
   "/image/:bid",
   [verifyAccessToken, isAdmin],
-  uploader.single("image"),
+  uploadCloud.single("image"),
   ctrls.uploadImageBlog
 );
 
