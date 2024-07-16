@@ -1,11 +1,15 @@
+import { notification } from "antd";
 import Button from "components/Form/Button";
 import SelectQuantity from "components/Form/SelectQuantity";
 import DOMPurify from "dompurify";
+import withBaseComponent from "hocs";
 import { useCallback, useState } from "react";
 import Slider from "react-slick";
+import { updateCartRequest } from "redux/slicers/auth.slicer";
 import { formatMoney, renderStars } from "utils/helper";
 
-function QuickViewProduct({ productData }) {
+function QuickViewProduct({ productData, checkLoginBeforeAction, dispatch }) {
+  console.log("🚀 ~ QuickViewProduct ~ productData:", productData);
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantity = useCallback(
@@ -26,8 +30,35 @@ function QuickViewProduct({ productData }) {
       setQuantity((prev) => prev + 1);
     }
   };
+
+  const handleAddProductToCart = () => {
+    checkLoginBeforeAction(() =>
+      dispatch(
+        updateCartRequest({
+          data: {
+            pid: productData?._id,
+            title: productData?.title,
+            quantity,
+            price: productData?.price,
+            color: productData?.color,
+            thumb: productData?.thumb,
+          },
+          callback: () => {
+            notification.success({
+              message: `Cập nhật ${productData?.title} vào giỏ hàng thành công ...`,
+              duration: 1,
+            });
+          },
+        })
+      )
+    );
+  };
+
   return (
-    <div className="w-[50%] flex flex-col justify-center items-center  bg-white rounded  z-40 border-main border p-4 gap-2 text-black ">
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="w-[50%] flex flex-col justify-center items-center  bg-white rounded  z-40 border-main border p-4 gap-2 text-black "
+    >
       <div className="w-full m-auto bg-white flex">
         {/* image product review */}
         <div className="w-1/2 ">
@@ -103,7 +134,11 @@ function QuickViewProduct({ productData }) {
                 handleClickQuantity={handleClickQuantity}
               />
             </div>
-            <Button name={"Add to cart"} fw={true} />
+            <Button
+              name={"Add to cart"}
+              fw={true}
+              handleClick={handleAddProductToCart}
+            />
           </div>
         </div>
       </div>
@@ -111,4 +146,4 @@ function QuickViewProduct({ productData }) {
   );
 }
 
-export default QuickViewProduct;
+export default withBaseComponent(QuickViewProduct);

@@ -24,6 +24,7 @@ const path = {
     MY_CART: "/member/my-cart",
     HISTORY: "/member/buy-history",
     WISH_LIST: "/member/wishlist",
+    CHECKOUT: "/member/checkout",
   },
 };
 

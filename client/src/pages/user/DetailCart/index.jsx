@@ -3,8 +3,9 @@ import Button from "components/Form/Button";
 import withBaseComponent from "hocs";
 import { formatMoney } from "utils/helper";
 import ItemCart from "./ItemCart";
+import path from "utils/path";
 
-function DetailCart({ location, useSelector }) {
+function DetailCart({ location, useSelector, navigate }) {
   const { userInfo } = useSelector((state) => state.auth);
   return (
     <div className="w-full my-2">
@@ -51,6 +52,9 @@ function DetailCart({ location, useSelector }) {
             style={
               "px-6 p-2 rounded-md text-white bg-blue-500 font-semibold cursor-pointer text-center w-[30%]"
             }
+            handleClick={() => {
+              navigate(path.MEMBER.CHECKOUT);
+            }}
           />
           <span className="font-semibold italic text-yellow-600">
             Shipping, taxes and discounts calculated at checkout.

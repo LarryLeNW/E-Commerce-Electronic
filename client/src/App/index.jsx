@@ -32,6 +32,7 @@ import History from "pages/member/History";
 import WhiteList from "pages/member/WhiteList";
 import withBaseComponent from "hocs";
 import { VariantProductPage } from "pages/admin";
+import Checkout from "pages/member/Checkout";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
@@ -87,6 +88,7 @@ function App({ dispatch, navigate, useSelector }) {
           />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
+        <Route path={path.MEMBER.CHECKOUT} element={<Checkout />} />
         <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
       </Routes>

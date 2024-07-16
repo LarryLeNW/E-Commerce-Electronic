@@ -8,7 +8,6 @@ import path from "utils/path";
 import withBaseComponent from "hocs";
 import { showModal } from "redux/slicers/common.slicer";
 import QuickViewProduct from "components/Modal/QuickViewProduct";
-import Swal from "sweetalert2";
 import { updateCartRequest } from "redux/slicers/auth.slicer";
 import { notification } from "antd";
 
