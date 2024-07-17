@@ -49,7 +49,9 @@ function App({ dispatch, navigate, useSelector }) {
       return;
     }
     // handle check redirect prev page
-    searchParams.get("redirect") && navigate(searchParams.get("redirect"));
+    if (!!searchParams.get("redirect")) {
+      navigate(searchParams.get("redirect"));
+    }
   }, [userInfo.data?.role]);
 
   return (

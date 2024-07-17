@@ -6,17 +6,24 @@ import Navigation from "pages/user/Components/Navigation";
 import TopHeader from "pages/user/Components/TopHeader";
 import Header from "pages/user/Components/Header";
 import withBaseComponent from "hocs";
+import Cookies from "js-cookie";
 function MemberLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
-  if (!userInfo.data) return <Navigate to={path.HOME} replace={true} />;
+  let tokenUser = Cookies.get("refreshToken");
+
+  if (tokenUser && userInfo.loading) {
+    return;
+  } else if (!userInfo?.data?._id) {
+    <Navigate to={path.HOME} replace={true} />;
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
       <TopHeader />
       <Header />
       <Navigation />
-      <div className="w-full flex flex-col h-[73vh]">
+      <div className="w-full flex flex-col h-[80vh]  p-4">
         <div className="w-main flex h-full mx-auto border ">
           <div className="w-[25%]  ">
             <MemberSideBar />

@@ -11,7 +11,7 @@ function* getCategoryListSaga() {
     let response = yield getCategories();
     yield put(getCategoriesSuccess(response.data));
   } catch (error) {
-    yield put(getCategoriesFailure({ error: error }));
+    yield put(getCategoriesFailure({ error }));
   }
 }
 
