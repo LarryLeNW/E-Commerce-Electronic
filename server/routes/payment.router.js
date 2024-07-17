@@ -3,7 +3,7 @@ const router = express.Router();
 const ctrls = require("../controllers/payment.controller");
 const { verifyAccessToken } = require("../middlewares/verifyToken");
 
-router.post("/request", verifyAccessToken, ctrls.payProduct);
+router.post("/", verifyAccessToken, ctrls.paymentRequest);
 router.get("/success", ctrls.successPage);
 router.get("/cancel", ctrls.cancelPage);
 

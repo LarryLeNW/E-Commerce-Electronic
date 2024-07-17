@@ -6,10 +6,12 @@ paypal.configure({
   client_secret: process.env.client_secret,
 });
 
-const payProduct = async (req, res) => {
+const paymentRequest = async (req, res) => {
   const { _id } = req.user;
   console.log("🚀 ~ payProduct ~ _id:", _id);
   console.log("req.body ", req.body);
+
+  return res.status(200).json("oke");
 
   try {
     const create_payment_json = {
@@ -120,7 +122,7 @@ const cancelPage = async (req, res) => {
 };
 
 module.exports = {
-  payProduct,
+  paymentRequest,
   successPage,
   cancelPage,
 };
