@@ -21,10 +21,9 @@ function* createOrderSaga(action) {
   }
 }
 
-function* getOrderSaga() {
+function* getOrdersSaga() {
   try {
     let response = yield getOrder();
-    console.log("🚀 ~ function*getOrderSaga ~ response:", response);
     yield put(getOrderSuccess({ data: response.data }));
   } catch (error) {
     yield put(getOrderFailure({ error }));
@@ -32,5 +31,5 @@ function* getOrderSaga() {
 }
 export default function* orderSaga() {
   yield takeEvery(orderRequest.type, createOrderSaga);
-  yield takeEvery(getOrderRequest.type, getOrderSaga);
+  yield takeEvery(getOrderRequest.type, getOrdersSaga);
 }

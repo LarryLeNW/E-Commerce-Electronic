@@ -25,6 +25,7 @@ const path = {
     HISTORY: "/member/buy-history",
     WISH_LIST: "/member/wishlist",
     CHECKOUT: "/member/checkout",
+    SHOW_BILL: "/member/show-bill/:cod",
   },
 };
 

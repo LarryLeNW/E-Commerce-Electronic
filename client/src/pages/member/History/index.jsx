@@ -1,16 +1,23 @@
 import withBaseComponent from "hocs";
 import moment from "moment";
 import { useEffect } from "react";
+import { generatePath } from "react-router-dom";
 import { getOrderRequest } from "redux/slicers/order.slicer";
 import { formatMoney } from "utils/helper";
+import path from "utils/path";
 
-function History({ useSelector, dispatch }) {
+function History({ useSelector, dispatch, navigate }) {
   const { userInfo } = useSelector((state) => state.auth);
   const orders = useSelector((state) => state.order.data);
 
   useEffect(() => {
     if (userInfo?.data?._id) dispatch(getOrderRequest());
   }, []);
+
+  const handleShowBill = (id) => {
+    const url = generatePath(path.MEMBER.SHOW_BILL, { cod: id });
+    window.open(url, "_blank");
+  };
 
   return (
     <div className="w-full relative px-4">
@@ -35,6 +42,9 @@ function History({ useSelector, dispatch }) {
               <tr
                 className="hover-row font-semibold cursor-pointer"
                 key={order?._id}
+                onClick={() => {
+                 handleShowBill(order?._id);
+                }}
               >
                 <td className="px-4 py-2 border border-slate-500 text-blue-500  ">
                   {index}

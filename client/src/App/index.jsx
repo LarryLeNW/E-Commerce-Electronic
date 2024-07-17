@@ -1,38 +1,48 @@
 import { ROLE } from "constant/roleUser";
-import AdminLayout from "layout/AdminLayout";
 import DetailProduct from "pages/user/DetailProduct";
 import ForgotPassword from "pages/user/ForgotPassword";
 import { useEffect } from "react";
 import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { getUserInfoRequest } from "redux/slicers/auth.slicer";
+
+import UserLayout from "layout/UserLayout";
+import MemberLayout from "layout/MemberLayout";
+import AdminLayout from "layout/AdminLayout";
+
 import {
   BlogPage,
   ConfirmRegisterPage,
   DetailCartPage,
   FAQPage,
+  ForgotPasswordPage,
   HomePage,
   ListProductPage,
   LoginPage,
   ServicePage,
 } from "pages/user";
 
-import UserLayout from "layout/UserLayout";
+import {
+  CheckoutPage,
+  HistoryPage,
+  ListCartPage,
+  ProfilePage,
+  ShowBillPage,
+  WhiteListPage,
+} from "pages/member";
+
+import {
+  DashBoardPage,
+  OrderManagerPage,
+  ProductManagerPage,
+  UpdateProductPage,
+  UserManagerPage,
+  VariantProductPage,
+} from "pages/admin";
+
 import path from "../utils/path";
-import Dashboard from "pages/admin/DashBoard";
 import Modal from "components/Modal";
-import OrderManager from "pages/admin/OrderManager";
-import ProductManager from "pages/admin/ProductManager";
-import UserManager from "pages/admin/UserManager";
-import UpdateProduct from "pages/admin/UpdateProduct";
 import Loading from "components/Loading";
-import MemberLayout from "layout/MemberLayout";
-import Profile from "pages/member/Profile";
-import ListCart from "pages/member/ListCart";
-import History from "pages/member/History";
-import WhiteList from "pages/member/WhiteList";
 import withBaseComponent from "hocs";
-import { VariantProductPage } from "pages/admin";
-import Checkout from "pages/member/Checkout";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
@@ -67,32 +77,39 @@ function App({ dispatch, navigate, useSelector }) {
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
         </Route>
         <Route element={<MemberLayout />}>
-          <Route path={path.MEMBER.PROFILE} element={<Profile />} />
-          <Route path={path.MEMBER.MY_CART} element={<ListCart />} />
-          <Route path={path.MEMBER.HISTORY} element={<History />} />
-          <Route path={path.MEMBER.WISH_LIST} element={<WhiteList />} />
+          <Route path={path.MEMBER.PROFILE} element={<ProfilePage />} />
+          <Route path={path.MEMBER.MY_CART} element={<ListCartPage />} />
+          <Route path={path.MEMBER.HISTORY} element={<HistoryPage />} />
+          <Route path={path.MEMBER.WISH_LIST} element={<WhiteListPage />} />
         </Route>
         <Route element={<AdminLayout />}>
-          <Route path={path.ADMIN.HOME} element={<Dashboard />} />
+          <Route path={path.ADMIN.HOME} element={<DashBoardPage />} />
           <Route
             path={path.ADMIN.ORDER_MANAGEMENT}
-            element={<OrderManager />}
+            element={<OrderManagerPage />}
           />
           <Route
             path={path.ADMIN.PRODUCT_MANAGEMENT}
-            element={<ProductManager />}
+            element={<ProductManagerPage />}
           />
-          <Route path={path.ADMIN.UPDATE_PRODUCT} element={<UpdateProduct />} />
-          <Route path={path.ADMIN.USER_MANAGEMENT} element={<UserManager />} />
+          <Route
+            path={path.ADMIN.UPDATE_PRODUCT}
+            element={<UpdateProductPage />}
+          />
+          <Route
+            path={path.ADMIN.USER_MANAGEMENT}
+            element={<UserManagerPage />}
+          />
           <Route
             path={path.ADMIN.VARIANT_MANAGEMENT}
             element={<VariantProductPage />}
           />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
-        <Route path={path.MEMBER.CHECKOUT} element={<Checkout />} />
-        <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={path.MEMBER.CHECKOUT} element={<CheckoutPage />} />
+        <Route path={path.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
         <Route path={path.CONFIRM_REGISTER} element={<ConfirmRegisterPage />} />
+        <Route path={path.MEMBER.SHOW_BILL} element={<ShowBillPage />} />
       </Routes>
       {(modal.isShow || userInfo.loading) && (
         <Modal isAction={modal.isAction}>{modal.children || <Loading />}</Modal>
