@@ -19,16 +19,16 @@ function MemberLayout({ useSelector }) {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center  ">
       <TopHeader />
       <Header />
       <Navigation />
-      <div className="w-full flex flex-col h-[80vh]  p-4">
+      <div className="w-full flex flex-col min-h-[80vh]  p-4">
         <div className="w-main flex h-full mx-auto border ">
           <div className="w-[25%]  ">
             <MemberSideBar />
           </div>
-          <div className="w-[75%] h-full bg-gray-200 border">
+          <div className="w-[75%]  bg-gray-200 border">
             <Outlet />
           </div>
         </div>

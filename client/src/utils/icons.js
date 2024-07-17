@@ -3,6 +3,7 @@ import {
   IoIosArrowDropdown,
   IoIosArrowDropright,
   IoIosCloseCircleOutline,
+  IoMdCheckmarkCircleOutline,
   IoMdMail,
   IoMdRemoveCircleOutline,
   IoMdReverseCamera,
@@ -64,6 +65,7 @@ const ICONS = {
   BsFillCartCheckFill,
   IoIosCloseCircleOutline,
   IoMdRemoveCircleOutline,
+  IoMdCheckmarkCircleOutline,
 };
 
 export default ICONS;

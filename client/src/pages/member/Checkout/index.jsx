@@ -4,13 +4,13 @@ import Button from "components/Form/Button";
 import withBaseComponent from "hocs";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { generatePath, Navigate } from "react-router-dom";
 import { orderRequest } from "redux/slicers/order.slicer";
 import Swal from "sweetalert2";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
 
-function Checkout({ useSelector, checkLoginBeforeAction, dispatch }) {
+function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
   const { userInfo, isLogged } = useSelector((state) => state.auth);
   const [address, setAddress] = useState("");
   const [numberPhone, setNumberPhone] = useState("");
@@ -57,12 +57,15 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch }) {
             typePayment,
             note,
           },
-          callback: () => {
+          callback: (oid) => {
+            navigate(path.MEMBER.HISTORY);
             Swal.fire(
               "Tech Shop",
               "Cảm ơn sự tin tưởng của bạn ...",
               "success"
             );
+            const url = generatePath(path.MEMBER.SHOW_BILL, { oid });
+            window.open(url, "_blank");
           },
         })
       );

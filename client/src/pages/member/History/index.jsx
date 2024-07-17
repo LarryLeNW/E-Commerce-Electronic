@@ -2,7 +2,7 @@ import withBaseComponent from "hocs";
 import moment from "moment";
 import { useEffect } from "react";
 import { generatePath } from "react-router-dom";
-import { getOrderRequest } from "redux/slicers/order.slicer";
+import { getOrdersRequest } from "redux/slicers/order.slicer";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
 
@@ -11,21 +11,21 @@ function History({ useSelector, dispatch, navigate }) {
   const orders = useSelector((state) => state.order.data);
 
   useEffect(() => {
-    if (userInfo?.data?._id) dispatch(getOrderRequest());
+    if (userInfo?.data?._id) dispatch(getOrdersRequest());
   }, []);
 
   const handleShowBill = (id) => {
-    const url = generatePath(path.MEMBER.SHOW_BILL, { cod: id });
+    const url = generatePath(path.MEMBER.SHOW_BILL, { oid: id });
     window.open(url, "_blank");
   };
 
   return (
-    <div className="w-full relative px-4">
+    <div className="w-full overflow-y-auto px-4">
       <header className="text-3xl font-semibold py-4 border-b border-main text-blue-600 text-center">
         Lịch sử đơn hàng
       </header>
-      <div className="flex flex-col  justify-between overflow-y-auto  mx-auto mt-2">
-        <table className=" mb-1 text-left w-full border-separate border border-slate-400">
+      <div className="flex flex-col justify-between overflow-y-auto  mx-auto mt-2">
+        <table className="mb-1 text-left w-full border-separate border border-slate-400">
           <thead className="font-bold bg-main text-[13px] text-center border border-blue-300  text-white ">
             <tr>
               <th className="px-4 py-2">#</th>
@@ -43,7 +43,7 @@ function History({ useSelector, dispatch, navigate }) {
                 className="hover-row font-semibold cursor-pointer"
                 key={order?._id}
                 onClick={() => {
-                 handleShowBill(order?._id);
+                  handleShowBill(order?._id);
                 }}
               >
                 <td className="px-4 py-2 border border-slate-500 text-blue-500  ">

@@ -3,19 +3,22 @@ import {
   orderRequest,
   orderSuccess,
   orderFailure,
-  getOrderRequest,
-  getOrderSuccess,
-  getOrderFailure,
+  getOrdersRequest,
+  getOrdersSuccess,
+  getOrdersFailure,
+  getOrderDetailRequest,
+  getOrderDetailSuccess,
+  getOrderDetailFailure,
 } from "../slicers/order.slicer";
-import { createOrder, getOrder } from "apis";
+import { createOrder, getOrder, getOrders } from "apis";
 
 function* createOrderSaga(action) {
   try {
     const { data, callback } = action.payload;
     console.log("🚀 ~ function*createOrderSaga ~ data:", data);
     let response = yield createOrder(data);
-    yield put(orderSuccess(response.data));
-    yield callback();
+    yield put(orderSuccess(response?.data));
+    yield callback(response?.data?._id);
   } catch (error) {
     yield put(orderFailure({ error: error }));
   }
@@ -23,13 +26,26 @@ function* createOrderSaga(action) {
 
 function* getOrdersSaga() {
   try {
-    let response = yield getOrder();
-    yield put(getOrderSuccess({ data: response.data }));
+    let response = yield getOrders();
+    yield put(getOrdersSuccess({ data: response.data }));
   } catch (error) {
-    yield put(getOrderFailure({ error }));
+    yield put(getOrdersFailure({ error }));
   }
 }
+
+function* getOrderDetailSaga(action) {
+  try {
+    const { oid } = action.payload;
+    let response = yield getOrder(oid);
+    console.log("🚀 ~ function*getOrderDetailSaga ~ response:", response);
+    yield put(getOrderDetailSuccess({ data: response.data }));
+  } catch (error) {
+    yield put(getOrderDetailFailure({ error }));
+  }
+}
+
 export default function* orderSaga() {
   yield takeEvery(orderRequest.type, createOrderSaga);
-  yield takeEvery(getOrderRequest.type, getOrdersSaga);
+  yield takeEvery(getOrdersRequest.type, getOrdersSaga);
+  yield takeEvery(getOrderDetailRequest.type, getOrderDetailSaga);
 }

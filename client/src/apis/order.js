@@ -7,8 +7,14 @@ export const createOrder = (data) =>
     data,
   });
 
-export const getOrder = () =>
+export const getOrders = () =>
   axios({
     url: "/order/",
+    method: "get",
+  });
+
+export const getOrder = (oid) =>
+  axios({
+    url: "/order/" + oid,
     method: "get",
   });
