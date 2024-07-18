@@ -31,8 +31,6 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
     }
   }, [userInfo.data]);
 
-  // if (!userInfo?.data) return <Navigate to={path.HOME} replace={true} />;
-
   // Handler for radio button change
   const handlePaymentTypeChange = (e) => {
     setTypePayment(e.target.value);
@@ -52,19 +50,29 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
       dispatch(
         orderRequest({
           data: {
+            products: userInfo?.data?.cart,
             address,
             numberPhone,
             typePayment,
             note,
+            total,
           },
-          callback: (oid) => {
-            navigate(path.MEMBER.HISTORY);
-            Swal.fire(
-              "Tech Shop",
-              "Cảm ơn sự tin tưởng của bạn ...",
-              "success"
-            );
-            const url = generatePath(path.MEMBER.SHOW_BILL, { oid });
+          callback: (res) => {
+            console.log("🚀 ~ checkLoginBeforeAction ~ res:", res);
+            let url;
+            if (res?.data?._id) {
+              navigate(path.MEMBER.HISTORY);
+              Swal.fire(
+                "Tech Shop",
+                "Cảm ơn sự tin tưởng của bạn ...",
+                "success"
+              );
+              url = generatePath(path.MEMBER.SHOW_BILL, {
+                oid: res?.data?._id,
+              });
+            } else {
+              url = res;
+            }
             window.open(url, "_blank");
           },
         })
@@ -110,12 +118,12 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
           <span className="text-blue-800">~ {total / 25000} USD </span>
         </div>
 
-        <div className="p-2 flex flex-col gap-2">
+        <div className="p-2 flex flex-col gap-2  ">
           <span className="font-bold">Địa chỉ</span>
           <input
             type="text"
             placeholder="Vui lòng nhập địa chỉ muốn giao đến..."
-            className="border border-main p-1"
+            className="border border-main p-1 outline-main py-4 px-2"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
@@ -151,8 +159,8 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
               id="online"
               type="radio"
               name="typePayment"
-              value="Paypal"
-              checked={typePayment === "Paypal"}
+              value="Online"
+              checked={typePayment === "Online"}
               onChange={handlePaymentTypeChange}
             />
           </div>

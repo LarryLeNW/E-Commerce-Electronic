@@ -90,7 +90,10 @@ const successPage = async (req, res) => {
           throw error;
         } else {
           try {
-            console.log("🚀 ~ payment:", payment);
+            console.log(
+              "🚀 ~ payment 23821908319028309:",
+              JSON.parse(payment?.transactions[0]?.description)
+            );
             // await OrderService.createOrder({
             //   UserID: userInfo.id,
             //   ProductID: product.id,

@@ -17,8 +17,9 @@ function* createOrderSaga(action) {
     const { data, callback } = action.payload;
     console.log("🚀 ~ function*createOrderSaga ~ data:", data);
     let response = yield createOrder(data);
-    yield put(orderSuccess(response?.data));
-    yield callback(response?.data?._id);
+    console.log("🚀 ~ function*createOrderSaga ~ response:", response);
+    yield put(orderSuccess());
+    yield callback(response);
   } catch (error) {
     yield put(orderFailure({ error: error }));
   }

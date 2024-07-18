@@ -15,7 +15,7 @@ function ShowBill({ params, dispatch, useSelector }) {
   }, []);
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center bg-gray-500">
       <div className=" border-2 flex flex-col min-h-[80%] p-4 gap-2 bg-gray-800 rounded text-white">
         <h2 className="text-green-700 font-bold flex items-center gap-2 mx-auto">
           <ICONS.IoMdCheckmarkCircleOutline size={90} />
@@ -48,7 +48,7 @@ function ShowBill({ params, dispatch, useSelector }) {
             <span className="text-main ">{data?.note}</span>
           </div>
         )}
-        <div className="flex flex-col  justify-between overflow-auto w-main mx-auto mt-2">
+        <div className="flex flex-col  justify-between overflow-auto  mx-auto mt-2">
           <table className="table-auto mb-1 text-left w-full border-separate border border-slate-400">
             <thead className="font-bold bg-main text-[13px] text-center border border-blue-300  text-white ">
               <tr>

@@ -20,7 +20,7 @@ var orderSchema = new mongoose.Schema(
     total: Number,
     typePayment: {
       type: String,
-      enum: ["Direct", "Paypal"],
+      enum: ["Direct", "Online"],
       default: "Direct",
     },
     note: String,
