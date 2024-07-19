@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { showModal } from "redux/slicers/common.slicer";
 
-function UserForm({ userCurrent, callbackUpdateAfter, dispatch }) {
+function CategoryForm({ userCurrent, callbackUpdateAfter, dispatch }) {
   const {
     register,
     handleSubmit,
@@ -138,4 +138,4 @@ function UserForm({ userCurrent, callbackUpdateAfter, dispatch }) {
   );
 }
 
-export default withBaseComponent(UserForm);
+export default withBaseComponent(CategoryForm);

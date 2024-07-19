@@ -14,7 +14,13 @@ function Sidebar() {
   const { filterParams } = useSelector((state) => state.common);
 
   useEffect(() => {
-    dispatch(getCategoriesRequest());
+    dispatch(
+      getCategoriesRequest({
+        params: {
+          keyword: "",
+        },
+      })
+    );
   }, []);
 
   return (

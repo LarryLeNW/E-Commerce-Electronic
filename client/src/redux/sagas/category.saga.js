@@ -6,9 +6,10 @@ import {
 } from "../slicers/category.slicer";
 import { getCategories } from "apis";
 
-function* getCategoryListSaga() {
+function* getCategoryListSaga(action) {
   try {
-    let response = yield getCategories();
+    let { params } = action.payload;
+    let response = yield getCategories(params);
     yield put(getCategoriesSuccess(response.data));
   } catch (error) {
     yield put(getCategoriesFailure({ error }));

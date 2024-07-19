@@ -8,12 +8,15 @@ import Cookies from "js-cookie";
 function AdminLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
+  console.log("🚀 ~ AdminLayout ~ userInfo:", !userInfo.data);
+
   let tokenUser = Cookies.get("refreshToken");
+  console.log("🚀 ~ AdminLayout ~ tokenUser:", tokenUser);
 
   if (tokenUser && userInfo.loading) {
     return;
-  } else if (userInfo.data?.role != ROLE.ADMIN) {
-    <Navigate to={path.HOME} replace={true} />;
+  } else if (!userInfo.data || userInfo.data?.role != ROLE.ADMIN) {
+    return <Navigate to={path.HOME} replace={true} />;
   }
 
   return (
