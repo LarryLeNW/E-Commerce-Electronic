@@ -10,7 +10,16 @@ const createCategory = asyncHandler(async (req, res) => {
 });
 
 const getCategories = asyncHandler(async (req, res) => {
-  const response = await ProductCategory.find();
+  let formattedQueries = {};
+
+  if (req.query?.keyword) {
+    formattedQueries["$or"] = [
+      { title: { $regex: req.query?.keyword, $options: "i" } },
+    ];
+  }
+  console.log("🚀 ~ getCategories ~ formattedQueries:", formattedQueries);
+
+  const response = await ProductCategory.find(formattedQueries);
   return res.json({
     success: response ? true : false,
     data: response || [],
