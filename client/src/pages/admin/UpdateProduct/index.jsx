@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import { getCategories } from "apis";
+import { getCategories, getProductCategories } from "apis";
 import { createProduct, getProduct, updateProduct } from "apis/product";
 import InputForm from "components/Form/InputForm";
 import MarkdownEditor from "components/Form/MarkdownEditor";
@@ -40,7 +40,7 @@ function UpdateProduct({ location, dispatch }) {
   // fetch category one time
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await getCategories();
+      const response = await getProductCategories();
       if (response?.success) setCategories(response);
     };
     fetchCategories();

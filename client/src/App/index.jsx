@@ -31,9 +31,9 @@ import {
 } from "pages/member";
 
 import {
-  CategoryManagerPage,
   DashBoardPage,
   OrderManagerPage,
+  ProductCategoryPage,
   ProductManagerPage,
   UpdateProductPage,
   UserManagerPage,
@@ -91,7 +91,7 @@ function App({ dispatch, navigate, useSelector }) {
           />
           <Route
             path={path.ADMIN.CATEGORY_MANAGEMENT}
-            element={<CategoryManagerPage />}
+            element={<ProductCategoryPage />}
           />
           <Route
             path={path.ADMIN.PRODUCT_MANAGEMENT}
@@ -107,10 +107,6 @@ function App({ dispatch, navigate, useSelector }) {
           />
           <Route
             path={path.ADMIN.VARIANT_MANAGEMENT}
-            element={<VariantProductPage />}
-          />
-          <Route
-            path={path.ADMIN.CATEGORY_MANAGEMENT}
             element={<VariantProductPage />}
           />
         </Route>

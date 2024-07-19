@@ -4,4 +4,5 @@ export { default as UserManagerPage } from "./UserManager";
 export { default as UpdateProductPage } from "./UpdateProduct";
 export { default as ProductManagerPage } from "./ProductManager";
 export { default as OrderManagerPage } from "./OrderManager";
-export { default as CategoryManagerPage } from "./CategoryManager";
+export { default as ProductCategoryPage } from "./ProductCategory";
+export { default as BlogCategoryPage } from "./BlogCategory";

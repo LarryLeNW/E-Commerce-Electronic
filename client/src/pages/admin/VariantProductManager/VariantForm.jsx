@@ -1,25 +1,14 @@
 import { notification } from "antd";
-import { getCategories } from "apis";
-import {
-  createProduct,
-  createVariant,
-  getProduct,
-  updateProduct,
-} from "apis/product";
+import { createVariant } from "apis/product";
 import InputForm from "components/Form/InputForm";
 import MarkdownEditor from "components/Form/MarkdownEditor";
-import SelectForm from "components/Form/SelectForm";
 import withBaseComponent from "hocs";
-import QueryString from "qs";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { showModal } from "redux/slicers/common.slicer";
 import Swal from "sweetalert2";
 import { convertBase64ToImage, convertImageToBase64 } from "utils/file";
 import { validate } from "utils/helper";
-import ICONS from "utils/icons";
-import path from "utils/path";
 
 function VariantForm({
   dispatch,
@@ -110,14 +99,10 @@ function VariantForm({
         for (let image of imgUpload) formData.append("images", image);
       }
 
-      for (let x of formData) {
-        console.log(x);
-      }
-
       try {
         let response;
         // if (variantCurrent)
-        //   response = await updateProduct(variantCurrent?._id, formData);
+        // response = await update(variantCurrent?._id, formData);
         response = await createVariant(productCurrent?._id, formData);
         if (response.success)
           Swal.fire(

@@ -1,17 +1,14 @@
 import { notification } from "antd";
-import { deleteCategory, deleteUser, getUsers } from "apis";
+import { deleteCategory } from "apis";
 import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
-import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
-import { showModal } from "redux/slicers/common.slicer";
-import { convertCodeRoleToName } from "utils/helper";
-import UserForm from "./CategoryForm";
 import { getCategoriesRequest } from "redux/slicers/category.slicer";
+import { showModal } from "redux/slicers/common.slicer";
 import CategoryForm from "./CategoryForm";
 
-function CategoryManager({ dispatch, useSelector }) {
+function ProductCategory({ dispatch, useSelector }) {
   const { data, loading } = useSelector((state) => state.category);
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [params, setParams] = useState({
@@ -189,4 +186,4 @@ function CategoryManager({ dispatch, useSelector }) {
   );
 }
 
-export default withBaseComponent(CategoryManager);
+export default withBaseComponent(ProductCategory);

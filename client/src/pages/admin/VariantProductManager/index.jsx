@@ -136,12 +136,7 @@ function VariantProductManager({ params, dispatch }) {
                 <td className="px-4 py-8 h-full flex flex-col gap-4 items-center justify-between border border-slate-500">
                   <button
                     className="px-2 bg-blue-600 cursor-pointer border"
-                    // onClick={() =>
-                    //   navigate({
-                    //     pathname: path.ADMIN.UPDATE_PRODUCT,
-                    //     search: `?edit=true&pid=${p?._id}`,
-                    //   })
-                    // }
+                    onClick={() => openFormEdit(product, v)}
                   >
                     edit
                   </button>

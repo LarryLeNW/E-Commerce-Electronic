@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import { getCategories } from "apis";
+import { getProductCategories } from "apis";
 import { deleteProduct, getProducts } from "apis/product";
 import DOMPurify from "dompurify";
 import withBaseComponent from "hocs";
@@ -41,7 +41,7 @@ function ProductManager({ navigate }) {
   };
 
   const fetchCategories = async () => {
-    const response = await getCategories();
+    const response = await getProductCategories();
     if (response?.success) setCategories(response);
   };
 
@@ -239,7 +239,7 @@ function ProductManager({ navigate }) {
                   <span>{p?.sold}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
-                  <span>{p?.totalRatings != 0 || "No Review"}</span>
+                  <span>{p?.totalRatings}</span>
                 </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm ">
                   <span>{p?.brand}</span>
