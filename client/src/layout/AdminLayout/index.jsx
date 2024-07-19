@@ -3,12 +3,18 @@ import { Navigate, Outlet } from "react-router-dom";
 import path from "utils/path";
 import AdminSideBar from "./Sidebar";
 import withBaseComponent from "hocs";
+import Cookies from "js-cookie";
 
 function AdminLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
-  if (userInfo.data?.role != ROLE.ADMIN)
-    return <Navigate to={path.HOME} replace={true} />;
+  let tokenUser = Cookies.get("refreshToken");
+
+  if (tokenUser && userInfo.loading) {
+    return;
+  } else if (userInfo.data?.role != ROLE.ADMIN) {
+    <Navigate to={path.HOME} replace={true} />;
+  }
 
   return (
     <div className="w-full flex bg-zinc-900 min-h-screen relative text-white overflow-auto">

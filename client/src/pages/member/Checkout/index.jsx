@@ -33,6 +33,13 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
 
   // Handler for radio button change
   const handlePaymentTypeChange = (e) => {
+    if (e.target.value === "Online") {
+      notification.warning({
+        message: "Hệ thống bảo trì, xin cảm ơn",
+        duration: 1,
+      });
+      return;
+    }
     setTypePayment(e.target.value);
   };
 
@@ -153,7 +160,7 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
           </div>
           <div className="flex justify-center items-center gap-2">
             <label htmlFor="online" className="font-bold cursor-pointer">
-              Thanh toán qua paypal
+              Thanh toán qua banking
             </label>
             <input
               id="online"

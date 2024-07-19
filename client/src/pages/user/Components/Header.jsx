@@ -60,7 +60,7 @@ function Header({ useSelector, dispatch }) {
               onClick={() => setIsShowMenuMember(true)}
             />
             {isShowMenuMember && (
-              <div className="absolute top-[50px] right-[20px] text-white bg-blue-400  w-[200px] flex flex-col border rounded-xl">
+              <div className="absolute top-[50px] right-[20px] text-black bg-white  w-[200px] flex flex-col border rounded-xl">
                 <Link
                   onClick={() => setIsShowMenuMember(false)}
                   className="px-6 py-2 border hover:bg-main hover:text-white font-bold text-lg  rounded-t-xl"

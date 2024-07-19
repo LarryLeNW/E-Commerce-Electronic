@@ -1,10 +1,10 @@
 import logo from "assets/logo.png";
-import { MenuAdminSidebar } from "constant";
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "redux/slicers/auth.slicer";
 import ICONS from "utils/icons";
+import { menuAdminSidebar } from "../constant";
 
 function AdminSideBar() {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function AdminSideBar() {
         <small>Admin workspace</small>
       </div>
       <div>
-        {MenuAdminSidebar.map((el) => (
+        {menuAdminSidebar.map((el) => (
           <Fragment key={el.id}>
             {el.type === "SINGLE" && (
               <NavLink

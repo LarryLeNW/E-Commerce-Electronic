@@ -1,4 +1,4 @@
-import { RiPhoneFill, RiTruckFill } from "react-icons/ri";
+import { RiPhoneFill, RiProductHuntLine, RiTruckFill } from "react-icons/ri";
 import {
   IoIosArrowDropdown,
   IoIosArrowDropright,
@@ -33,6 +33,7 @@ import {
 import { FaUsersGear } from "react-icons/fa6";
 import { AiFillProduct } from "react-icons/ai";
 import { TbPackages } from "react-icons/tb";
+import { MdCategory } from "react-icons/md";
 
 const ICONS = {
   RiPhoneFill,
@@ -66,6 +67,8 @@ const ICONS = {
   IoIosCloseCircleOutline,
   IoMdRemoveCircleOutline,
   IoMdCheckmarkCircleOutline,
+  RiProductHuntLine,
+  MdCategory,
 };
 
 export default ICONS;
