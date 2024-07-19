@@ -1,16 +1,27 @@
 const Product = require("../models/product.model");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
+const productCategoryModel = require("../models/productCategory.model");
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { title, price, description, brand, category, color } = req.body;
+  const { title, price, description, brand, category, color, quantity } =
+    req.body;
   const files = req.files?.map((el) => el.path);
-  if (!(title && price && description && brand && category && color))
+  if (
+    !(title && price && description && brand && category && color && quantity)
+  )
     throw new Error("Missing inputs");
   req.body.slug = slugify(req.body.title);
   req.body.images = files;
   req.body.thumb = files[0];
   const newProduct = await Product.create(req.body);
+  if (newProduct) {
+    await productCategoryModel.updateOne(
+      { title: category },
+      { $inc: { totalProduct: quantity } }
+    );
+  }
+
   return res.status(200).json({
     success: newProduct ? true : false,
     createdProduct: newProduct ? newProduct : "Cannot create new product",
@@ -19,19 +30,42 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params;
-  const { title, price, description, brand, category } = req.body;
+  const { title, price, description, brand, category, quantity } = req.body;
   const files = req.files?.map((el) => el.path);
-  if (!(pid, title, price, description, brand, category))
+
+  if (
+    !(pid && title && price && description && brand && category && quantity)
+  ) {
     throw new Error("Missing inputs");
+  }
+
   req.body.slug = slugify(req.body.title);
   req.body.images = files;
   req.body.thumb = files[0];
+
+  const existingProduct = await Product.findById(pid);
+
+  if (!existingProduct) {
+    throw new Error("Product not found");
+  }
+
+  const oldQuantity = existingProduct.quantity;
+  console.log("🚀 ~ updateProduct ~ oldQuantity:", oldQuantity);
+
   const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
     new: true,
   });
+
+  if (updatedProduct) {
+    await productCategoryModel.updateOne(
+      { title: category },
+      { $inc: { totalProduct: quantity - oldQuantity } }
+    );
+  }
+
   return res.status(200).json({
-    success: updatedProduct ? true : false,
-    updatedProduct: updatedProduct ? updatedProduct : "Cannot update product",
+    success: !!updatedProduct,
+    updatedProduct: updatedProduct || "Cannot update product",
   });
 });
 

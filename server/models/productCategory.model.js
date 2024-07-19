@@ -13,9 +13,13 @@ var productCategorySchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    brand: {
+    brands: {
       type: Array,
       required: true,
+    },
+    totalProduct: {
+      type: Number,
+      defaultValue: 0,
     },
   },
   { timestamps: true }
