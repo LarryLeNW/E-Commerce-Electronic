@@ -34,7 +34,7 @@ function Home({ useSelector, dispatch, navigate }) {
         </h3>
         <div className="flex flex-wrap gap-4 mt-4">
           {categories.map((el, index) => {
-            if (el?.brand?.length > 0)
+            if (el?.brands?.length > 0)
               return (
                 <div
                   key={index}
@@ -66,7 +66,7 @@ function Home({ useSelector, dispatch, navigate }) {
                         {el?.title}
                       </h4>
                       <ul className="flex flex-col justify-between h-full overflow-y-hidden ">
-                        {el?.brand?.map((item, index) => (
+                        {el?.brands?.map((item, index) => (
                           <li
                             key={index}
                             className="text-sm flex gap-2 text-main hover:bg-main  hover:text-white py-2"

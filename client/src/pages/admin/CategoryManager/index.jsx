@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import { deleteUser, getUsers } from "apis";
+import { deleteCategory, deleteUser, getUsers } from "apis";
 import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
@@ -76,7 +76,21 @@ function CategoryManager({ dispatch, useSelector }) {
     );
   };
 
-  const handleDelete = async (cid) => {};
+  const handleDelete = async (cid) => {
+    setIsLoadingActions({ loading: true, cid });
+    let response;
+    try {
+      response = await deleteCategory(cid);
+      if (response.success) fetchCategory();
+      notification.success({
+        message: "delete category successfully",
+        duration: 1,
+      });
+    } catch (error) {
+      notification.error({ message: "Delete failed..." });
+    }
+    setIsLoadingActions({ loading: false, cid: null });
+  };
 
   return (
     <div className="w-full p-4 flex flex-col  overflow-x-auto min-h-full ">
@@ -128,7 +142,7 @@ function CategoryManager({ dispatch, useSelector }) {
                   </td>
                   <td className="px-4 py-2 border border-slate-500 ">
                     <ul className=" ">
-                      {c?.brand?.map((el) => (
+                      {c?.brands?.map((el) => (
                         <li key={el} className="list-square ml-2">
                           {el}
                         </li>
@@ -157,7 +171,7 @@ function CategoryManager({ dispatch, useSelector }) {
                     </button>
                   </td>
                   {hoveredCategoryId == c?._id && (
-                    <div className="absolute w-[200px] h-[200px] rounded top-[100px] transition ease-in  left-0 bg-gray-200 z-50 border-2 border-main shadow-md p-4">
+                    <div className="absolute w-[200px] h-[200px] rounded top-[-100px] transition ease-in  left-0 bg-gray-200 z-50 border-2 border-main shadow-md p-4">
                       <img
                         src={c?.thumb}
                         alt="thumb image"

@@ -86,7 +86,7 @@ function UpdateProduct({ location, dispatch }) {
   useEffect(() => {
     if (watch("category")) {
       setBrands(
-        categories?.data.find((c) => c?.title === watch("category"))?.brand
+        categories?.data.find((c) => c?.title === watch("category"))?.brands
       );
     }
   }, [watch("category")]);
@@ -111,8 +111,6 @@ function UpdateProduct({ location, dispatch }) {
   };
 
   const handleUpdateProduct = async (data) => {
-    console.log("🚀 ~ handleUpdateProduct ~ data:", data);
-
     if (imgUpload.length == 0) {
       notification.error({ message: "Please upload at least one image..." });
       return;
@@ -273,6 +271,7 @@ function UpdateProduct({ location, dispatch }) {
               register={register}
               validate={{ required: `Require this field` }}
               fullWidth
+              defaultValue={currentProduct?.brand || null}
               options={categories?.data?.reduce((prev, category) => {
                 return { ...prev, [category?.title]: category?.title };
               }, {})}
