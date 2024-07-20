@@ -1,4 +1,4 @@
-DỰ ÁN E-CONMERCE TECH SHOP 😍
+DỰ ÁN E-CONMERCE Electronic 😍
 
 Công nghệ sử dụng 
 FE : Reactjs, Redux(saga), Tailwind, Axios,...
