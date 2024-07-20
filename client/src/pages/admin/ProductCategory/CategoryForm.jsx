@@ -10,12 +10,7 @@ import { useForm } from "react-hook-form";
 import { showModal } from "redux/slicers/common.slicer";
 import { convertBase64ToImage, convertImageToBase64 } from "utils/file";
 
-function CategoryForm({
-  userCurrent,
-  categoryCurrent,
-  callbackUpdateAfter,
-  dispatch,
-}) {
+function CategoryForm({ categoryCurrent, callbackUpdateAfter, dispatch }) {
   const {
     register,
     handleSubmit,
@@ -81,7 +76,7 @@ function CategoryForm({
       dispatch(showModal({ isShow: false }));
     } catch (error) {
       console.error("Error in handleUpdate:", error);
-      const errorMessage = userCurrent?._id
+      const errorMessage = categoryCurrent?._id
         ? "Category update failed"
         : "Create failed";
       notification.error({

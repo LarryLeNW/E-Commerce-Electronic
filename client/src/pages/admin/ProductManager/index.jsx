@@ -3,17 +3,22 @@ import { getProductCategories } from "apis";
 import { deleteProduct, getProducts } from "apis/product";
 import DOMPurify from "dompurify";
 import withBaseComponent from "hocs";
+import useDebounce from "hooks/useDebounce";
 import moment from "moment";
 import Pagination from "pages/user/ListProduct/Pagination";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { generatePath } from "react-router-dom";
+import { showModal } from "redux/slicers/common.slicer";
 import Swal from "sweetalert2";
 import { formatMoney } from "utils/helper";
 import path from "utils/path";
 
 function ProductManager({ navigate }) {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState({ data: [] });
   const [categories, setCategories] = useState({ data: [] });
+  const [keyword, setKeyword] = useState("");
 
   const [params, setParams] = useState({
     keyword: "",
@@ -27,6 +32,12 @@ function ProductManager({ navigate }) {
   });
   const [hoveredProductId, setHoveredProductId] = useState(null);
 
+  const keywordParamDebounce = useDebounce(keyword, 500);
+
+  useEffect(() => {
+    handleFilter("keyword", keywordParamDebounce);
+  }, [keywordParamDebounce]);
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -36,8 +47,10 @@ function ProductManager({ navigate }) {
   }, [params]);
 
   const fetchProducts = async () => {
+    dispatch(showModal({ isShowModal: true, isAction: true }));
     const response = await getProducts(params);
-    if (response?.success) setProducts(response);
+    setProducts(response || []);
+    dispatch(showModal({ isShowModal: false }));
   };
 
   const fetchCategories = async () => {
@@ -104,7 +117,6 @@ function ProductManager({ navigate }) {
             <select
               name="sort"
               id=""
-              // onChange={(e) => handleFilter("sort", e.target.value)}
               className="w-full text-black"
               onChange={(e) => {
                 if (e.target.value === "all") {
@@ -180,9 +192,9 @@ function ProductManager({ navigate }) {
           <div className="border border-main p-4 rounded h-full flex justify-around items-center gap-2">
             <input
               type="text"
-              value={params?.keyword}
+              value={keyword}
               placeholder="search products by key ..."
-              onChange={(e) => handleFilter("keyword", e.target.value)}
+              onChange={(e) => setKeyword(e.target.value)}
               className="p-2 flex-2 outline-main"
             />
             <button

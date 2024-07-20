@@ -31,6 +31,8 @@ import {
 } from "pages/member";
 
 import {
+  BlogCategoryManagerPage,
+  BlogManagerPage,
   DashBoardPage,
   OrderManagerPage,
   ProductCategoryPage,
@@ -108,6 +110,14 @@ function App({ dispatch, navigate, useSelector }) {
           <Route
             path={path.ADMIN.VARIANT_MANAGEMENT}
             element={<VariantProductPage />}
+          />
+          <Route
+            path={path.ADMIN.BLOG_MANAGEMENT}
+            element={<BlogManagerPage />}
+          />
+          <Route
+            path={path.ADMIN.BLOG_CATEGORY_MANAGEMENT}
+            element={<BlogCategoryManagerPage />}
           />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />

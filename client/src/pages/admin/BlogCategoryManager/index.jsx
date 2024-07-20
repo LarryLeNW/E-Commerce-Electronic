@@ -6,103 +6,82 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { getCategoriesRequest } from "redux/slicers/category.slicer";
 import { showModal } from "redux/slicers/common.slicer";
-import CategoryForm from "./CategoryForm";
+import FormModal from "./FormModal";
+import { deleteBlogCategories, getBlogCategories } from "apis/blogCategory";
 
-function ProductCategory({ dispatch, useSelector }) {
-  const { data, loading } = useSelector((state) => state.category);
-  const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
-  const [params, setParams] = useState({
-    keyword: "",
-  });
-  const [keyword, setKeyword] = useState("");
+function BlogCategoryManager({ dispatch, useSelector }) {
+  const [data, setData] = useState();
+  const [dataRender, setDataRender] = useState([]);
 
   const [isLoadingActions, setIsLoadingActions] = useState({
     loading: false,
-    cid: null,
+    actionId: null,
   });
 
-  const keywordParamDebounce = useDebounce(keyword, 500);
-
-  const handleMouseEnter = (productId) => {
-    setHoveredCategoryId(productId);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCategoryId(null);
-  };
-
-  const fetchCategory = () => {
+  const fetchBlogCategories = async () => {
     dispatch(showModal({ isShowModal: true, isAction: true }));
-    dispatch(
-      getCategoriesRequest({
-        params,
-      })
-    );
+    const response = await getBlogCategories();
+    setData(response?.data || []);
+    setDataRender(response?.data || []);
     dispatch(showModal({ isShowModal: false }));
   };
 
   useEffect(() => {
-    fetchCategory();
+    fetchBlogCategories();
   }, []);
 
   useEffect(() => {
-    fetchCategory();
-  }, [params]);
-
-  useEffect(() => {
-    handleFilter("keyword", keywordParamDebounce);
-  }, [keywordParamDebounce]);
-
-  const handleFilter = (key, value) => {
-    const newFilterParams = {
-      ...params,
-      [key]: value,
-    };
-    setParams(newFilterParams);
-  };
+    fetchBlogCategories();
+  }, []);
 
   const openFormEdit = (c, index) => {
     dispatch(
       showModal({
         isShowModal: true,
         children: (
-          <CategoryForm
-            categoryCurrent={c}
-            callbackUpdateAfter={fetchCategory}
+          <FormModal
+            blogCategoryCurrent={c}
+            callbackUpdateAfter={fetchBlogCategories}
           />
         ),
       })
     );
   };
 
-  const handleDelete = async (cid) => {
-    setIsLoadingActions({ loading: true, cid });
+  const handleDelete = async (actionId) => {
+    setIsLoadingActions({ loading: true, actionId });
     let response;
     try {
-      response = await deleteCategory(cid);
-      if (response.success) fetchCategory();
+      response = await deleteBlogCategories(actionId);
+      if (response.success) fetchBlogCategories();
       notification.success({
-        message: "delete category successfully",
+        message: "deleted successfully",
         duration: 1,
       });
     } catch (error) {
       notification.error({ message: "Delete failed..." });
     }
-    setIsLoadingActions({ loading: false, cid: null });
+    setIsLoadingActions({ loading: false, actionId: null });
+  };
+
+  const handleFilterData = (keyword) => {
+    const newData = data.filter((item) =>
+      item.title.toLowerCase().includes(keyword.toLowerCase())
+    );
+    setDataRender(newData);
   };
 
   return (
     <div className="w-full p-4 flex flex-col  overflow-x-auto min-h-full ">
       <div className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-blue-300">
-        Manager categories
+        Manager Blog Categories
       </div>
       <div className="p-4 ">
         <div className="flex justify-end gap-2 items-center p-4 text-black  ">
           <input
             type="text"
-            value={keyword}
             placeholder="search by keyword..."
-            onChange={(e) => setKeyword(e.target.value)}
+            onChange={(e) => handleFilterData(e.target.value)}
             className="p-4 w-[70%]  outline-main rounded"
           />
           <button
@@ -119,20 +98,14 @@ function ProductCategory({ dispatch, useSelector }) {
               <tr>
                 <th className="px-4 py-2">#</th>
                 <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Brand</th>
-                <th className="px-4 py-2">Total Product</th>
+                <th className="px-4 py-2">Total Blogs</th>
                 <th className="px-4 py-2">UpdateAt</th>
                 <th className="px-4 py-2">Action</th>
               </tr>
             </thead>
             <tbody>
-              {data?.map((c, index) => (
-                <tr
-                  key={c._id}
-                  onMouseEnter={() => handleMouseEnter(c._id)}
-                  onMouseLeave={handleMouseLeave}
-                  className="hover-row relative"
-                >
+              {dataRender?.map((c, index) => (
+                <tr key={c._id} className="hover-row relative">
                   <td className="px-4 py-2 border border-slate-500  ">
                     {index}
                   </td>
@@ -140,16 +113,7 @@ function ProductCategory({ dispatch, useSelector }) {
                     <span>{c.title}</span>
                   </td>
                   <td className="px-4 py-2 border border-slate-500 ">
-                    <ul className=" ">
-                      {c?.brands?.map((el) => (
-                        <li key={el} className="list-square ml-2">
-                          {el}
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td className="px-4 py-2 border border-slate-500 ">
-                    {c?.totalProduct || 0}
+                    <span>{c.totalBlogs}</span>
                   </td>
                   <td className="px-4 py-2 border border-slate-500 ">
                     <span>{moment(c?.updatedAt).format("DD/MM/YYYY")}</span>
@@ -166,18 +130,11 @@ function ProductCategory({ dispatch, useSelector }) {
                       disabled={isLoadingActions.loading}
                       onClick={() => handleDelete(c?._id)}
                     >
-                      {isLoadingActions.cid == c?._id ? "Loading..." : "Delete"}
+                      {isLoadingActions.actionId == c?._id
+                        ? "Loading..."
+                        : "Delete"}
                     </button>
                   </td>
-                  {hoveredCategoryId == c?._id && (
-                    <div className="absolute w-[200px] h-[200px] rounded top-[-100px] transition ease-in  left-0 bg-gray-200 z-50 border-2 border-main shadow-md p-4">
-                      <img
-                        src={c?.thumb}
-                        alt="thumb image"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
                 </tr>
               ))}
             </tbody>
@@ -188,4 +145,4 @@ function ProductCategory({ dispatch, useSelector }) {
   );
 }
 
-export default withBaseComponent(ProductCategory);
+export default withBaseComponent(BlogCategoryManager);

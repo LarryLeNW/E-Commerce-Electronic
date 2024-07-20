@@ -12,21 +12,21 @@ export const menuAdminSidebar = [
   {
     id: 2,
     type: "SINGLE",
-    text: "User Management",
+    text: "Users",
     path: path.ADMIN.USER_MANAGEMENT,
     icon: <ICONS.FaUsersGear />,
   },
   {
     id: 2,
     type: "SINGLE",
-    text: "Category Management",
+    text: "Categories ",
     path: path.ADMIN.CATEGORY_MANAGEMENT,
     icon: <ICONS.MdCategory />,
   },
   {
     id: 3,
     type: "PARENT",
-    text: "Product Management",
+    text: "Products",
     icon: <ICONS.RiProductHuntLine />,
     submenu: [
       {
@@ -36,7 +36,7 @@ export const menuAdminSidebar = [
       },
       {
         id: 2,
-        text: "Product Management",
+        text: "Management",
         path: path.ADMIN.PRODUCT_MANAGEMENT,
       },
     ],
@@ -44,7 +44,21 @@ export const menuAdminSidebar = [
   {
     id: 4,
     type: "SINGLE",
-    text: "Order Management",
+    text: "Blog Categories",
+    path: path.ADMIN.BLOG_CATEGORY_MANAGEMENT,
+    icon: <ICONS.TbPackages />,
+  },
+  {
+    id: 5,
+    type: "SINGLE",
+    text: "Blogs",
+    path: path.ADMIN.BLOG_MANAGEMENT,
+    icon: <ICONS.TbPackages />,
+  },
+  {
+    id: 6,
+    type: "SINGLE",
+    text: "Orders",
     path: path.ADMIN.ORDER_MANAGEMENT,
     icon: <ICONS.TbPackages />,
   },
