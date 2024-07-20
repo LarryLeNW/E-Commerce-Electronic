@@ -58,9 +58,9 @@ function AdminSideBar() {
                     <span>{el.text}</span>
                   </div>
                   {indexOpenSubmenu.some((i) => i == el.id) ? (
-                    <ICONS.IoIosArrowDropdown className="text-[24px]" />
+                    <ICONS.IoIosArrowDropdown className="text-[24px] ml-auto " />
                   ) : (
-                    <ICONS.IoIosArrowDropright className="text-[24px]" />
+                    <ICONS.IoIosArrowDropright className="text-[24px] ml-auto" />
                   )}
                 </div>
                 {indexOpenSubmenu.some((i) => i == el.id) && (
@@ -70,8 +70,8 @@ function AdminSideBar() {
                         key={item.id}
                         to={item.path}
                         className={({ isActive }) =>
-                          `px-4 py-2 flex items-center gap-2 font-bold hover:bg-gray-500 transition-all  ${
-                            isActive ? "bg-gray-500" : " text-gray-200 "
+                          `px-4 py-2 flex items-center gap-2 font-bold hover:bg-gray-300 hover:text-main transition-all  ${
+                            isActive ? "bg-gray-500 " : " text-gray-200 "
                           }`
                         }
                       >

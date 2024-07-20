@@ -16,7 +16,7 @@ import { validate } from "utils/helper";
 import ICONS from "utils/icons";
 import path from "utils/path";
 
-function UpdateProduct({ location, dispatch }) {
+function UpdateBlog({ location, dispatch }) {
   const { search } = location;
   const [currentProduct, setCurrentProduct] = useState(null);
   const [categories, setCategories] = useState({ data: [] });
@@ -308,4 +308,4 @@ function UpdateProduct({ location, dispatch }) {
   );
 }
 
-export default withBaseComponent(UpdateProduct);
+export default withBaseComponent(UpdateBlog);

@@ -16,11 +16,12 @@ const path = {
     USER_MANAGEMENT: "/admin/user-management",
     ORDER_MANAGEMENT: "/admin/order-management",
     PRODUCT_MANAGEMENT: "/admin/product-management",
-    CATEGORY_MANAGEMENT: "/admin/category-management",
+    PRODUCT_CATEGORY_MANAGEMENT: "/admin/category-management",
     UPDATE_PRODUCT: "/admin/update-product",
     VARIANT_MANAGEMENT: "/admin/variant-management/:pid",
     BLOG_MANAGEMENT: "/admin/blog-management/",
     BLOG_CATEGORY_MANAGEMENT: "/admin/blog-category-management/",
+    UPDATE_BLOG_CATEGORY: "/admin/update-blog-category/",
   },
   MEMBER: {
     PROFILE: "/member/profile",

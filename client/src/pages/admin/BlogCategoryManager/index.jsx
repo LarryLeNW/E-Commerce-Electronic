@@ -1,13 +1,10 @@
 import { notification } from "antd";
-import { deleteCategory } from "apis";
+import { deleteBlogCategories, getBlogCategories } from "apis/blogCategory";
 import withBaseComponent from "hocs";
-import useDebounce from "hooks/useDebounce";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { getCategoriesRequest } from "redux/slicers/category.slicer";
 import { showModal } from "redux/slicers/common.slicer";
 import FormModal from "./FormModal";
-import { deleteBlogCategories, getBlogCategories } from "apis/blogCategory";
 
 function BlogCategoryManager({ dispatch, useSelector }) {
   const [data, setData] = useState();
@@ -74,7 +71,7 @@ function BlogCategoryManager({ dispatch, useSelector }) {
   return (
     <div className="w-full p-4 flex flex-col  overflow-x-auto min-h-full ">
       <div className="h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b border-blue-300">
-        Manager Blog Categories
+        Blog Categories Management
       </div>
       <div className="p-4 ">
         <div className="flex justify-end gap-2 items-center p-4 text-black  ">
