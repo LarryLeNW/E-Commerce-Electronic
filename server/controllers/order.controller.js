@@ -55,7 +55,7 @@ const getOrderUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { oid } = req.params;
   const response = await Order.findOne({ _id: oid, orderBy: _id });
-  console.log("🚀 ~ getOrderUser ~ response:", response);
+
   return res.json({
     success: response ? true : false,
     data: response || "Can't get order",

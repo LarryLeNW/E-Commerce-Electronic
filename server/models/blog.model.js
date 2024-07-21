@@ -7,6 +7,7 @@ var blogSchema = new mongoose.Schema(
       required: [true, "Title is required"],
       trim: true,
       maxlength: [200, "Title cannot exceed 200 characters"],
+      unique: true,
     },
     description: {
       type: String,
@@ -38,7 +39,7 @@ var blogSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    image: {
+    thumb: {
       type: String,
       default: "https://wallpapercave.com/dwp1x/wp7348236.jpg",
     },

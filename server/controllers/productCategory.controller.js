@@ -18,7 +18,6 @@ const getCategories = asyncHandler(async (req, res) => {
       { title: { $regex: req.query?.keyword, $options: "i" } },
     ];
   }
-  console.log("🚀 ~ getCategories ~ formattedQueries:", formattedQueries);
 
   const response = await ProductCategory.find(formattedQueries);
   return res.json({

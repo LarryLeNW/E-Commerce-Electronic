@@ -5,15 +5,15 @@ const createCategory = asyncHandler(async (req, res) => {
   const response = await BlogCategory.create(req.body);
   return res.json({
     success: response ? true : false,
-    createdCategory: response || "Can't create new blogCategories",
+    data: response || "Can't create new blogCategories",
   });
 });
 
 const getCategories = asyncHandler(async (req, res) => {
-  const response = await BlogCategory.find().select("title _id");
+  const response = await BlogCategory.find();
   return res.json({
     success: response ? true : false,
-    blogCategories: response || "Can't get blogCategories",
+    data: response || "Can't get blogCategories",
   });
 });
 

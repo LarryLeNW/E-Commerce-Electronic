@@ -50,7 +50,6 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 
   const oldQuantity = existingProduct.quantity;
-  console.log("🚀 ~ updateProduct ~ oldQuantity:", oldQuantity);
 
   const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
     new: true,

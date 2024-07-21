@@ -297,8 +297,6 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  console.log(req.body);
-  console.log("🚀 ~ updateUser ~ _id:", _id);
   if (Object.keys(req.body).length === 0) throw new Error("Missing inputs");
   const response = await User.findByIdAndUpdate(_id, req.body, {
     new: true,

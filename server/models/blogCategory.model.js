@@ -9,6 +9,10 @@ var blogCategorySchema = new mongoose.Schema(
       unique: true,
       index: true,
     },
+    totalBlogs: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

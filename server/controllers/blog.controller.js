@@ -4,8 +4,9 @@ const Blog = require("../models/blog.model");
 const createNewBlog = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { title, description, category } = req.body;
+  req.body.thumb = req.file.path;
 
-  if (!title || !description || !category) throw new Error("Missing inputs");
+  if (!(title && description && category)) throw new Error("Missing inputs");
 
   const response = await Blog.create({ ...req.body, author: _id });
   return res.json({
@@ -15,15 +16,71 @@ const createNewBlog = asyncHandler(async (req, res) => {
 });
 
 const getBlogs = asyncHandler(async (req, res) => {
-  const response = await Blog.find();
+  const queries = { ...req.query };
+
+  const excludeFields = [
+    "limit",
+    "sort",
+    "page",
+    "fields",
+    "keyword",
+    "priceFrom",
+    "priceTo",
+  ];
+
+  excludeFields.forEach((el) => delete queries[el]);
+
+  let queryString = JSON.stringify(queries);
+  queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
+  let formattedQueries = JSON.parse(queryString);
+
+  // filtering
+  if (req.query?.keyword) {
+    formattedQueries["$or"] = [
+      { title: { $regex: req.query?.keyword, $options: "i" } },
+      { description: { $regex: req.query?.keyword, $options: "i" } },
+    ];
+  }
+
+  if (queries?.category)
+    formattedQueries.category = { $regex: queries.category, $options: "i" };
+
+  const blogsQuery = Blog.find(formattedQueries).populate({
+    path: "author",
+    select: "username",
+  });
+
+  // sorting
+  if (req.query.sort) {
+    let sortBy = req.query.sort.split(",").join(" ");
+    blogsQuery.sort(sortBy);
+  }
+
+  // fields limiting
+  if (req.query.fields) {
+    let fields = req.query.fields.split(",").join(" ");
+    blogsQuery.select(fields);
+  }
+
+  // Pagination
+  const page = +req.query.page || 1;
+  const limit = req.query.limit || process.env.LIMIT_PRODUCT;
+  const skip = (page - 1) * limit;
+  blogsQuery.skip(skip).limit(limit);
+
+  const blogs = await blogsQuery;
+  const counts = await Blog.find(formattedQueries).countDocuments();
+
   return res.json({
-    success: response ? true : false,
-    blogs: response || "Can't get blogs",
+    success: !!blogs,
+    data: blogs || "Can't get blogs",
+    counts,
   });
 });
 
 const updateBlog = asyncHandler(async (req, res) => {
   const { bid } = req.params;
+  req.body.thumb = req.file.path;
   if (Object.keys(req.body).length === 0) throw new Error("missing inputs");
 
   const response = await Blog.findByIdAndUpdate(bid, req.body, {
@@ -93,13 +150,18 @@ const getBlog = asyncHandler(async (req, res) => {
       $inc: { numberViews: 1 },
     },
     { new: true }
-  ).populate({
-    path: "interactions.user",
-    select: "username ",
-  });
+  )
+    .populate({
+      path: "interactions.user",
+      select: "username ",
+    })
+    .populate({
+      path: "author",
+      select: "username",
+    });
   return res.json({
     success: response ? true : false,
-    blog: response || "Can't get blogs",
+    data: response || "Can't get blogs",
   });
 });
 

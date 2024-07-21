@@ -48,7 +48,6 @@ const updateCart = asyncHandler(async (req, res) => {
 const removeItemCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { pid } = req.params;
-  console.log("🚀 ~ removeItemCart ~ pid:", pid);
   if (!pid) throw new Error("Missing inputs ");
 
   const response = await User.findByIdAndUpdate(
@@ -58,7 +57,6 @@ const removeItemCart = asyncHandler(async (req, res) => {
     },
     { new: true }
   );
-  console.log("🚀 ~ removeItemCart ~ response:", response);
 
   return res.status(200).json({
     success: !!response,
