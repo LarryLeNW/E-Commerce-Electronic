@@ -58,7 +58,7 @@ export const menuAdminSidebar = [
       {
         id: 2,
         text: "Create Quickly",
-        path: path.ADMIN.UPDATE_BLOG_CATEGORY,
+        path: path.ADMIN.UPDATE_BLOG,
       },
     ],
   },

@@ -65,7 +65,6 @@ function Checkout({ useSelector, checkLoginBeforeAction, dispatch, navigate }) {
             total,
           },
           callback: (res) => {
-            console.log("🚀 ~ checkLoginBeforeAction ~ res:", res);
             let url;
             if (res?.data?._id) {
               navigate(path.MEMBER.HISTORY);

@@ -9,7 +9,6 @@ import { updateCartRequest } from "redux/slicers/auth.slicer";
 import { formatMoney, renderStars } from "utils/helper";
 
 function QuickViewProduct({ productData, checkLoginBeforeAction, dispatch }) {
-  console.log("🚀 ~ QuickViewProduct ~ productData:", productData);
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantity = useCallback(

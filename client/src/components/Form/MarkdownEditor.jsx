@@ -10,7 +10,6 @@ export default function MarkdownEditor({
   setInvalidFields,
   height = 500,
 }) {
-  console.log("🚀 ~ value:", value);
   const editorRef = useRef(null);
 
   const log = () => {

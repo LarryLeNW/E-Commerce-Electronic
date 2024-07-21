@@ -15,9 +15,7 @@ import { createOrder, getOrder, getOrders } from "apis";
 function* createOrderSaga(action) {
   try {
     const { data, callback } = action.payload;
-    console.log("🚀 ~ function*createOrderSaga ~ data:", data);
     let response = yield createOrder(data);
-    console.log("🚀 ~ function*createOrderSaga ~ response:", response);
     yield put(orderSuccess());
     yield callback(response);
   } catch (error) {
@@ -38,7 +36,6 @@ function* getOrderDetailSaga(action) {
   try {
     const { oid } = action.payload;
     let response = yield getOrder(oid);
-    console.log("🚀 ~ function*getOrderDetailSaga ~ response:", response);
     yield put(getOrderDetailSuccess({ data: response.data }));
   } catch (error) {
     yield put(getOrderDetailFailure({ error }));

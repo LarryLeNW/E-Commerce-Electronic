@@ -8,10 +8,7 @@ import Cookies from "js-cookie";
 function AdminLayout({ useSelector }) {
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log("🚀 ~ AdminLayout ~ userInfo:", !userInfo.data);
-
   let tokenUser = Cookies.get("refreshToken");
-  console.log("🚀 ~ AdminLayout ~ tokenUser:", tokenUser);
 
   if (tokenUser && userInfo.loading) {
     return;

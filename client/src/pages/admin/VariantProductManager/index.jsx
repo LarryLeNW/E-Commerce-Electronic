@@ -12,7 +12,6 @@ function VariantProductManager({ params, dispatch }) {
   const { pid } = params;
   const [product, setProduct] = useState(null);
   const [hoveredVariantId, setHoveredVariantId] = useState(null);
-  console.log("🚀 ~ VariantProductManager ~ product:", product);
   const [isLoadingActions, setIsLoadingActions] = useState({
     loading: false,
     vid: null,
@@ -50,7 +49,6 @@ function VariantProductManager({ params, dispatch }) {
   };
 
   const handleDelete = async (vid) => {
-    console.log("🚀 ~ handleDelete ~ vid:", vid);
     setIsLoadingActions({ loading: true, vid });
     let response;
     try {
@@ -59,13 +57,10 @@ function VariantProductManager({ params, dispatch }) {
         setProduct((prev) => ({ ...prev, variants: response.data }));
       notification.success({ message: response.message, duration: 1 });
     } catch (error) {
-      console.log("🚀 ~ handleDelete ~ error:", error);
       notification.error({ message: "Delete failed...", duration: 1 });
     }
     setIsLoadingActions({ loading: false, vid: null });
   };
-
-  console.log("🚀 ~ VariantProductManager ~ pid:", pid);
 
   const handleMouseEnter = (productId) => {
     setHoveredVariantId(productId);

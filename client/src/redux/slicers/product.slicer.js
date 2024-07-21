@@ -38,7 +38,6 @@ export const productSlicer = createSlice({
     },
     getProductListSuccess: (state, action) => {
       const { data, meta, more } = action.payload;
-      console.log("🚀 ~ data:", data);
       state.productList.loading = false;
       state.productList.meta = meta;
       state.productList.data = more

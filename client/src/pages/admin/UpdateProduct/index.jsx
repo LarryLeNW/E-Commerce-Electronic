@@ -18,6 +18,7 @@ import path from "utils/path";
 
 function UpdateProduct({ location, dispatch }) {
   const { search } = location;
+  let searchParams = QueryString.parse(search, { ignoreQueryPrefix: true });
   const [currentProduct, setCurrentProduct] = useState(null);
   const [categories, setCategories] = useState({ data: [] });
   const [previewImg, setPreviewImg] = useState([]);
@@ -26,7 +27,6 @@ function UpdateProduct({ location, dispatch }) {
   const [invalidFields, setInvalidFields] = useState([]);
   const [indexImgHover, setIndexImgHover] = useState(null);
   const [brands, setBrands] = useState([]);
-  let searchParams = QueryString.parse(search, { ignoreQueryPrefix: true });
 
   const {
     register,
@@ -37,7 +37,7 @@ function UpdateProduct({ location, dispatch }) {
     setValue,
   } = useForm();
 
-  // fetch category one time
+  // fetch product category
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await getProductCategories();

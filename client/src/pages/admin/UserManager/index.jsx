@@ -60,7 +60,6 @@ function UserManager({ dispatch }) {
     } catch (error) {
       notification.error({ message: "Delete failed..." });
     }
-    console.log("🚀 ~ handleDelete ~ response.success:", response);
     setIsLoadingActions({ loading: false, uid: null });
   };
 
@@ -106,7 +105,7 @@ function UserManager({ dispatch }) {
               {users?.data?.map((u, index) => (
                 <tr key={u._id} className="hover-row">
                   <td className="px-4 py-2 border border-slate-500  ">
-                    {index}
+                    {index + 1}
                   </td>
                   <td className="px-4 py-2 border border-slate-500 ">
                     <span>{u.email}</span>

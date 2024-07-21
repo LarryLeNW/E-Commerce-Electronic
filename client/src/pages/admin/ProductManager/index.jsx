@@ -68,8 +68,8 @@ function ProductManager({ navigate }) {
     setParams(newFilterParams);
   };
 
-  const handleChangePage = (index) => {
-    setParams({ ...params, page: index });
+  const handleChangePage = (page) => {
+    setParams({ ...params, page });
   };
 
   const handleMouseEnter = (productId) => {
@@ -237,7 +237,9 @@ function ProductManager({ navigate }) {
                 onMouseEnter={() => handleMouseEnter(p._id)}
                 onMouseLeave={handleMouseLeave}
               >
-                <td className="px-4 py-1 border border-slate-500">{index}</td>
+                <td className="px-4 py-1 border border-slate-500">
+                  {index + 1}
+                </td>
                 <td className="px-4 py-1 border border-slate-500 text-sm">
                   <span>{p?.title}</span>
                 </td>

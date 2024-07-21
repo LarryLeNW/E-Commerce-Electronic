@@ -104,7 +104,7 @@ function BlogCategoryManager({ dispatch, useSelector }) {
               {dataRender?.map((c, index) => (
                 <tr key={c._id} className="hover-row relative">
                   <td className="px-4 py-2 border border-slate-500  ">
-                    {index}
+                    {index + 1}
                   </td>
                   <td className="px-4 py-2 border border-slate-500 ">
                     <span>{c.title}</span>

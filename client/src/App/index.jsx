@@ -120,10 +120,7 @@ function App({ dispatch, navigate, useSelector }) {
             path={path.ADMIN.BLOG_CATEGORY_MANAGEMENT}
             element={<BlogCategoryManagerPage />}
           />
-          <Route
-            path={path.ADMIN.UPDATE_BLOG_CATEGORY}
-            element={<UpdateBlogPage />}
-          />
+          <Route path={path.ADMIN.UPDATE_BLOG} element={<UpdateBlogPage />} />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
         <Route path={path.MEMBER.CHECKOUT} element={<CheckoutPage />} />

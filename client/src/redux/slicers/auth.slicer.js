@@ -106,7 +106,6 @@ export const authSlicer = createSlice({
     },
     removeCartFailure: (state, action) => {
       const { error } = action.payload;
-      console.log("🚀 ~ error:", error);
       state.cart.error = error;
       state.cart.loading = false;
     },

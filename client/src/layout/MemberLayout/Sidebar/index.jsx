@@ -9,7 +9,6 @@ import ICONS from "utils/icons";
 function MemberSideBar() {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  console.log("🚀 ~ MemberSideBar ~ userInfo:", userInfo);
 
   const [indexOpenSubmenu, setIndexOpenSubmenu] = useState([]);
 

@@ -8,7 +8,6 @@ import ICONS from "utils/icons";
 function ShowBill({ params, dispatch, useSelector }) {
   const { oid } = params;
   const { data } = useSelector((state) => state.order.detail);
-  console.log("🚀 ~ ShowBill ~ orderDetail:", data);
 
   useEffect(() => {
     dispatch(getOrderDetailRequest({ oid }));

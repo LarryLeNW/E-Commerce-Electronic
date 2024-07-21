@@ -16,9 +16,6 @@ function VariantForm({
   productCurrent,
   callbackUpdateAfter,
 }) {
-  console.log("🚀 ~ VariantForm ~ productCurrent:", productCurrent);
-  console.log("🚀 ~ VariantForm ~ variantCurrent:", variantCurrent);
-
   const [previewImg, setPreviewImg] = useState([]);
   const [imgUpload, setImageUpload] = useState([]);
   const [payload, setPayload] = useState({ description: "" });
@@ -85,7 +82,6 @@ function VariantForm({
       return;
     }
     const invalids = validate(payload, setInvalidFields);
-    console.log("🚀 ~ handleUpdateVariant ~ invalids:", invalids);
     if (invalids === 0) {
       dispatch(showModal({ isShowModal: true, isAction: true }));
       const dataPayload = {
