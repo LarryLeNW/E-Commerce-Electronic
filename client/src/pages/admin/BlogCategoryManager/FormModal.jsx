@@ -86,20 +86,23 @@ function FormModal({ blogCategoryCurrent, callbackUpdateAfter, dispatch }) {
             required: `Require this field`,
           }}
         />
-        <InputForm
-          errors={errors}
-          id={"totalBlogs"}
-          type="number"
-          register={register}
-          fullWidth
-          validate={{
-            required: `Require this field`,
-            pattern: {
-              value: /^[1-9]\d*$/,
-              message: "This field greater than 0",
-            },
-          }}
-        />
+        {blogCategoryCurrent && (
+          <InputForm
+            errors={errors}
+            id={"totalBlogs"}
+            type="number"
+            register={register}
+            fullWidth
+            validate={{
+              required: `Require this field`,
+              pattern: {
+                value: /^[1-9]\d*$/,
+                message: "This field greater than 0",
+              },
+            }}
+          />
+        )}
+
         <button className="w-full p-2 bg-main text-white" type="submit">
           {blogCategoryCurrent ? `Update` : "Create"}
         </button>

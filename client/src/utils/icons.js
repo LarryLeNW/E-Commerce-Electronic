@@ -3,6 +3,7 @@ import {
   IoIosArrowDropdown,
   IoIosArrowDropright,
   IoIosCloseCircleOutline,
+  IoIosSearch,
   IoMdCheckmarkCircleOutline,
   IoMdMail,
   IoMdRemoveCircleOutline,
@@ -69,6 +70,7 @@ const ICONS = {
   IoMdCheckmarkCircleOutline,
   RiProductHuntLine,
   MdCategory,
+  IoIosSearch,
 };
 
 export default ICONS;

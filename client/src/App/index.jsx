@@ -1,21 +1,20 @@
 import { ROLE } from "constant/roleUser";
 import DetailProduct from "pages/user/DetailProduct";
-import ForgotPassword from "pages/user/ForgotPassword";
 import { useEffect } from "react";
-import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import { getUserInfoRequest } from "redux/slicers/auth.slicer";
 
-import UserLayout from "layout/UserLayout";
-import MemberLayout from "layout/MemberLayout";
 import AdminLayout from "layout/AdminLayout";
+import MemberLayout from "layout/MemberLayout";
+import UserLayout from "layout/UserLayout";
 
 import {
-  BlogPage,
   ConfirmRegisterPage,
   DetailCartPage,
   FAQPage,
   ForgotPasswordPage,
   HomePage,
+  ListBlogsPage,
   ListProductPage,
   LoginPage,
   ServicePage,
@@ -43,10 +42,10 @@ import {
   VariantProductPage,
 } from "pages/admin";
 
-import path from "../utils/path";
-import Modal from "components/Modal";
 import Loading from "components/Loading";
+import Modal from "components/Modal";
 import withBaseComponent from "hocs";
+import path from "../utils/path";
 
 function App({ dispatch, navigate, useSelector }) {
   const { modal } = useSelector((state) => state.common);
@@ -74,7 +73,7 @@ function App({ dispatch, navigate, useSelector }) {
         <Route element={<UserLayout />}>
           <Route index element={<HomePage />} />
           <Route path={path.DETAIL_CART} element={<DetailCartPage />} />
-          <Route path={path.BLOGS} element={<BlogPage />} />
+          <Route path={path.BLOGS} element={<ListBlogsPage />} />
           <Route path={path.DETAIL_PRODUCT} element={<DetailProduct />} />
           <Route path={path.OUR_SERVICES} element={<ServicePage />} />
           <Route path={path.FAQ} element={<FAQPage />} />
