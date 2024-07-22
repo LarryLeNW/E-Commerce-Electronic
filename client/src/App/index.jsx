@@ -10,6 +10,7 @@ import UserLayout from "layout/UserLayout";
 
 import {
   ConfirmRegisterPage,
+  DetailBlogPage,
   DetailCartPage,
   FAQPage,
   ForgotPasswordPage,
@@ -78,6 +79,7 @@ function App({ dispatch, navigate, useSelector }) {
           <Route path={path.OUR_SERVICES} element={<ServicePage />} />
           <Route path={path.FAQ} element={<FAQPage />} />
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
+          <Route path={path.DETAIL_BLOG} element={<DetailBlogPage />} />
         </Route>
         <Route element={<MemberLayout />}>
           <Route path={path.MEMBER.PROFILE} element={<ProfilePage />} />

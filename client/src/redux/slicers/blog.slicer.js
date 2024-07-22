@@ -18,20 +18,20 @@ export const blogSlicer = createSlice({
   name: "blog",
   initialState,
   reducers: {
-    // getProductDetailRequest: (state, action) => {
-    //   state.blogDetail.loading = true;
-    //   state.blogDetail.error = null;
-    // },
-    // getProductDetailSuccess: (state, action) => {
-    //   const { data } = action.payload;
-    //   state.blogDetail.loading = false;
-    //   state.blogDetail.data = data;
-    // },
-    // getProductDetailFailure: (state, action) => {
-    //   const { error } = action.payload;
-    //   state.blogDetail.loading = false;
-    //   state.blogDetail.error = error;
-    // },
+    getBlogDetailRequest: (state, action) => {
+      state.blogDetail.loading = true;
+      state.blogDetail.error = null;
+    },
+    getBlogDetailSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.blogDetail.loading = false;
+      state.blogDetail.data = data;
+    },
+    getBlogDetailFailure: (state, action) => {
+      const { error } = action.payload;
+      state.blogDetail.loading = false;
+      state.blogDetail.error = error;
+    },
     getBlogListRequest: (state, action) => {
       state.blogList.loading = true;
       state.blogList.error = null;
@@ -51,9 +51,9 @@ export const blogSlicer = createSlice({
 });
 
 export const {
-  //   getBlogDetailRequest,
-  //   getBlogDetailSuccess,
-  //   getBlogDetailFailure,
+  getBlogDetailRequest,
+  getBlogDetailSuccess,
+  getBlogDetailFailure,
   getBlogListRequest,
   getBlogListSuccess,
   getBlogListFailure,

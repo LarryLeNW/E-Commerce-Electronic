@@ -3,7 +3,7 @@ import ICONS from "utils/icons";
 
 function Loading() {
   return (
-    <div className="flex gap-2 justify-center items-center p-4 text-white ">
+    <div className="flex gap-2 justify-center items-center p-4 text-white  ">
       <img
         src={logo}
         alt="img"

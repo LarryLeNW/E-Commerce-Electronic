@@ -6,8 +6,8 @@ function Modal({ children, isAction }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-center items-center"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+      className="fixed inset-0 z-50 flex justify-center items-center "
+      style={{ background: "rgba(255, 255, 255, 0.2)" }}
       onClick={() =>
         !isAction &&
         dispatch(

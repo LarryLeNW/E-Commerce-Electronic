@@ -1,5 +1,5 @@
 import withBaseComponent from "hocs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getBlogListRequest } from "redux/slicers/blog.slicer";
 import {
   clearFilterParams,
@@ -12,6 +12,7 @@ import path from "utils/path";
 import QueryString from "qs";
 import ICONS from "utils/icons";
 import useDebounce from "hooks/useDebounce";
+import NotFound from "components/NotFound";
 
 function List({ useSelector, dispatch, navigate }) {
   const { filterParams } = useSelector((state) => state.common);
@@ -99,8 +100,39 @@ function List({ useSelector, dispatch, navigate }) {
     });
   };
 
+  const renderBlogList = useMemo(() => {
+    if (blogList.data.length === 0)
+      return <NotFound message={"Không tìm thấy blog"} />;
+
+    return (
+      <>
+        <div className="px-1 py-2 flex flex-wrap gap-1 items-center  overflow-y-auto max-h-screen">
+          {blogList?.data.map((el, index) => (
+            <Blog
+              data={el}
+              key={el?._id}
+              ref={index === blogList.data.length - 1 ? lastBlogRef : null}
+            />
+          ))}
+        </div>
+        <Button
+          style="text-center mt-2 p-2 cursor-pointer mt-auto "
+          disabled={blogList.meta?.page === blogList.meta?.totalPage}
+          handleClick={handleShowMore}
+          name={"Hiển thị thêm"}
+        />
+        <Pagination
+          totalCount={blogList.meta.totalBlogs}
+          currentPage={blogList.meta.page}
+          handleChangePage={handleChangePage}
+          pageSizeParam={process.env.REACT_APP_LIMIT_BLOG_PAGE}
+        />
+      </>
+    );
+  }, [blogList.data]);
+
   return (
-    <div className="p-4">
+    <div className="p-4 border border-red-500 h-full flex flex-col">
       <h1 className="text-main border-b-2 border-main font-bold text-lg">
         Danh sách blog
       </h1>
@@ -137,27 +169,7 @@ function List({ useSelector, dispatch, navigate }) {
           </div>
         </div>
       </div>
-      <div className="px-1 py-2 flex flex-wrap gap-1 items-center  overflow-y-auto max-h-screen">
-        {blogList?.data.map((el, index) => (
-          <Blog
-            data={el}
-            key={el?._id}
-            ref={index === blogList.data.length - 1 ? lastBlogRef : null}
-          />
-        ))}
-      </div>
-      <Button
-        style={"text-center mt-2 p-2 cursor-pointer"}
-        disabled={blogList.meta?.page === blogList.meta?.totalPage}
-        handleClick={handleShowMore}
-        name={"Hiển thị thêm"}
-      />
-      <Pagination
-        totalCount={blogList.meta.totalBlogs}
-        currentPage={blogList.meta.page}
-        handleChangePage={handleChangePage}
-        pageSizeParam={process.env.REACT_APP_LIMIT_BLOG_PAGE}
-      />
+      {renderBlogList}
     </div>
   );
 }

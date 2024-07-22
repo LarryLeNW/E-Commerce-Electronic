@@ -1,21 +1,24 @@
-import { getBlogs } from "apis";
+import { getBlog, getBlogs } from "apis";
 import { put, takeEvery } from "redux-saga/effects";
 
 import {
   getBlogListRequest,
   getBlogListSuccess,
   getBlogListFailure,
+  getBlogDetailRequest,
+  getBlogDetailSuccess,
+  getBlogDetailFailure,
 } from "redux/slicers/blog.slicer";
 
-// function* getProductDetailSaga(action) {
-//   try {
-//     const { id } = action.payload;
-//     const result = yield getProduct(id);
-//     yield put(getProductDetailSuccess({ data: result.data }));
-//   } catch (e) {
-//     yield put(getProductDetailFailure("Đã có lỗi xảy ra!"));
-//   }
-// }
+function* getBlogDetailSaga(action) {
+  try {
+    const { id } = action.payload;
+    const result = yield getBlog(id);
+    yield put(getBlogDetailSuccess({ data: result.data }));
+  } catch (e) {
+    yield put(getBlogDetailFailure("Đã có lỗi xảy ra!"));
+  }
+}
 
 function* getBlogListSaga(action) {
   try {
@@ -40,5 +43,5 @@ function* getBlogListSaga(action) {
 
 export default function* productSaga() {
   yield takeEvery(getBlogListRequest.type, getBlogListSaga);
-  // yield takeEvery(getProductDetailRequest.type, getProductDetailSaga);
+  yield takeEvery(getBlogDetailRequest.type, getBlogDetailSaga);
 }

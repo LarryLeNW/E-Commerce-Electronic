@@ -5,10 +5,7 @@ import withBaseComponent from "hocs";
 import moment from "moment";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-  changeInfoFailure,
-  changeInfoRequest,
-} from "redux/slicers/auth.slicer";
+import { changeInfoRequest } from "redux/slicers/auth.slicer";
 
 function Profile({ useSelector, dispatch }) {
   const { userInfo } = useSelector((state) => state.auth);

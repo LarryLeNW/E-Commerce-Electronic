@@ -1,13 +1,23 @@
 import moment from "moment";
+import { generatePath, useNavigate } from "react-router-dom";
+import path from "utils/path";
 
 function Blog({ data }) {
-  console.log("🚀 ~ Blog ~ data:", data);
+  const navigate = useNavigate();
   return (
     <div
       key={data?._id}
-      className="border-2 p-2 cursor-pointer flex flex-col gap-2 rounded w-[310px]"
+      className="border-2 p-2  cursor-pointer flex flex-col gap-2 rounded w-[310px] min-h-[330px]"
+      onClick={() => {
+        navigate(
+          generatePath(path.DETAIL_BLOG, {
+            id: data._id,
+            category: data.category,
+          })
+        );
+      }}
     >
-      <div className="relative">
+      <div className="relative ">
         <img
           src={data?.thumb}
           alt="thumb"
@@ -18,7 +28,7 @@ function Blog({ data }) {
         </div>
       </div>
       <div className="font-semibold">{data?.title}</div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-auto">
         <span className="flex gap-2">
           <img
             src={data?.author?.avatar}
