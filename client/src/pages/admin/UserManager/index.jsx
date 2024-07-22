@@ -3,7 +3,7 @@ import { deleteUser, getUsers } from "apis";
 import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
-import Pagination from "pages/user/ListProduct/Pagination";
+import Pagination from "components/Pagination";
 import { useEffect, useState } from "react";
 import { showModal } from "redux/slicers/common.slicer";
 import { convertCodeRoleToName } from "utils/helper";

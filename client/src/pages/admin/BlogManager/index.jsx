@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { showModal } from "redux/slicers/common.slicer";
 import { deleteBlogCategories, getBlogCategories } from "apis/blogCategory";
 import path from "utils/path";
-import Pagination from "pages/user/ListProduct/Pagination";
+import Pagination from "components/Pagination";
 
 function BlogManager({ dispatch, useSelector, navigate }) {
   const [blogs, setBlogs] = useState();

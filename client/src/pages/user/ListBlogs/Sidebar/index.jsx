@@ -1,10 +1,17 @@
 import { getBlogCategories } from "apis";
+import withBaseComponent from "hocs";
+import QueryString from "qs";
 import { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { setFilterParams } from "redux/slicers/common.slicer";
 import ICONS from "utils/icons";
+import path from "utils/path";
 
-function Sidebar() {
+function Sidebar({ dispatch, useSelector }) {
   const [categories, setCategories] = useState([]);
   const [dataRender, setDataRender] = useState([]);
+  const { filterParams } = useSelector((state) => state.common);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchCategoryBlogs = async () => {
@@ -25,6 +32,11 @@ function Sidebar() {
     setDataRender(result);
   };
 
+  const isActiveCategory = (categoryTitle) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get("category") === categoryTitle;
+  };
+
   return (
     <div className="p-4">
       <h1 className="border-b border-main text-lg text-main font-bold">
@@ -41,22 +53,40 @@ function Sidebar() {
           {<ICONS.IoIosSearch size={20} color="white" />}
         </button>
       </div>
-
-      <ul className="mt-2">
+      <div className="mt-2 flex flex-col gap-3">
         {dataRender.map((category) => (
-          <li
+          <NavLink
+            onClick={() =>
+              dispatch(
+                setFilterParams({
+                  ...filterParams,
+                  category: category.title,
+                })
+              )
+            }
+            to={{
+              pathname: path.BLOGS,
+              search: QueryString.stringify({
+                ...filterParams,
+                category: category.title,
+              }),
+            }}
             key={category._id}
-            className="px-4 py-2 hover:bg-main hover:text-white text-main rounded border border-blue-600 transition-all cursor-pointer flex justify-between "
+            className={() =>
+              `px-4 py-2 hover:bg-main hover:text-white text-main rounded border border-blue-600 transition-all cursor-pointer flex justify-between ${
+                isActiveCategory(category.title) ? "bg-main text-white" : ""
+              }`
+            }
           >
-            <span className="font-bold italic ">{category.title}</span>
+            <span className="font-bold italic">{category.title}</span>
             <span className="hover:text-blue-300" title="Số lượng blog">
               ({category.totalBlogs})
             </span>
-          </li>
+          </NavLink>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
 
-export default Sidebar;
+export default withBaseComponent(Sidebar);

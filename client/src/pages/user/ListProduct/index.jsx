@@ -9,7 +9,7 @@ import {
 import { getProductListRequest } from "redux/slicers/product.slicer";
 import path from "utils/path";
 import FilterPanel from "./FilterPanel";
-import Pagination from "./Pagination";
+import Pagination from "../../../components/Pagination";
 import Product from "./Product";
 
 function ListProduct({ navigate, dispatch, useSelector }) {

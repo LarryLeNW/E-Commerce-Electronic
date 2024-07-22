@@ -1,8 +1,12 @@
 import usePagination from "hooks/usePagination";
-import { useSelector } from "react-redux";
 
-function Pagination({ totalCount, currentPage, handleChangePage }) {
-  const pagination = usePagination(totalCount, currentPage);
+function Pagination({
+  totalCount,
+  currentPage,
+  handleChangePage,
+  pageSizeParam,
+}) {
+  const pagination = usePagination(totalCount, currentPage, pageSizeParam);
 
   return (
     <div className="flex items-center bg-main mt-2 justify-center p-2 text-white">

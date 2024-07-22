@@ -5,7 +5,7 @@ import DOMPurify from "dompurify";
 import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
-import Pagination from "pages/user/ListProduct/Pagination";
+import Pagination from "components/Pagination";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { generatePath } from "react-router-dom";

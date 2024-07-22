@@ -1,9 +1,14 @@
 import { useMemo } from "react";
 import { generateRange } from "utils/helper";
 
-function usePagination(totalProductCount, currentPage, siblingCount = 1) {
+function usePagination(
+  totalProductCount,
+  currentPage,
+  pageSizeParam,
+  siblingCount = 1
+) {
   const paginationArr = useMemo(() => {
-    const pageSize = process.env.REACT_APP_LIMIT_PAGE || 8;
+    const pageSize = pageSizeParam || 8;
     const paginationCount = Math.ceil(totalProductCount / pageSize);
     const totalPaginationItems = siblingCount + 5;
 
