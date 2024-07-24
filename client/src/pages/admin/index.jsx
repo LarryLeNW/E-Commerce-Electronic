@@ -1,4 +1,4 @@
-export { default as DashBoardPage } from "./DashBoard";
+// export { default as DashBoardPage } from "./DashBoard";
 export { default as VariantProductPage } from "./VariantProductManager";
 export { default as UserManagerPage } from "./UserManager";
 export { default as UpdateProductPage } from "./UpdateProduct";

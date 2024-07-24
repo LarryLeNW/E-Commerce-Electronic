@@ -76,24 +76,10 @@ export const MemberSidebar = [
     icon: <ICONS.AiFillDashboard />,
   },
   {
-    id: 2,
-    type: "SINGLE",
-    text: "My Cart",
-    path: path.MEMBER.MY_CART,
-    icon: <ICONS.FaUsersGear />,
-  },
-  {
     id: 3,
     type: "SINGLE",
     text: "Buys history",
     path: path.MEMBER.HISTORY,
-    icon: <ICONS.TbPackages />,
-  },
-  {
-    id: 4,
-    type: "SINGLE",
-    text: "Wishlist",
-    path: path.MEMBER.WISH_LIST,
     icon: <ICONS.TbPackages />,
   },
 ];

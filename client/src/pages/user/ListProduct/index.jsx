@@ -1,7 +1,7 @@
 import Button from "components/Form/Button";
 import withBaseComponent from "hocs";
 import QueryString from "qs";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   clearFilterParams,
   setFilterParams,
@@ -11,6 +11,10 @@ import path from "utils/path";
 import FilterPanel from "./FilterPanel";
 import Pagination from "../../../components/Pagination";
 import Product from "./Product";
+import { Breadcrumb, Space } from "antd";
+import ICONS from "utils/icons";
+import { Link } from "react-router-dom";
+import NotFound from "components/NotFound";
 
 function ListProduct({ navigate, dispatch, useSelector }) {
   const { filterParams } = useSelector((state) => state.common);
@@ -81,12 +85,55 @@ function ListProduct({ navigate, dispatch, useSelector }) {
     );
   };
 
+  const renderProductList = useMemo(() => {
+    if (productList?.data.length === 0)
+      return <NotFound message={"Không tìm thấy sản phẩm"} />;
+
+    return (
+      <>
+        <div className="mt-8 m-auto flex flex-wrap  gap-1 max-h-full overflow-auto">
+          {productList?.data?.map((el) => (
+            <div className="w-[45%] sm:w-[24%] border" key={el._id}>
+              <Product data={el} normal={true} />
+            </div>
+          ))}
+        </div>
+        <Button
+          style={"text-center mt-2 p-2 cursor-pointer"}
+          disabled={productList.meta?.page === productList.meta?.totalPage}
+          handleClick={handleShowMore}
+          name={"Hiển thị thêm"}
+        />
+        <Pagination
+          totalCount={productList.meta.totalProduct}
+          currentPage={productList.meta.page}
+          handleChangePage={handleChangePage}
+        />
+      </>
+    );
+  }, [productList?.data]);
+
   return (
     <div>
       <div className="h-[81px] flex justify-center items-center bg-gray-100">
         <div className="w-main">
-          {/* <h3>{category}</h3> */}
-          {/* <BreadCrumb category={category} /> */}
+          <Breadcrumb
+            items={[
+              {
+                title: (
+                  <Link to={path.HOME}>
+                    <Space>
+                      <ICONS.AiFillHome />
+                      <span>Trang chủ</span>
+                    </Space>
+                  </Link>
+                ),
+              },
+              {
+                title: "Danh sách sản phẩm",
+              },
+            ]}
+          />
         </div>
       </div>
       <div className="w-main border p-4 flex justify-between mt-8 m-auto">
@@ -149,24 +196,7 @@ function ListProduct({ navigate, dispatch, useSelector }) {
               </div>
             </div>
           </div>
-          <div className="mt-8 m-auto flex flex-wrap  gap-1 max-h-full overflow-auto">
-            {productList?.data?.map((el) => (
-              <div className="w-[45%] sm:w-[24%] border" key={el._id}>
-                <Product data={el} normal={true} />
-              </div>
-            ))}
-          </div>
-          <Button
-            style={"text-center mt-2 p-2 cursor-pointer"}
-            disabled={productList.meta?.page === productList.meta?.totalPage}
-            handleClick={handleShowMore}
-            name={"Hiển thị thêm"}
-          />
-          <Pagination
-            totalCount={productList.meta.totalProduct}
-            currentPage={productList.meta.page}
-            handleChangePage={handleChangePage}
-          />
+          {renderProductList}
         </div>
       </div>
     </div>

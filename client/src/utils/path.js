@@ -6,6 +6,7 @@ const path = {
   FORGOT_PASSWORD: "/forgot-password/:type",
   CONFIRM_REGISTER: "/confirm-register/:status",
   PRODUCTS: "/products",
+  INTRODUCE: "/introduce",
   OUR_SERVICES: "/services",
   FAQ: "/faqs",
   BLOGS: "/blogs",

@@ -2,13 +2,13 @@ import ICONS from "utils/icons";
 import path from "utils/path";
 
 export const menuAdminSidebar = [
-  {
-    id: 1,
-    type: "SINGLE",
-    text: "Dashboard",
-    path: path.ADMIN.HOME,
-    icon: <ICONS.AiFillDashboard />,
-  },
+  // {
+  //   id: 1,
+  //   type: "SINGLE",
+  //   text: "Dashboard",
+  //   path: path.ADMIN.HOME,
+  //   icon: <ICONS.AiFillDashboard />,
+  // },
   {
     id: 2,
     type: "SINGLE",

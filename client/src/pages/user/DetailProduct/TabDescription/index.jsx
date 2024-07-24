@@ -49,7 +49,7 @@ function TabDescription({ ratings, totalRatings, product }) {
   return (
     <div>
       <div className="flex items-center gap-1 relative bottom-[-1px]">
-        {DescriptionProductTabs.map((el) => (
+        {/* {DescriptionProductTabs.map((el) => (
           <span
             className={`p-2 cursor-pointer px-4   ${
               activeTab === el.id ? activeTabStyle : "bg-gray-300"
@@ -59,10 +59,15 @@ function TabDescription({ ratings, totalRatings, product }) {
           >
             {el.name}
           </span>
-        ))}
+        ))} */}
+        <span
+          className={`p-2 cursor-pointer px-4  bg-white border border-b-0 `}
+        >
+          DESCRIPTION
+        </span>
       </div>
       <div className="w-full min-h-[300px] border p-2">
-        <div>{DescriptionProductTabs[activeTab]?.content}</div>
+        {/* <div>{DescriptionProductTabs[activeTab]?.content}</div> */}
         <div className="flex p-4">
           <div className="flex-4 border-2 border-main flex flex-col justify-center items-center">
             <span>{totalRatings} / 5</span>

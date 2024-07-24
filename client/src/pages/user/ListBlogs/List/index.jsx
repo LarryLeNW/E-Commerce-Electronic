@@ -132,12 +132,12 @@ function List({ useSelector, dispatch, navigate }) {
   }, [blogList.data]);
 
   return (
-    <div className="p-4 border border-red-500 h-full flex flex-col">
+    <div className="p-4 h-full flex flex-col">
       <h1 className="text-main border-b-2 border-main font-bold text-lg">
         Danh sách blog
       </h1>
       <div className="flex bg-gray-300 justify-between items-center p-2 mt-2 gap-5">
-        <div className="my-2  rounded py-2 flex pr-3 bg-white border-main flex-1">
+        <div className="my-2  rounded py-2 flex pr-3 bg-white flex-1">
           <input
             type="text"
             placeholder="Tìm kiếm blog theo keyword"

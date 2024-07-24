@@ -1,4 +1,4 @@
-import { getBlog, getBlogs } from "apis";
+import { getBlog, getBlogs, reactBlog } from "apis";
 import { put, takeEvery } from "redux-saga/effects";
 
 import {
@@ -8,6 +8,9 @@ import {
   getBlogDetailRequest,
   getBlogDetailSuccess,
   getBlogDetailFailure,
+  reactBlogRequest,
+  reactBlogSuccess,
+  reactBlogFailure,
 } from "redux/slicers/blog.slicer";
 
 function* getBlogDetailSaga(action) {
@@ -17,6 +20,16 @@ function* getBlogDetailSaga(action) {
     yield put(getBlogDetailSuccess({ data: result.data }));
   } catch (e) {
     yield put(getBlogDetailFailure("Đã có lỗi xảy ra!"));
+  }
+}
+
+function* reactBlogSaga(action) {
+  try {
+    const { id, type } = action.payload;
+    const result = yield reactBlog(id, type);
+    yield put(reactBlogSuccess(result));
+  } catch (e) {
+    yield put(reactBlogFailure("Đã có lỗi xảy ra!"));
   }
 }
 
@@ -44,4 +57,5 @@ function* getBlogListSaga(action) {
 export default function* productSaga() {
   yield takeEvery(getBlogListRequest.type, getBlogListSaga);
   yield takeEvery(getBlogDetailRequest.type, getBlogDetailSaga);
+  yield takeEvery(reactBlogRequest.type, reactBlogSaga);
 }

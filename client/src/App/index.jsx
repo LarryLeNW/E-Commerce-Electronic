@@ -15,6 +15,7 @@ import {
   FAQPage,
   ForgotPasswordPage,
   HomePage,
+  IntroducePage,
   ListBlogsPage,
   ListProductPage,
   LoginPage,
@@ -33,7 +34,7 @@ import {
 import {
   BlogCategoryManagerPage,
   BlogManagerPage,
-  DashBoardPage,
+  // DashBoardPage,
   OrderManagerPage,
   ProductCategoryPage,
   ProductManagerPage,
@@ -80,6 +81,7 @@ function App({ dispatch, navigate, useSelector }) {
           <Route path={path.FAQ} element={<FAQPage />} />
           <Route path={path.PRODUCTS} element={<ListProductPage />} />
           <Route path={path.DETAIL_BLOG} element={<DetailBlogPage />} />
+          <Route path={path.INTRODUCE} element={<IntroducePage />} />
         </Route>
         <Route element={<MemberLayout />}>
           <Route path={path.MEMBER.PROFILE} element={<ProfilePage />} />
@@ -88,7 +90,7 @@ function App({ dispatch, navigate, useSelector }) {
           <Route path={path.MEMBER.WISH_LIST} element={<WhiteListPage />} />
         </Route>
         <Route element={<AdminLayout />}>
-          <Route path={path.ADMIN.HOME} element={<DashBoardPage />} />
+          <Route path={path.ADMIN.HOME} element={<UserManagerPage />} />
           <Route
             path={path.ADMIN.ORDER_MANAGEMENT}
             element={<OrderManagerPage />}

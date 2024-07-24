@@ -101,12 +101,6 @@ function Home({ useSelector, dispatch, navigate }) {
           })}
         </div>
       </div>
-
-      <div className="my-8 w-full mx-auto">
-        <h3 className="text-[20px] font-semibold py-[15px] border-b-2  border-main">
-          BLOGS
-        </h3>
-      </div>
     </div>
   );
 }

@@ -3,22 +3,17 @@ import path from "./path";
 export const navigations = [
   {
     id: 1,
-    value: "HOME",
+    value: "Trang chủ",
     path: `${path.HOME}`,
   },
   {
     id: 2,
-    value: "BLOGS",
+    value: "Bài viết",
     path: `${path.BLOGS}`,
   },
   {
     id: 3,
-    value: "OUR SERVICES",
-    path: `${path.OUR_SERVICES}`,
-  },
-  {
-    id: 4,
-    value: "FAQ",
-    path: `${path.FAQ}`,
+    value: "Giới thiệu",
+    path: `${path.INTRODUCE}`,
   },
 ];

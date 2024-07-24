@@ -10,7 +10,13 @@ import {
   IoMdReverseCamera,
 } from "react-icons/io";
 import { LuBaggageClaim } from "react-icons/lu";
-import { FaCartArrowDown, FaTty, FaUserCircle } from "react-icons/fa";
+import {
+  FaCartArrowDown,
+  FaCartPlus,
+  FaEye,
+  FaTty,
+  FaUserCircle,
+} from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
 import {
   AiFillHome,
@@ -21,6 +27,8 @@ import {
   AiOutlineMenu,
   AiFillGift,
   AiFillDashboard,
+  AiOutlineLike,
+  AiOutlineDislike,
 } from "react-icons/ai";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
@@ -31,7 +39,7 @@ import {
   BsReplyFill,
   BsShieldShaded,
 } from "react-icons/bs";
-import { FaUsersGear } from "react-icons/fa6";
+import { FaShareFromSquare, FaUsersGear } from "react-icons/fa6";
 import { AiFillProduct } from "react-icons/ai";
 import { TbPackages } from "react-icons/tb";
 import { MdCategory } from "react-icons/md";
@@ -71,6 +79,11 @@ const ICONS = {
   RiProductHuntLine,
   MdCategory,
   IoIosSearch,
+  FaEye,
+  AiOutlineLike,
+  AiOutlineDislike,
+  FaShareFromSquare,
+  FaCartPlus,
 };
 
 export default ICONS;

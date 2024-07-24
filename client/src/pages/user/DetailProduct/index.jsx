@@ -12,7 +12,13 @@ import { formatMoney, renderStars } from "utils/helper";
 import SelectQuantity from "../../../components/Form/SelectQuantity";
 import TabDescription from "./TabDescription";
 import { updateCartRequest } from "redux/slicers/auth.slicer";
-import { notification } from "antd";
+import { Breadcrumb, notification, Space } from "antd";
+import ICONS from "utils/icons";
+import { Link } from "react-router-dom";
+import path from "utils/path";
+import QueryString from "qs";
+import { setFilterParams, showModal } from "redux/slicers/common.slicer";
+import ModalCheckout from "./ModalCheckout";
 
 function DetailProduct({
   dispatch,
@@ -21,11 +27,13 @@ function DetailProduct({
   checkLoginBeforeAction,
 }) {
   const { productDetail } = useSelector((state) => state.product);
+  const { cart } = useSelector((state) => state.auth);
   const [variantSelected, setVariantSelected] = useState(null);
   const [currentProduct, setCurrentProduct] = useState(null);
   const { id, title, category } = params;
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const { filterParams } = useSelector((state) => state.common);
 
   const fetchRelatedProducts = async () => {
     const response = await getProducts({ category });
@@ -93,10 +101,51 @@ function DetailProduct({
 
   return (
     <div className="w-full">
-      <div className="bg-gray-200 mx-auto h-[81px] flex justify-center items-center">
+      <div className="h-[81px] flex justify-center items-center bg-gray-100">
         <div className="w-main">
-          <h3>Sản phẩm {currentProduct?.title}</h3>
-          <BreadCrumb title={title} category={category} />
+          <Breadcrumb
+            items={[
+              {
+                title: (
+                  <Link to={path.HOME}>
+                    <Space>
+                      <ICONS.AiFillHome />
+                      <span>Trang chủ</span>
+                    </Space>
+                  </Link>
+                ),
+              },
+              {
+                title: <Link to={path.PRODUCTS}>Danh sách sản phẩm</Link>,
+              },
+              {
+                title: (
+                  <Link
+                    to={{
+                      pathname: path.PRODUCTS,
+                      search: QueryString.stringify({
+                        ...filterParams,
+                        category: productDetail?.data.category,
+                      }),
+                    }}
+                  >
+                    {productDetail.data.category}
+                  </Link>
+                ),
+                onClick: () =>
+                  dispatch(
+                    setFilterParams({
+                      ...filterParams,
+                      category: productDetail?.data.category,
+                    })
+                  ),
+              },
+              {
+                title: productDetail.data.title,
+              },
+            ]}
+            style={{ marginBottom: 8 }}
+          />
         </div>
       </div>
       <div className="w-main m-auto bg-white flex">
@@ -209,22 +258,19 @@ function DetailProduct({
                   </span>
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <span className="font-semibold">Quantity : </span>
-              <SelectQuantity
-                quantity={quantity}
-                handleQuantity={handleQuantity}
-                handleClickQuantity={handleClickQuantity}
+              <Button
+                name={"Mua ngay"}
+                fw
+                handleClick={() => {
+                  dispatch(
+                    showModal({
+                      children: <ModalCheckout dataProduct={currentProduct} />,
+                      isShowModal: true,
+                    })
+                  );
+                }}
               />
             </div>
-            <Button
-              name={"Add to cart"}
-              fw={true}
-              handleClick={handleAddCart}
-            />
           </div>
         </div>
 
@@ -241,6 +287,23 @@ function DetailProduct({
               </div>
             </div>
           ))}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-sm">Quantity : </span>
+              <SelectQuantity
+                quantity={quantity}
+                handleQuantity={handleQuantity}
+                handleClickQuantity={handleClickQuantity}
+              />
+            </div>
+            <Button
+              name={"Add"}
+              fw={true}
+              handleClick={handleAddCart}
+              isLoading={cart?.loading}
+              iconAfter={<ICONS.FaCartPlus />}
+            />
+          </div>
         </div>
       </div>
       {/* more description */}

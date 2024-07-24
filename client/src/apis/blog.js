@@ -7,6 +7,12 @@ export const createBlog = (data) =>
     data,
   });
 
+export const reactBlog = (id, type) =>
+  axios({
+    url: `/blog/react/${id}/${type}`,
+    method: "post",
+  });
+
 export const getBlogs = (params) =>
   axios({
     url: "/blog/",
@@ -18,6 +24,12 @@ export const getBlog = (id) =>
   axios({
     url: "/blog/" + id,
     method: "get",
+  });
+
+export const deleteBlog = (id) =>
+  axios({
+    url: "/blog/" + id,
+    method: "delete",
   });
 
 export const updateBlog = (id, data) =>

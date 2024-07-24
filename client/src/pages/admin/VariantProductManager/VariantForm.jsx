@@ -38,6 +38,7 @@ function VariantForm({
         setValue("title", variantCurrent?.title);
         setValue("price", variantCurrent?.price);
         setValue("quantity", variantCurrent?.quantity);
+        setValue("color", variantCurrent?.color);
         payload.description = variantCurrent?.description.toString();
         if (variantCurrent?.images) {
           setImageUpload([]);

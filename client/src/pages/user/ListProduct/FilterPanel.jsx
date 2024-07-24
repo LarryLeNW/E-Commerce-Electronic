@@ -1,12 +1,19 @@
 import useDebounce from "hooks/useDebounce";
+import QueryString from "qs";
 import { memo, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { setFilterParams } from "redux/slicers/common.slicer";
+import path from "utils/path";
 
 function FilterPanel({ handleFilter }) {
   const [priceSearch, setPriceSearch] = useState({
     from: 0,
     to: 0,
   });
-
+  const { filterParams } = useSelector((state) => state.common);
+  const { data: categories, loading } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
   const priceFromDebounce = useDebounce(priceSearch.from, 300);
   const priceToDebounce = useDebounce(priceSearch.to, 300);
 
@@ -53,8 +60,6 @@ function FilterPanel({ handleFilter }) {
             />
           </div>
         </div>
-
-        <div className="font-bold">Tất cả danh mục</div>
       </div>
     </div>
   );

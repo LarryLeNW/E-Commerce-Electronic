@@ -1,8 +1,10 @@
 import moment from "moment";
 import { generatePath, useNavigate } from "react-router-dom";
+import ICONS from "utils/icons";
 import path from "utils/path";
 
 function Blog({ data }) {
+  console.log("🚀 ~ Blog ~ data:", data);
   const navigate = useNavigate();
   return (
     <div
@@ -25,6 +27,14 @@ function Blog({ data }) {
         />
         <div className="absolute bottom-0 left-0 px-2 py-1 bg-gray-400 text-white rounded">
           {data?.category}
+        </div>
+        <div
+          className="absolute top-0 right-0 px-2 py-1  text-white rounded"
+          style={{ background: "rgba(0,0,0,0.6)" }}
+        >
+          <span className="flex gap-1 items-center">
+            {<ICONS.AiFillEye />} {data?.numberViews}
+          </span>
         </div>
       </div>
       <div className="font-semibold">{data?.title}</div>

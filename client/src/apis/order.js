@@ -13,6 +13,12 @@ export const getOrders = () =>
     method: "get",
   });
 
+export const getOrdersByAdmin = () =>
+  axios({
+    url: "/order/admin/",
+    method: "get",
+  });
+
 export const getOrder = (oid) =>
   axios({
     url: "/order/" + oid,

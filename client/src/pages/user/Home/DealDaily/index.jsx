@@ -11,7 +11,7 @@ function DealDaily() {
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
   const [expireTime, setExpireTime] = useState(false);
-  const [dealProducts, setDealPoducts] = useState([]);
+  const [dealProducts, setDealProducts] = useState([]);
 
   const fetchDealDaily = async () => {
     const response = await getProducts({
@@ -20,7 +20,7 @@ function DealDaily() {
       totalRatings: 5,
     });
     if (response?.success) {
-      setDealPoducts(response.data[0]);
+      setDealProducts(response.data[0]);
       const today = `${moment().format("MM/DD/YYYY")} 5:00:00`;
       const seconds =
         new Date(today).getTime() - new Date().getTime() + 24 * 3600 * 1000;

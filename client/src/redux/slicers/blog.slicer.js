@@ -32,6 +32,20 @@ export const blogSlicer = createSlice({
       state.blogDetail.loading = false;
       state.blogDetail.error = error;
     },
+    reactBlogRequest: (state, action) => {
+      state.blogDetail.loading = true;
+      state.blogDetail.error = null;
+    },
+    reactBlogSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.blogDetail.loading = false;
+      state.blogDetail.data.interactions = data;
+    },
+    reactBlogFailure: (state, action) => {
+      const { error } = action.payload;
+      state.blogDetail.loading = false;
+      state.blogDetail.error = error;
+    },
     getBlogListRequest: (state, action) => {
       state.blogList.loading = true;
       state.blogList.error = null;
@@ -57,6 +71,9 @@ export const {
   getBlogListRequest,
   getBlogListSuccess,
   getBlogListFailure,
+  reactBlogRequest,
+  reactBlogSuccess,
+  reactBlogFailure,
 } = blogSlicer.actions;
 
 export default blogSlicer.reducer;

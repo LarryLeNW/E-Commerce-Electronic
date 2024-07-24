@@ -55,7 +55,7 @@ function Login({ navigate }) {
           .then(setIsRegister(false))
           .then(resetPayload());
       } catch (error) {
-        Swal.fire("Oops!", error, "error");
+        Swal.fire("Oops!", error?.response?.data?.message, "error");
       }
       setIsLoadingRegister(false);
     } else

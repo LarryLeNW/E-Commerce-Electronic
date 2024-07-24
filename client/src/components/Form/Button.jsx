@@ -26,7 +26,7 @@ function Button({
       }}
     >
       <div className="flex gap-2 justify-center items-center">
-        <div>
+        <div className="flex gap-2 items-center">
           {iconBefore}
           <span> {name}</span>
           {iconAfter}

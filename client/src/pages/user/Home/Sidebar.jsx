@@ -11,6 +11,7 @@ import { setFilterParams } from "redux/slicers/common.slicer";
 function Sidebar() {
   const dispatch = useDispatch();
   const { data: categories, loading } = useSelector((state) => state.category);
+  console.log("🚀 ~ Sidebar ~ categories:", categories);
   const { filterParams } = useSelector((state) => state.common);
 
   useEffect(() => {
@@ -54,7 +55,17 @@ function Sidebar() {
             }`
           }
         >
-          {cate?.title}
+          <div className="flex gap-3 items-center ">
+            <span>
+              <img
+                src={cate?.thumb}
+                alt=""
+                className="object-cover w-[30px] h-[30px]"
+              />
+            </span>
+            <span className="font-bold">{cate?.title}</span>
+            <span className="ml-auto">{cate?.totalProduct}</span>
+          </div>
         </NavLink>
       ))}
     </div>

@@ -22,6 +22,7 @@ function Profile({ useSelector, dispatch }) {
       username: userInfo.data?.username,
       email: userInfo.data?.email,
       mobile: userInfo.data?.mobile,
+      address: userInfo.data?.address,
     });
   }, [userInfo.data]);
 
@@ -90,6 +91,15 @@ function Profile({ useSelector, dispatch }) {
                 value: /(0[3|5|7|8|9])+([0-9]{8})\b/gm,
                 message: "Phone invalid...",
               },
+            }}
+          />
+          <InputForm
+            errors={errors}
+            id={"address"}
+            register={register}
+            fullWidth
+            validate={{
+              required: `Require this field`,
             }}
           />
           <div className="w-full flex justify-end">

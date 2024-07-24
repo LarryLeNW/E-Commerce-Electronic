@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import { deleteCategory, getBlogs } from "apis";
+import { deleteBlog, deleteCategory, getBlogs } from "apis";
 import withBaseComponent from "hocs";
 import useDebounce from "hooks/useDebounce";
 import moment from "moment";
@@ -76,7 +76,7 @@ function BlogManager({ dispatch, useSelector, navigate }) {
     setIsLoadingActions({ loading: true, actionId });
     let response;
     try {
-      response = await deleteBlogCategories(actionId);
+      response = await deleteBlog(actionId);
       if (response.success) fetchBlogs();
       notification.success({
         message: "deleted successfully",

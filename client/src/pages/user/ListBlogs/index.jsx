@@ -3,6 +3,10 @@ import List from "./List";
 import Sidebar from "./Sidebar";
 import { getBlogs } from "apis";
 import Blog from "./Blog";
+import { Breadcrumb, Space } from "antd";
+import { Link } from "react-router-dom";
+import path from "utils/path";
+import ICONS from "utils/icons";
 
 function ListBlogs() {
   const [latestBlogs, setLatestBlogs] = useState([]);
@@ -19,12 +23,33 @@ function ListBlogs() {
   }, []);
 
   return (
-    <div className="border border-red-700 mt-2 p-4">
+    <div className="border  mt-2 p-4">
+      <div className="h-[81px] flex justify-center items-center bg-gray-100">
+        <div className="w-main">
+          <Breadcrumb
+            items={[
+              {
+                title: (
+                  <Link to={path.HOME}>
+                    <Space>
+                      <ICONS.AiFillHome />
+                      <span>Trang chủ</span>
+                    </Space>
+                  </Link>
+                ),
+              },
+              {
+                title: "Danh sách blogs",
+              },
+            ]}
+          />
+        </div>
+      </div>
       <div className="p-4 flex min-h-screen">
-        <div className="w-[30%] border border-yellow-700 min-h-screen ">
+        <div className="w-[30%] border border-blue-400 rounded min-h-screen ">
           <Sidebar />
         </div>
-        <div className=" w-[70%] border border-blue-600 min-h-screen">
+        <div className=" w-[70%]  min-h-screen">
           <List />
         </div>
       </div>

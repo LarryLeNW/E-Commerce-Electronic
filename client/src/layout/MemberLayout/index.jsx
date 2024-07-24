@@ -3,7 +3,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import path from "utils/path";
 import MemberSideBar from "./Sidebar";
 import Navigation from "pages/user/Components/Navigation";
-import TopHeader from "pages/user/Components/TopHeader";
 import Header from "pages/user/Components/Header";
 import withBaseComponent from "hocs";
 import Cookies from "js-cookie";
@@ -20,7 +19,6 @@ function MemberLayout({ useSelector }) {
 
   return (
     <div className="w-full flex flex-col items-center  ">
-      <TopHeader />
       <Header />
       <Navigation />
       <div className="w-full flex flex-col min-h-[80vh]  p-4">
@@ -28,7 +26,7 @@ function MemberLayout({ useSelector }) {
           <div className="w-[25%]  ">
             <MemberSideBar />
           </div>
-          <div className="w-[75%]  bg-gray-200 border">
+          <div className="w-[75%]  bg-gray-200 border min-h-screen">
             <Outlet />
           </div>
         </div>
