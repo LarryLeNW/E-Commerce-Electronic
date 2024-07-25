@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_URI_API,
+  withCredentials: true,
 });
 
 instance.interceptors.request.use(
