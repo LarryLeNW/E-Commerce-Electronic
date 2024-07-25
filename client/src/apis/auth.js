@@ -35,3 +35,9 @@ export const getUserInfo = () =>
     url: "/user/current",
     method: "get",
   });
+
+export const logout = () =>
+  axios({
+    url: "/user/logout",
+    method: "get",
+  });

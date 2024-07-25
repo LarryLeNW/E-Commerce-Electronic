@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
+import { logout } from "apis";
 
 const initialState = {
   userInfo: {
@@ -109,8 +109,8 @@ export const authSlicer = createSlice({
       state.cart.error = error;
       state.cart.loading = false;
     },
-    logout: (state, action) => {
-      Cookies.remove("refreshToken");
+    logoutRequest: (state, action) => {
+      logout();
       state.userInfo.data = null;
       state.isLogged = false;
     },
@@ -137,7 +137,7 @@ export const {
   removeCartRequest,
   removeCartSuccess,
   removeCartFailure,
-  logout,
+  logoutRequest,
 } = authSlicer.actions;
 
 export default authSlicer.reducer;

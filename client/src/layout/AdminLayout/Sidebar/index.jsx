@@ -2,7 +2,7 @@ import logo from "assets/logo.png";
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { logout } from "redux/slicers/auth.slicer";
+import { logoutRequest } from "redux/slicers/auth.slicer";
 import ICONS from "utils/icons";
 import { menuAdminSidebar } from "../constant";
 
@@ -86,7 +86,7 @@ function AdminSideBar() {
         ))}
       </div>
       <button
-        onClick={() => dispatch(logout())}
+        onClick={() => dispatch(logoutRequest())}
         className="w-full mt-auto bg-red-600 py-5 flex justify-center items-center gap-2 rounded-none font-bold text-white hover:bg-red-700 transition-all "
       >
         <ICONS.RiLogoutBoxLine />

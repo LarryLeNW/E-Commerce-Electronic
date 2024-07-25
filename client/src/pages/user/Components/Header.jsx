@@ -12,7 +12,7 @@ import { Badge } from "antd";
 import useDebounce from "hooks/useDebounce";
 import { getProducts } from "apis/product";
 import { renderStars } from "utils/helper";
-import { logout } from "redux/slicers/auth.slicer";
+import { logoutRequest } from "redux/slicers/auth.slicer";
 import Button from "components/Form/Button";
 function Header({ useSelector, dispatch, navigate }) {
   const { userInfo } = useSelector((state) => state.auth);
@@ -171,7 +171,7 @@ function Header({ useSelector, dispatch, navigate }) {
                 </Link>
                 <button
                   className="bg-red-600 w-full  text-white font-bold  rounded-none text-lg flex justify-center items-center gap-2"
-                  onClick={() => dispatch(logout())}
+                  onClick={() => dispatch(logoutRequest())}
                 >
                   <ICONS.RiLogoutBoxLine />
                   <span>Logout</span>

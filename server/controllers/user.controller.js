@@ -141,27 +141,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   });
 });
 
-const logout = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
-  if (!cookie || !cookie.refreshToken)
-    throw new Error("No refresh token in cookies");
-  // Xóa refresh token ở db
-  await User.findOneAndUpdate(
-    { refreshToken: cookie.refreshToken },
-    { refreshToken: "" },
-    { new: true }
-  );
-  // Xóa refresh token ở cookie trình duyệt
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: true,
-  });
-  return res.status(200).json({
-    success: true,
-    message: "Logout is done",
-  });
-});
-
 const requestForgotPw = asyncHandler(async (req, res) => {
   const { email } = req.body;
   if (!email) throw new Error("Missing email");
@@ -356,6 +335,34 @@ const changeAvatar = asyncHandler(async (req, res) => {
     success: !!response,
     message: "Avatar updated successfully",
     avatar,
+  });
+});
+
+const logout = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    return res.status(400).json({
+      success: false,
+      message: "No refresh token found in cookies",
+    });
+  }
+
+  await User.findOneAndUpdate(
+    { refreshToken },
+    { refreshToken: "" },
+    { new: true }
+  );
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Logout successful",
   });
 });
 
