@@ -12,7 +12,7 @@ function History({ useSelector, dispatch, navigate }) {
 
   useEffect(() => {
     if (userInfo?.data?._id) dispatch(getOrdersRequest());
-  }, []);
+  }, [userInfo?.data]);
 
   const handleShowBill = (id) => {
     const url = generatePath(path.MEMBER.SHOW_BILL, { oid: id });

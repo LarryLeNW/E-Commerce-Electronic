@@ -129,7 +129,9 @@ function Header({ useSelector, dispatch, navigate }) {
             }
           >
             <ICON.LuBaggageClaim />
-            <Badge count={`${userInfo.data?.cart.length || 0} item(s)`}></Badge>
+            <Badge
+              count={`${userInfo.data?.cart?.length || 0} item(s)`}
+            ></Badge>
           </div>
           <div
             className="flex items-center justify-center px-4 relative"
