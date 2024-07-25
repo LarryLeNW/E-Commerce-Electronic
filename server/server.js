@@ -4,6 +4,7 @@ const dbConnect = require("./config/dbconnect");
 const initRoutes = require("./routes");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 const {
   insertDataProductTest,
   insertDataBrandCategoryTest,
@@ -15,10 +16,14 @@ const {
 const { deleteFilesInFolder } = require("./config/cloudinary.config");
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
     origin: process.env.URL_CLIENT,
-    methods: ["POST", "PUT", "GET", "DELETE"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
@@ -26,8 +31,7 @@ app.use(
 app.use(cookieParser());
 
 const port = process.env.PORT || 8888;
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 dbConnect();
 initRoutes(app);
 
