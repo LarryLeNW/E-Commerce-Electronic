@@ -5,6 +5,7 @@ import path from "utils/path";
 
 function ConfirmRegister({ params, navigate }) {
   const { status } = params;
+  console.log("🚀 ~ ConfirmRegister ~ status:", status);
 
   useEffect(() => {
     if (status == "success")

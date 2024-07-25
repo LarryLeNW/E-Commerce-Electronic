@@ -52,7 +52,9 @@ const register = asyncHandler(async (req, res) => {
 
 const confirmRegister = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
+  console.log("🚀 ~ confirmRegister ~ cookie:", cookie);
   const { tokenConfirm } = req.params;
+  console.log("🚀 ~ confirmRegister ~ tokenConfirm:", tokenConfirm);
 
   if (!cookie || cookie?.dataRegister?.tokenRegister != tokenConfirm) {
     res.clearCookie("dataRegister");
