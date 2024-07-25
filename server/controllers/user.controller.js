@@ -83,6 +83,7 @@ const login = asyncHandler(async (req, res) => {
     const accessToken = generateAccessToken(response._id, userData.role);
 
     const newRefreshToken = generateRefreshToken(response._id);
+
     // Lưu refresh token vào database
     await User.findByIdAndUpdate(
       response._id,
@@ -92,7 +93,7 @@ const login = asyncHandler(async (req, res) => {
 
     // Lưu refresh token vào cookie
     res.cookie("refreshToken", accessToken, {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
