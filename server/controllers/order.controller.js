@@ -6,6 +6,7 @@ const moment = require("moment");
 
 const createOrder = asyncHandler(async (req, res) => {
   const { _id } = req.user;
+  console.log("🚀 ~ createOrder ~ _id:", _id);
   const { numberPhone, address, typePayment, products, total } = req.body;
   if (!(address && numberPhone && typePayment && products && total))
     throw new Error("Missing input");
@@ -63,28 +64,13 @@ const getOrderUser = asyncHandler(async (req, res) => {
 });
 
 const getOrders = asyncHandler(async (req, res) => {
+  console.log("something");
   const response = await Order.find();
   return res.json({
     success: response ? true : false,
     data: response || "Can't get orders",
   });
 });
-
-function sortObject(obj) {
-  let sorted = {};
-  let str = [];
-  let key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      str.push(encodeURIComponent(key));
-    }
-  }
-  str.sort();
-  for (key = 0; key < str.length; key++) {
-    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
-  }
-  return sorted;
-}
 
 module.exports = {
   createOrder,

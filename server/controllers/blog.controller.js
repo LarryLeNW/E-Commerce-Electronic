@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/blog.model");
+const BlogCategory = require("../models/blogCategory.model");
 
 const createNewBlog = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -9,6 +10,14 @@ const createNewBlog = asyncHandler(async (req, res) => {
   if (!(title && description && category)) throw new Error("Missing inputs");
 
   const response = await Blog.create({ ...req.body, author: _id });
+
+  if (response) {
+    await BlogCategory.updateOne(
+      { title: category },
+      { $inc: { totalBlogs: 1 } }
+    );
+  }
+
   return res.json({
     success: response ? true : false,
     createdBlog: response || "Can't create new blog",
@@ -45,10 +54,12 @@ const getBlogs = asyncHandler(async (req, res) => {
   if (queries?.category)
     formattedQueries.category = { $regex: queries.category, $options: "i" };
 
-  const blogsQuery = Blog.find(formattedQueries).populate({
-    path: "author",
-    select: "username",
-  });
+  const blogsQuery = Blog.find(formattedQueries)
+    .select("-description -interactions")
+    .populate({
+      path: "author",
+      select: "username avatar",
+    });
 
   // sorting
   if (req.query.sort) {
@@ -98,6 +109,13 @@ const deleteBlog = asyncHandler(async (req, res) => {
 
   const response = await Blog.findByIdAndDelete(bid);
 
+  if (response) {
+    await BlogCategory.updateOne(
+      { title: response.category },
+      { $inc: { totalBlogs: -1 } }
+    );
+  }
+
   return res.json({
     success: response ? true : false,
     deletedBlog: response || "Can't delete this Blog",
@@ -137,7 +155,7 @@ const reactBlog = asyncHandler(async (req, res) => {
   return res.json({
     success: true,
     message: "Reacted blog successfully",
-    blog,
+    data: blog.interactions,
   });
 });
 
@@ -157,7 +175,7 @@ const getBlog = asyncHandler(async (req, res) => {
     })
     .populate({
       path: "author",
-      select: "username",
+      select: "username avatar",
     });
   return res.json({
     success: response ? true : false,

@@ -1,12 +1,16 @@
 const { default: slugify } = require("slugify");
 const productData = require("./data/products.json");
 const productCateBrandData = require("./data/categories.json");
+const blogCategoryData = require("./data/blog.categories.json");
+const blogData = require("./data/blog.json");
 const roleData = require("./data/roles.json");
 const userData = require("./data/users.json");
 const Product = require("../../models/product.model");
 const Category = require("../../models/productCategory.model");
 const Role = require("../../models/role.model");
 const userModel = require("../../models/user.model");
+const blogCategoryModel = require("../../models/blogCategory.model");
+const blogModel = require("../../models/blog.model");
 
 const fnProd = async (product) => {
   await Product.create({
@@ -80,9 +84,41 @@ const insertDataUserTest = async () => {
   }
 };
 
+const insertDataBlogCategoryTest = async () => {
+  const fnBlogCategory = async (item) => {
+    await blogCategoryModel.create(item);
+  };
+
+  try {
+    const promises = [];
+    for (let data of blogCategoryData) promises.push(fnBlogCategory(data));
+    await Promise.all(promises);
+    console.log("done insert category blog ");
+  } catch (error) {
+    console.log("🚀 ~ insertDataBlogCategoryTest ~ error:", error);
+  }
+};
+
+const insertDataBlogTest = async () => {
+  const fnBlog = async (item) => {
+    await blogModel.create(item);
+  };
+
+  try {
+    const promises = [];
+    for (let data of blogData) promises.push(fnBlog(data));
+    await Promise.all(promises);
+    console.log("done insert blog ");
+  } catch (error) {
+    console.log("🚀 ~ insertDataBlogTest ~ error:", error);
+  }
+};
+
 module.exports = {
   insertDataProductTest,
   insertDataBrandCategoryTest,
   insertDataRoleTest,
   insertDataUserTest,
+  insertDataBlogCategoryTest,
+  insertDataBlogTest,
 };

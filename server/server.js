@@ -9,6 +9,8 @@ const {
   insertDataBrandCategoryTest,
   insertDataRoleTest,
   insertDataUserTest,
+  insertDataBlogCategoryTest,
+  insertDataBlogTest,
 } = require("./ultils/generateData/insertData");
 const { deleteFilesInFolder } = require("./config/cloudinary.config");
 
@@ -28,6 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dbConnect();
 initRoutes(app);
+
 app.listen(port, () => {
   console.log("Server running on the port: " + port);
 });
