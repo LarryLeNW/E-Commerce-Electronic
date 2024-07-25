@@ -26,6 +26,8 @@ const register = asyncHandler(async (req, res) => {
       {
         httpOnly: true,
         maxAge: 15 * 60 * 1000,
+        sameSite: "None",
+        secure: true,
       }
     );
 
