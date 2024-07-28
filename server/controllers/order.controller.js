@@ -63,11 +63,29 @@ const getOrderUser = asyncHandler(async (req, res) => {
   });
 });
 
-const getOrders = asyncHandler(async (req, res) => {
-  console.log("something");
+const getOrdersByAdmin = asyncHandler(async (req, res) => {
+  const queries = { ...req.query };
+
+  const excludeFields = [
+    "limit",
+    "sort",
+    "page",
+    "fields",
+    "username",
+    "product",
+    "total",
+    "typePayment",
+  ];
+
+  excludeFields.forEach((el) => delete queries[el]);
+
+  let queryString = JSON.stringify(queries);
+  queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
+  let formattedQueries = JSON.parse(queryString);
+
   const response = await Order.find();
   return res.json({
-    success: response ? true : false,
+    success: !!response,
     data: response || "Can't get orders",
   });
 });
@@ -76,6 +94,6 @@ module.exports = {
   createOrder,
   updateStatusOrder,
   getOrdersUser,
-  getOrders,
+  getOrdersByAdmin,
   getOrderUser,
 };

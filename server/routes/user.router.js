@@ -10,12 +10,14 @@ router.post("/refreshtoken", ctrls.refreshAccessToken);
 router.get("/logout", ctrls.logout);
 router.post("/requestforgotpw", ctrls.requestForgotPw);
 router.put("/resetpassword", ctrls.resetPassword);
+
 router.put(
   "/changeAvatar",
   verifyAccessToken,
   uploadCloud.single("image"),
   ctrls.changeAvatar
 );
+
 router.get("/current", verifyAccessToken, ctrls.getCurrent);
 router.put("/current", verifyAccessToken, ctrls.updateUser);
 router.get("/", [verifyAccessToken, isAdmin], ctrls.getUsers);
