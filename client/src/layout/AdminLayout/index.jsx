@@ -12,7 +12,7 @@ function AdminLayout({ useSelector }) {
 
   if (tokenUser && userInfo.loading) {
     return;
-  } else if (!userInfo.data || userInfo.data?.role != ROLE.ADMIN) {
+  } else if (!userInfo?.data?._id || userInfo.data?.role != ROLE.ADMIN) {
     return <Navigate to={path.HOME} replace={true} />;
   }
 
