@@ -1,7 +1,19 @@
+import { getOrdersByAdmin } from "apis";
 import withBaseComponent from "hocs";
+import { useEffect, useState } from "react";
 
 function OrderManager({ dispatch }) {
-  const fetchOrders = async () => {};
+  const [orders, setOrders] = useState([]);
+  console.log("🚀 ~ OrderManager ~ orders:", orders);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const response = await getOrdersByAdmin();
+      if (response.success == true) setOrders(response.data);
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
     <div className="w-full p-4 flex flex-col  overflow-auto ">
