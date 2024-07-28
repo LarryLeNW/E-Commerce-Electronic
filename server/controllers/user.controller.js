@@ -208,12 +208,12 @@ const getUsers = asyncHandler(async (req, res) => {
   const excludeFields = ["limit", "sort", "page", "fields", "q"];
   excludeFields.forEach((el) => delete queries[el]);
 
-  // format operators for mongoose compare syntax
+  // Format operators for mongoose compare syntax
   let queryString = JSON.stringify(queries);
   queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
   let formattedQueries = JSON.parse(queryString);
 
-  // filtering
+  // Filtering
   if (req.query.q) {
     formattedQueries["$or"] = [
       { username: { $regex: req.query.q, $options: "i" } },
@@ -221,45 +221,29 @@ const getUsers = asyncHandler(async (req, res) => {
     ];
   }
 
-  // Aggregation pipeline stages
-  const pipeline = [];
+  // Base query
+  let query = User.find(formattedQueries);
 
-  // Match stage
-  pipeline.push({ $match: formattedQueries });
-
-  // Lookup stage to join with roles collection
-  // pipeline.push({
-  //   $lookup: {
-  //     from: "roles",
-  //     localField: "role",
-  //     foreignField: "code",
-  //     as: "roleInfo",
-  //   },
-  // });
-
-  // Sorting stage
+  // Sorting
   if (req.query.sort) {
     let sortBy = req.query.sort.split(",").join(" ");
-    pipeline.push({ $sort: sortBy });
+    query = query.sort(sortBy);
   }
 
-  // Fields limiting stage
+  // Field limiting
   if (req.query.fields) {
     let fields = req.query.fields.split(",").join(" ");
-    pipeline.push({ $project: fields });
+    query = query.select(fields);
   }
 
-  // Pagination stage
+  // Pagination
   const page = +req.query.page || 1;
   const limit = +req.query.limit || +process.env.LIMIT_PRODUCT;
   const skip = (page - 1) * limit;
-  pipeline.push({ $skip: skip });
-  pipeline.push({ $limit: limit });
+  query = query.skip(skip).limit(limit);
 
-  // Perform aggregation
-  const users = await User.aggregate(pipeline);
-
-  // Count documents matching the filters
+  // Execute query
+  const users = await query;
   const counts = await User.countDocuments(formattedQueries);
 
   res.status(200).json({

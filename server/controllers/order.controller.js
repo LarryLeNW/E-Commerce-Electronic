@@ -71,7 +71,6 @@ const getOrdersByAdmin = asyncHandler(async (req, res) => {
     "sort",
     "page",
     "fields",
-    "username",
     "product",
     "total",
     "typePayment",
@@ -79,14 +78,60 @@ const getOrdersByAdmin = asyncHandler(async (req, res) => {
 
   excludeFields.forEach((el) => delete queries[el]);
 
+  let formattedQueries = {};
+
   let queryString = JSON.stringify(queries);
   queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, (el) => `$${el}`);
-  let formattedQueries = JSON.parse(queryString);
+  formattedQueries = JSON.parse(queryString);
 
-  const response = await Order.find();
+  console.log("🚀 ~ getOrdersByAdmin ~ formattedQueries:", formattedQueries);
+
+  // Create ordersQuery with populated 'orderBy' field
+  const ordersQuery = Order.find(formattedQueries)
+    .select("-products ")
+    .populate({
+      path: "orderBy",
+      select: "username ",
+    });
+
+  // sorting
+  if (req.query.sort) {
+    let sortBy = req.query.sort.split(",").join(" ");
+    ordersQuery.sort(sortBy);
+  }
+
+  // fields limiting
+  if (req.query.fields) {
+    let fields = req.query.fields.split(",").join(" ");
+    ordersQuery.select(fields);
+  }
+
+  // Pagination
+  const page = +req.query.page || 1;
+  const limit = +req.query.limit || +process.env.LIMIT_PRODUCT || 10;
+  const skip = (page - 1) * limit;
+  ordersQuery.skip(skip).limit(limit);
+
+  // Execute ordersQuery and count documents
+  const orders = await ordersQuery;
+  const counts = await Order.find(formattedQueries).countDocuments();
+
+  // Return response
+  return res.json({
+    success: !!orders,
+    data: orders || "Can't get orders",
+    counts,
+  });
+});
+
+const deleteOrder = asyncHandler(async (req, res) => {
+  const { oid } = req.params;
+  const response = await Order.findByIdAndDelete(oid);
   return res.json({
     success: !!response,
-    data: response || "Can't get orders",
+    message:
+      `Deleted order with code response ${response.code}` ||
+      "Can't delete this order",
   });
 });
 
@@ -96,4 +141,5 @@ module.exports = {
   getOrdersUser,
   getOrdersByAdmin,
   getOrderUser,
+  deleteOrder,
 };
