@@ -5,11 +5,16 @@ function Pagination({
   currentPage,
   handleChangePage,
   pageSizeParam,
+  style,
 }) {
   const pagination = usePagination(totalCount, currentPage, pageSizeParam);
 
   return (
-    <div className="flex items-center bg-main mt-2 justify-center p-2 text-white">
+    <div
+      className={`flex items-center bg-main mt-2 justify-center p-2 text-white ${
+        style && style
+      }`}
+    >
       {pagination?.map((el, index) => (
         <div
           className={`border py-2 px-4 cursor-pointer ${

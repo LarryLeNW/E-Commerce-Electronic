@@ -17,6 +17,7 @@ const path = {
     HOME: "/admin/dashboard",
     USER_MANAGEMENT: "/admin/user-management",
     ORDER_MANAGEMENT: "/admin/order-management",
+    UPDATE_ORDER: "/admin/update-order",
     PRODUCT_MANAGEMENT: "/admin/product-management",
     PRODUCT_CATEGORY_MANAGEMENT: "/admin/category-management",
     UPDATE_PRODUCT: "/admin/update-product",

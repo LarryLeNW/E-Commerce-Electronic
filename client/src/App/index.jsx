@@ -39,6 +39,7 @@ import {
   ProductCategoryPage,
   ProductManagerPage,
   UpdateBlogPage,
+  UpdateOrderPage,
   UpdateProductPage,
   UserManagerPage,
   VariantProductPage,
@@ -95,6 +96,7 @@ function App({ dispatch, navigate, useSelector }) {
             path={path.ADMIN.ORDER_MANAGEMENT}
             element={<OrderManagerPage />}
           />
+          <Route path={path.ADMIN.UPDATE_ORDER} element={<UpdateOrderPage />} />
           <Route
             path={path.ADMIN.PRODUCT_CATEGORY_MANAGEMENT}
             element={<ProductCategoryPage />}

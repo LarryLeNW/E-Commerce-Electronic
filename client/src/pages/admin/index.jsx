@@ -8,3 +8,4 @@ export { default as ProductCategoryPage } from "./ProductCategory";
 export { default as BlogCategoryManagerPage } from "./BlogCategoryManager";
 export { default as BlogManagerPage } from "./BlogManager";
 export { default as UpdateBlogPage } from "./UpdateBlog";
+export { default as UpdateOrderPage } from "./UpdateOrder";

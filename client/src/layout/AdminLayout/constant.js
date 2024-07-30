@@ -64,9 +64,20 @@ export const menuAdminSidebar = [
   },
   {
     id: 5,
-    type: "SINGLE",
-    text: "Orders",
-    path: path.ADMIN.ORDER_MANAGEMENT,
+    type: "PARENT",
+    text: "Order Manager",
     icon: <ICONS.TbPackages />,
+    submenu: [
+      {
+        id: 1,
+        text: "List",
+        path: path.ADMIN.ORDER_MANAGEMENT,
+      },
+      {
+        id: 2,
+        text: "Create Quickly",
+        path: path.ADMIN.UPDATE_ORDER,
+      },
+    ],
   },
 ];

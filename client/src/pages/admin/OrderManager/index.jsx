@@ -4,11 +4,10 @@ import Pagination from "components/Pagination";
 import withBaseComponent from "hocs";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import OrderForm from "./OrderForm";
-import { showModal } from "redux/slicers/common.slicer";
 import { formatMoney } from "utils/helper";
+import path from "utils/path";
 
-function OrderManager({ dispatch }) {
+function OrderManager({ dispatch, navigate }) {
   const [orders, setOrders] = useState([]);
   console.log("🚀 ~ OrderManager ~ orders:", orders);
 
@@ -35,17 +34,6 @@ function OrderManager({ dispatch }) {
     setQueries({ ...queries, page: index });
   };
 
-  const openFormEdit = (u, index) => {
-    dispatch(
-      showModal({
-        isShowModal: true,
-        children: (
-          <OrderForm userCurrent={u} callbackUpdateAfter={fetchOrders} />
-        ),
-      })
-    );
-  };
-
   const handleDelete = async (oid) => {
     setIsLoadingActions({ loading: true, oid });
     let response;
@@ -69,7 +57,7 @@ function OrderManager({ dispatch }) {
         <div className="flex justify-end gap-2 items-center p-4 text-black  ">
           <button
             className=" text-white cursor-pointer border bg-green-600 px-2 w-fit"
-            onClick={() => openFormEdit()}
+            onClick={() => navigate(path.ADMIN.UPDATE_ORDER)}
           >
             Create Order
           </button>
@@ -120,10 +108,7 @@ function OrderManager({ dispatch }) {
                     <span>{moment(o?.createdAt).format("DD/MM/YYYY")}</span>
                   </td>
                   <td className="px-4 py-2  flex justify-around border border-slate-500 ">
-                    <button
-                      className="px-2 bg-blue-600  cursor-pointer border  "
-                      // onClick={() => openFormEdit(o, index)}
-                    >
+                    <button className="px-2 bg-blue-600  cursor-pointer border  ">
                       edit
                     </button>
                     <button
