@@ -145,48 +145,38 @@ function UpdateOrder({ dispatch }) {
   };
 
   const handleChooseProduct = (product) => {
-    const isExitSelected = productSelected.findIndex(
-      (el) => el.pid === product._id
-    );
-
-    if (isExitSelected !== -1) {
-      setProductSelected((prev) => prev.filter((el) => el.pid !== product._id));
-      return;
-    }
-
-    dispatch(
-      showModal({
-        isShowModal: true,
-        children: <OptionProductModal product={product} />,
-      })
-    );
-
-    // const inputValue = prompt("Enter quantity:");
-
-    // if (inputValue !== null) {
-    //   const quantity = parseInt(inputValue, 10);
-    //   if (!isNaN(quantity) && quantity > 0) {
-    //     const data = {
-    //       pid: product._id,
-    //       title: product.title,
-    //       quantity: quantity,
-    //       price: product.price,
-    //       color: product.color,
-    //       thumb: product.thumb,
-    //     };
-    //     setProductSelected((prev) => [...prev, data]);
-    //   } else
-    //     notification.error({
-    //       message: "Invalid quantity entered",
-    //       duration: 200,
-    //     });
-
+    console.log("🚀 ~ handleChooseProduct ~ product:", product);
+    // const isExitSelected = productSelected.findIndex(
+    //   (el) => el.pid === product._id
+    // );
+    // if (isExitSelected !== -1) {
+    //   setProductSelected((prev) => prev.filter((el) => el.pid !== product._id));
     //   return;
     // }
-    // notification.warning({
-    //   message: "Quantity required",
-    //   duration: 200,
-    // });
+    // // const inputValue = prompt("Enter quantity:");
+    // // if (inputValue !== null) {
+    // //   const quantity = parseInt(inputValue, 10);
+    // //   if (!isNaN(quantity) && quantity > 0) {
+    // //     const data = {
+    // //       pid: product._id,
+    // //       title: product.title,
+    // //       quantity: quantity,
+    // //       price: product.price,
+    // //       color: product.color,
+    // //       thumb: product.thumb,
+    // //     };
+    // //     setProductSelected((prev) => [...prev, data]);
+    // //   } else
+    // //     notification.error({
+    // //       message: "Invalid quantity entered",
+    // //       duration: 200,
+    // //     });
+    // //   return;
+    // // }
+    // // notification.warning({
+    // //   message: "Quantity required",
+    // //   duration: 200,
+    // // });
   };
 
   const handleRemoveProduct = (pid) => {
@@ -319,14 +309,39 @@ function UpdateOrder({ dispatch }) {
                     <button
                       className=" bg-blue-600 cursor-pointer "
                       type="button"
-                      onClick={() => handleChooseProduct(p)}
                     >
                       {productSelected.some((el) => el.pid === p._id) ? (
                         <span className="text-lg bg-red-700 text-white w-full h-full inline-block px-2">
                           Remove
                         </span>
                       ) : (
-                        <span className="text-lg text-white w-full h-full inline-block px-2 ">
+                        <span
+                          className="text-lg text-white w-full h-full inline-block px-2 "
+                          onClick={() => {
+                            const isExitSelected = productSelected.findIndex(
+                              (el) => el.pid === p._id
+                            );
+
+                            if (isExitSelected !== -1) {
+                              setProductSelected((prev) =>
+                                prev.filter((el) => el.pid !== p._id)
+                              );
+                              return;
+                            }
+
+                            dispatch(
+                              showModal({
+                                isShowModal: true,
+                                children: (
+                                  <OptionProductModal
+                                    product={p}
+                                    handleChooseProduct={handleChooseProduct}
+                                  />
+                                ),
+                              })
+                            );
+                          }}
+                        >
                           Choose
                         </span>
                       )}
